@@ -10,6 +10,7 @@
 	<div style="font-size:40px">
 
 	<style>
+
 		#container {
 		    width: 1200px;
 		    height: 600px;
@@ -21,6 +22,18 @@
 		    right: 0;
 		    margin: auto;
 		    border:#000 solid 8px;
+		    -webkit-user-select: none;
+			-moz-user-select: none;
+			-khtml-user-select: none;
+			-ms-user-select: none;
+		}
+
+		#gestureCount {
+			width: 50px;
+			height: 50px;
+			border: #000 solid 4px;
+			background: gray;
+			position: absolute;
 		}
 
 		<style>
@@ -60,6 +73,7 @@
 	<script type="text/javascript">
 		var colorMap = new Map();
 		var letterMap = new Map();
+		var gestureCount = 0;
 		
 		$( initFlipColors )
 		$( initFlipLetters )
@@ -99,11 +113,17 @@
 
 			letterMap.set(box, currentLetter);
 		}
+
+		function incrementGesture() {
+			var property = document.getElementById('gestureCount');
+			gestureCount++;
+			property.innerText = gestureCount;
+		}
 		
 	</script>
 	
 </head>
-<body>
+<body oncontextmenu="return false;">
 
 	<script type="text/javascript">
 		$(document).ready(function() {
@@ -117,17 +137,19 @@
 	</script>
 
 	<script type="text/javascript">
-		var st = "<div id =\"container\">";
+		var st = "<div id =\"container\" ondblclick=\"incrementGesture()\">";
 		for (var i = 0; i < variableName; i++) {
 			var l = Math.floor(Math.random() * 7);
 			var letters = ["A", "B", "C", "D", "E", "F", "G"];
 			var tLeft = Math.floor(Math.random()*1140) + 1,
 				tTop  = Math.floor(Math.random()*540) + 1;
-			st+="<div id =\"block"+i+"\" style=\"left:"+tLeft+"px; top:"+tTop+"px\" ondblclick=\"setColor(\'block"+i+"\'); setLetter(\'block"+i+"\')\">"+letters[l]+"</div>";
+			st+="<div id =\"block"+i+"\" style=\"left:"+tLeft+"px; top:"+tTop+"px\" oncontextmenu=\"setColor(\'block"+i+"\'); setLetter(\'block"+i+"\')\";>"+letters[l]+"</div>";
 		}
 		st+="</div>";
 		document.write(st);
 	</script>
+
+	<p id = "gestureCount">0</p>
 
 </body>
 
