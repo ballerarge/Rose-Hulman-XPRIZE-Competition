@@ -94,23 +94,24 @@
 			}
 		}
 
-		function setColor(box) {
+		function flipBlock(box) {
+			swapColor(box);
+			swapLetter(box);
+		}
+
+		function swapColor(box) {
 			var property = document.getElementById(box);
-
 			var currentColor = property.style.backgroundColor;
-
+			
 			property.style.backgroundColor = colorMap.get(box);
-
 			colorMap.set(box, currentColor);
 		}
 
-		function setLetter(box) {
+		function swapLetter(box) {
 			var property = document.getElementById(box);
-
 			var currentLetter = property.textContent || property.innerText;
 
 			property.textContent = letterMap.get(box);
-
 			letterMap.set(box, currentLetter);
 		}
 
@@ -143,7 +144,7 @@
 			var letters = ["A", "B", "C", "D", "E", "F", "G"];
 			var tLeft = Math.floor(Math.random()*1140) + 1,
 				tTop  = Math.floor(Math.random()*540) + 1;
-			st+="<div id =\"block"+i+"\" style=\"left:"+tLeft+"px; top:"+tTop+"px\" oncontextmenu=\"setColor(\'block"+i+"\'); setLetter(\'block"+i+"\')\";>"+letters[l]+"</div>";
+			st+="<div id =\"block"+i+"\" style=\"left:"+tLeft+"px; top:"+tTop+"px\" oncontextmenu=\"flipBlock(\'block"+i+"\')\";>"+letters[l]+"</div>";
 		}
 		st+="</div>";
 		document.write(st);
