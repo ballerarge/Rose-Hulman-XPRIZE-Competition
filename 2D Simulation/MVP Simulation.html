@@ -16,7 +16,7 @@
     	var previous_top = [];var previous_left = [];
     	var taskID = 0;
     	var task = [];
-    	task.push("Sorting");task.push("Searching"); task.push("Matching");task.push("Rainbow");
+    	task.push("Sorting"); task.push("Searching"); task.push("Matching"); task.push("Rainbow");
     	var start = [], end = [], interval = [], type = [];
     	var instructions = "";
     	var introductions = [];
@@ -60,7 +60,7 @@
 			border: #000 solid 4px;
 			background: gray;
 			position: fixed;
-			top: 180px;
+			top: 200px;
 			left: 50px;
 		}
 		<style>
@@ -68,6 +68,20 @@
 			    position: fixed;
 			    bottom: 0px;
 			    right: 100px;
+			}
+			p.movement {
+				position: fixed;
+			    top: 190px;
+			    left: 30px;
+			    width: 100px;
+			    color: white;
+			}
+			p.gesture {
+				position: fixed;
+			    top: 90px;
+			    left: 30px;
+			    width: 100px;
+			    color: white;
 			}
 		</style>
 
@@ -113,6 +127,8 @@
 			}
 		}
 	</script>
+	<p class = "movement" style="font-size:20px; font-family:verdana">Movement</p>
+	<p class = "gesture" style="font-size:20px; font-family:verdana">Gesture</p>
 
 	<script type="text/javascript">
 		for (var i = 0; i < NumBlocks; i++) {
