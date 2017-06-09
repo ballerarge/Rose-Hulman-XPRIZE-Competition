@@ -3,12 +3,13 @@
 <head>
 	<title>2D Block World Simulation</title>
 	<meta charset="UTF-8">
-	<link rel="stylesheet" type="text/css" href="index.css">
-	<script type="text/javascript" src="index.js"></script>
-
-	<!-- <div style="font-size:40px"> -->	
-
-	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
+	
+  <link rel="stylesheet" type="text/css" href="index.css">
+  <link href="http://fonts.googleapis.com/css?family=Corben:bold" rel="stylesheet" type="text/css">
+ 	<link href="http://fonts.googleapis.com/css?family=Nobile" rel="stylesheet" type="text/css">
+	
+  <script type="text/javascript" src="index.js"></script>
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
 
 	<script type="text/javascript">
@@ -23,8 +24,10 @@
         			// console.log("START: \nLeft: "+ Startpos.left + "\nTop: " + Startpos.top);
 				}, stop: function(event, ui) {
 					var Stoppos = $(this).position();
-					if (Stoppos.left!=previous_left[i] || Stoppos.top!=previous_top[i]) {
+					if ((Stoppos.left!=previous_left[i] || Stoppos.top!=previous_top[i]) && oldBlock != $(this)[0].getAttribute('id')) {
+						oldBlock = $(this)[0].getAttribute('id');
 						actualMove++;
+						incrementMovement();
 					}
         			// console.log("STOP: \nLeft: "+ Stoppos.left + "\nTop: " + Stoppos.top);
 				}});
@@ -62,22 +65,24 @@
 		var position_x = [];var position_y = [];
 		for (var i = 0; i < NumBlocks; i++) {
 			var l = Math.floor(Math.random() * 7);
-			var tLeft = (Math.floor(Math.random()*22.8 + 0.02)) * 50,
-				tTop  = (Math.floor(Math.random()*10.8 + 0.02)) * 50;
+			var tLeft = Math.floor(Math.random()*22.8) * 50,
+				tTop  = Math.floor(Math.random()*10.8) * 50;
 			var x = -1;
 			for (var j = 0; j < position_x.length; j ++) {
-				if (position_x[j] == tLeft) {
-					x = j;break;
+				if (Math.abs(position_x[j] - tLeft) < 50) {
+					if (x ==- 1 || Math.abs(position_y[j] - tTop) < Math.abs(position_y[x] - tTop))
+						x = j;
 				}
 			}
 			while (x != -1) {
-				if (position_y[x] != tTop) break;
-				tLeft = (Math.floor(Math.random()*22.8 + 0.02)) * 50;
-				tTop  = (Math.floor(Math.random()*10.8 + 0.02)) * 50;
+				if (Math.abs(position_y[x] - tTop) >= 50) break;
+				tLeft = Math.floor(Math.random()*22.8) * 50;
+				tTop  = Math.floor(Math.random()*10.8) * 50;
 				var x = -1;
 				for (var j = 0; j < position_x.length; j ++) {
-					if (position_x[j] == tLeft) {
-						x = j;break;
+					if (Math.abs(position_x[j] - tLeft) < 50) {
+						if (x ==- 1 || Math.abs(position_y[j] - tTop) < Math.abs(position_y[x] - tTop))
+							x = j;
 					}
 				}
 			}
@@ -86,6 +91,17 @@
 		}
 		st+="</div>";
 		document.write(st);
+	</script>
+	<script type="text/javascript">
+		for (var i = 0; i < NumBlocks; i++) {
+			var blockid = document.getElementById('block'+i);
+			if(blockid) {
+				if(NumBlocks >= Object.keys(startPosMap).length){
+					var pos = blockid.style;
+					startPosMap['block'+i] = pos;
+				}
+			}
+		}
 	</script>
 
 </head>
@@ -102,7 +118,7 @@
 			</div>
 			<p class = "helper" style="font-size:12px; font-family:verdana">(click again to close it)</p>
 		</div>
-	</div>
+  </div>
 
 	<div class = "gadgetWrapper">
 		<p class = "taskQ" id = "taskQ" style = "font-size: 40px">
@@ -133,15 +149,29 @@
 			<button class = "buttonShow" onclick="movement()">Show Movement</button>
 			<p class = "showmovement" id = "showmovement"></p>
 		</div>
-		
-		<button class = "buttonEnd" onclick="endGame()">End</button>
+    
+    <input type="image" src="./startbutton.png" />
 
+    <button class = "buttonStart" onclick="StartGame()" style="background: url(startbutton.png)">Start</button>
+		
+		<button class = "buttonEnd" onclick="endGame()" style="background: url(startbutton.png)">End</button>
+
+    <div class = "wordsForUser1" id="wordsForUser1" style="font-family: Arial, Helvetica, sans-serif;">
+        <label>
+            Words For User 1:
+            <input id="txt_instruction" type="text" />
+        </label>
+    </div>
+
+    <div class = "wordsForUser2" id="wordsForUser2" style="font-family: Arial, Helvetica, sans-serif;">
+        <label>
+            Words For User 2:
+            <input id="txt_instruction" type="text" />
+        </label>
+    </div>
+    
 		<p class = "gestureCount" id = "gestureCount" style = "font-size: 40px; text-align: center">0</p>
 	</div>
-
-	
-	
-	
 
 </body>
 
