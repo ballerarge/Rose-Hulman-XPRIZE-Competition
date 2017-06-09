@@ -45,9 +45,9 @@
 			height: 50px;
 			border: #000 solid 4px;
 			background: gray;
-			position: fixed;
-			top: 150px;
-			left: 0px;
+			position: absolute;
+			top: 200px;
+			left: 10px;
 		}
 		<style>
 			div.fixed {
@@ -139,9 +139,7 @@
 			gestureCount++;
 			property.innerText = gestureCount;
 		}
-		// function refresh() {
-		// 	window.location.href = "MVP Simulation.html";
-		// }
+
 	</script>
 
 </head>
@@ -194,9 +192,9 @@
     <small><small><small>
 	<style>
 		p.taskQ {
-		    position: relative;
+		    position: absolute;
 		    top: 0px;
-		    left: 0px;
+		    left: 10px;
 		    text-align: left;
 		    font-family: Arial, Helvetica, sans-serif;
 		}
@@ -268,16 +266,16 @@
 
 	<style>
 		div.instruction {
-		    position: relative;
-		    top: -8px;
-		    left: 0px;
+		    position: absolute;
+		    top: 50px;
+		    left: 10px;
 		    width: 360px;
 		    z-index: 1;
 		}
 		button.buttonenter {
 		    position: absolute;
-		    top: 71px;
-		    left: 376px;
+		    top: 69px;
+		    left: 280px;
 		}
 		div.numofwords {
 		    position: absolute;
@@ -285,14 +283,14 @@
 		    left: 500px;
 		}
 		button.buttonShow {
-		    position: fixed;
-		    top: 130px;
-		    left: 0px;
+		    position: absolute;
+		    top: 155px;
+		    left: 10px;
 		}
 		button.buttonEnd {
 		    position: fixed;
-		    top: 150px;
-		    left: 0px;
+		    top: 190px;
+		    left: 10px;
 		}
 		p.showmovement {
 		    position: fixed;
@@ -300,9 +298,9 @@
 		    left: 30px;
 		}
 		div.wordsForSearch {
-		    position: relative;
-		    top: -4px;
-		    left: 0px;
+		    position: absolute;
+		    top: 100px;
+		    left: 10px;
 		    width: 270px;
 		    z-index: 1;
 		}
@@ -417,25 +415,27 @@
 	    to {opacity:1 ;}
 	}
 	</style>
-	</head>
-	<body style="text-align:center">
 
-	<p class = "helper" style="font-size:12px; font-family:verdana">(click again to close it)</p>
-	<div class="popup" onclick="myFunction()" style="font-size:18px; font-family:verdana">Introduction of the game
-		<span class="popuptext" id="myPopup" style="font-size:12px; font-family:verdana">
-	  		<script type="text/javascript">
-	  			document.getElementById("myPopup").innerHTML = instructions[taskID];
-	  		</script>
-		</span>
+	<div style="text-align:center">
+		<p class = "helper" style="font-size:12px; font-family:verdana">(click again to close it)</p>
+		<div class="popup" onclick="myFunction()" style="font-size:18px; font-family:verdana">Introduction of the game
+			<span class="popuptext" id="myPopup" style="font-size:12px; font-family:verdana">
+		  		<script type="text/javascript">
+		  			document.getElementById("myPopup").innerHTML = instructions[taskID];
+		  		</script>
+			</span>
+		</div>
+
+		<script>
+		// When the user clicks on div, open the popup
+		function myFunction() {
+		    var popup = document.getElementById("myPopup");
+		    popup.classList.toggle("show");
+		}
+		</script>
 	</div>
 
-	<script>
-	// When the user clicks on div, open the popup
-	function myFunction() {
-	    var popup = document.getElementById("myPopup");
-	    popup.classList.toggle("show");
-	}
-	</script>
+	
 
 
 </body>
