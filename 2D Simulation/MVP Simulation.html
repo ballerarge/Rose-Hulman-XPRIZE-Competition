@@ -90,14 +90,12 @@
 </head>
 <body oncontextmenu="return false;">
 
-	<p id = "gestureCount">0</p>
-	<p id = "taskQ">
+	<p class = "gestureCount" id = "gestureCount">0</p>
+	<p class = "taskQ" id = "taskQ">
 		<script>
 			setTaskHeader();
 		</script>
 	</p>
-
-	<div class = "numofwords" id="numofwords"></div>
 
 	<div class = "instruction" id="instruction" style="font-family: Arial, Helvetica, sans-serif;">
 	    <label>
@@ -106,6 +104,8 @@
 	    </label>
 
 	    <button class = "buttonenter" onclick="inputlength()">Enter</button>
+
+	    <div class = "numofwords" id="numofwords"></div>
 	</div>
 
 	<div class = "wordsForSearch" id="wordsForSearch">
@@ -115,8 +115,10 @@
 	    </label>
 	</div>
 
-	<button class = "buttonShow" onclick="movement()">Show Movement</button>
-	<p class = "showmovement" id = "showmovement"></p>
+	<div class = "show" id="show">
+		<button class = "buttonShow" onclick="movement()">Show Movement</button>
+		<p class = "showmovement" id = "showmovement"></p>
+	</div>
 	
 	<button class = "buttonEnd" onclick="endGame()">End</button>
 

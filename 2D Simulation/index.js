@@ -107,7 +107,7 @@ function movement() {
 }
 
 function endGame() {
-    window.close();
+    return window.stop() || gBrowser.removeCurrentTab();
 }
 
 // When the user clicks on div, open the popup

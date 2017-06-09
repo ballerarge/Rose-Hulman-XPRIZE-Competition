@@ -49,41 +49,45 @@ div.instruction {
     top: 50px;
     left: 10px;
     width: 360px;
-    z-index: 1;
 }
 button.buttonenter {
     position: absolute;
     display: inline;
-    /*
-    top: 15px;
-    left: 260px;*/
 }
+
 div.numofwords {
     position: absolute;
-    top: 68px;
-    left: 500px;
+    display: inline;
 }
+
+div.show {
+	position: absolute;
+    display: inline;
+	top: 150px;
+	left: 10px;
+    width: 360px;
+}
+
 button.buttonShow {
     position: absolute;
-    top: 155px;
-    left: 10px;
+    display: inline;
 }
+
+p.showmovement {
+    position: absolute;
+    display: inline;
+}
+
 button.buttonEnd {
     position: fixed;
     top: 190px;
     left: 10px;
-}
-p.showmovement {
-    position: fixed;
-    top: 130px;
-    left: 30px;
 }
 div.wordsForSearch {
     position: absolute;
     top: 100px;
     left: 10px;
     width: 270px;
-    z-index: 1;
 }
 
 /* Popup container - can be anything you want */
