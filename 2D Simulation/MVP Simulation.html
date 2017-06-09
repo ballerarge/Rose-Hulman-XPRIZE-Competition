@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 	<title>2D Block World Simulation</title>
+	<meta charset="UTF-8">
 
 	<script>
     	var NumBlocks = Math.floor(Math.random() * 10) + 4;
@@ -21,7 +22,7 @@
     	instructions.push("Rainbow:<br><br>User1 Instructions:<br>&emsp;You will make a pattern in the separate window labelled “Draw”.<br>&emsp;Then instruct the other user to assist you in replicating the same pattern in the other window.<br>&emsp;Once you have replicated the pattern, click the end button.<br>&emsp;Try to complete the task in the minimum number of block moves possible.<br><br>User2 Instructions:<br>&emsp;<br>&emsp;The other user will give you instructions to complete the task.<br>&emsp;Try to complete it in the minimum number of block moves possible.<br>&emsp;");
 	</script>
 
-	<div style="font-size:40px">
+	<!-- <div style="font-size:40px"> -->
 
 	<style>
 		#container {
@@ -46,27 +47,147 @@
 			border: #000 solid 4px;
 			background: gray;
 			position: absolute;
-			top: 200px;
+			top: 220px;
 			left: 10px;
 		}
-		<style>
-			div.fixed {
-			    position: fixed;
-			    bottom: 0px;
-			    right: 100px;
-			}
-		</style>
 
+		div.fixed {
+		    position: fixed;
+		    bottom: 0px;
+		    right: 100px;
+		}
 
-		<script type="text/javascript">
-			var color = ['red', 'blue','green','orange','yellow'];
-			for (var i = 0; i < NumBlocks ;i++) {
-				var x= Math.floor(Math.random() * 5);
-				document.write("<style> #block"+i+" {width: 50px; height: 50px; background:"+color[x] +"; border:#000 solid 4px; cursor: move; position: absolute; z-index: 1; text-align: center; vertical-align: middle; line-height: 50px;} </style>");
-			}
-		</script>
+		p.taskQ {
+		    position: absolute;
+		    top: 0px;
+		    left: 10px;
+		    text-align: left;
+		    font-family: Arial, Helvetica, sans-serif;
+		}
+/*		select.menu {
+		    position: absolute;
+		    top: 28px;
+		    left: 210px;
+		}*/
 
+		div.instruction {
+		    position: absolute;
+		    display: inline;
+		    top: 50px;
+		    left: 10px;
+		    width: 360px;
+		    z-index: 1;
+		}
+		button.buttonenter {
+		    position: absolute;
+		    display: inline;
+		    /*
+		    top: 15px;
+		    left: 260px;*/
+		}
+		div.numofwords {
+		    position: absolute;
+		    top: 68px;
+		    left: 500px;
+		}
+		button.buttonShow {
+		    position: absolute;
+		    top: 155px;
+		    left: 10px;
+		}
+		button.buttonEnd {
+		    position: fixed;
+		    top: 190px;
+		    left: 10px;
+		}
+		p.showmovement {
+		    position: fixed;
+		    top: 130px;
+		    left: 30px;
+		}
+		div.wordsForSearch {
+		    position: absolute;
+		    top: 100px;
+		    left: 10px;
+		    width: 270px;
+		    z-index: 1;
+		}
+
+		/* Popup container - can be anything you want */
+		.popup {
+		    position: fixed;
+		    top: 20px;
+		    right: 10px;
+		    width: 300px;
+		    height: 80px;
+		    display: inline-block;
+		    cursor: pointer;
+		    -webkit-user-select: none;
+		    -moz-user-select: none;
+		    -ms-user-select: none;
+		    user-select: none;
+		}
+		/* The actual popup */
+		.popup .popuptext {
+		    visibility: hidden;
+		    width: 300px;
+		    height: 450px;
+		    background-color: #555;
+		    color: #fff;
+		    text-align: center;
+		    border-radius: 6px;
+		    padding: 8px 0;
+		    position: absolute;
+		    z-index: 1;
+		    top: 70%;
+		    left: 22%;
+		    margin-left: -80px;
+		    text-align: left;
+		    padding: 10px;
+		    line-height:1.5;
+		}
+		.popup .popuptext::after {
+		    content: "";
+		    position: absolute;
+		    top: 0%;
+		    left: 50%;
+		    margin-top: -5px;
+		    border-width: 5px;
+		    border-style: solid;
+		    border-color: #555 transparent transparent transparent;
+		}
+		/* Toggle this class - hide and show the popup */
+		.popup .show {
+		    visibility: visible;
+		    -webkit-animation: fadeIn 1s;
+		    animation: fadeIn 1s;
+		}
+		p.helper {
+			position: fixed;
+			top: 36px;
+			right: 96px;
+		}
+		/* Add animation (fade in the popup) */
+		@-webkit-keyframes fadeIn {
+		    from {opacity: 0;} 
+		    to {opacity: 1;}
+		}
+		@keyframes fadeIn {
+		    from {opacity: 0;}
+		    to {opacity:1 ;}
+		}
 	</style>
+
+
+	<script type="text/javascript">
+		var color = ['red', 'blue','green','orange','yellow'];
+		for (var i = 0; i < NumBlocks ;i++) {
+			var x= Math.floor(Math.random() * 5);
+			document.write("<style> #block"+i+" {width: 50px; height: 50px; background:"+color[x] +"; border:#000 solid 4px; cursor: move; position: absolute; z-index: 1; text-align: center; vertical-align: middle; line-height: 50px;} </style>");
+		}
+	</script>
+
+	
 
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
@@ -189,21 +310,7 @@
 	</script>
 
 	<p id = "gestureCount">0</p>
-    <small><small><small>
-	<style>
-		p.taskQ {
-		    position: absolute;
-		    top: 0px;
-		    left: 10px;
-		    text-align: left;
-		    font-family: Arial, Helvetica, sans-serif;
-		}
-/*		select.menu {
-		    position: absolute;
-		    top: 28px;
-		    left: 210px;
-		}*/
-	</style>
+    <!-- <small><small><small> -->
 	<p class="taskQ" id = "taskQ"></p>
 	<script type="text/javascript">
 		taskID = Math.floor(Math.random()*4);
@@ -263,49 +370,6 @@
 		}
 	</script>
 
-
-	<style>
-		div.instruction {
-		    position: absolute;
-		    top: 50px;
-		    left: 10px;
-		    width: 360px;
-		    z-index: 1;
-		}
-		button.buttonenter {
-		    position: absolute;
-		    top: 69px;
-		    left: 280px;
-		}
-		div.numofwords {
-		    position: absolute;
-		    top: 68px;
-		    left: 500px;
-		}
-		button.buttonShow {
-		    position: absolute;
-		    top: 155px;
-		    left: 10px;
-		}
-		button.buttonEnd {
-		    position: fixed;
-		    top: 190px;
-		    left: 10px;
-		}
-		p.showmovement {
-		    position: fixed;
-		    top: 130px;
-		    left: 30px;
-		}
-		div.wordsForSearch {
-		    position: absolute;
-		    top: 100px;
-		    left: 10px;
-		    width: 270px;
-		    z-index: 1;
-		}
-	</style>
-
 	<div class = "numofwords" id="numofwords"></div>
 
 	<div class = "instruction" id="instruction" style="font-family: Arial, Helvetica, sans-serif;">
@@ -313,16 +377,16 @@
 	        Enter instructions	:
 	        <input id="txt_instruction" type="text" />
 	    </label>
+
+	    <button class = "buttonenter" onclick="inputlength()">Enter</button>
 	</div>
 
 	<div class = "wordsForSearch" id="wordsForSearch">
 	    <label>
 	        Words
-	        <input id="txt_instruction" type="text" />
+	        <input id="txt_search" type="text" />
 	    </label>
 	</div>
-
-	<button class = "buttonenter" onclick="inputlength()">Enter</button>
 
 	<script>
 		function inputlength() {
@@ -347,74 +411,8 @@
 		}
 	</script>
 
-
-	</small></small></small>
-
-	<style>
-	/* Popup container - can be anything you want */
-	.popup {
-	    position: fixed;
-	    top: 20px;
-	    right: 10px;
-	    width: 300px;
-	    height: 80px;
-	    display: inline-block;
-	    cursor: pointer;
-	    -webkit-user-select: none;
-	    -moz-user-select: none;
-	    -ms-user-select: none;
-	    user-select: none;
-	}
-	/* The actual popup */
-	.popup .popuptext {
-	    visibility: hidden;
-	    width: 300px;
-	    height: 450px;
-	    background-color: #555;
-	    color: #fff;
-	    text-align: center;
-	    border-radius: 6px;
-	    padding: 8px 0;
-	    position: absolute;
-	    z-index: 1;
-	    top: 70%;
-	    left: 22%;
-	    margin-left: -80px;
-	    text-align: left;
-	    padding: 10px;
-	    line-height:1.5;
-	}
-	.popup .popuptext::after {
-	    content: "";
-	    position: absolute;
-	    top: 0%;
-	    left: 50%;
-	    margin-top: -5px;
-	    border-width: 5px;
-	    border-style: solid;
-	    border-color: #555 transparent transparent transparent;
-	}
-	/* Toggle this class - hide and show the popup */
-	.popup .show {
-	    visibility: visible;
-	    -webkit-animation: fadeIn 1s;
-	    animation: fadeIn 1s;
-	}
-	p.helper {
-		position: fixed;
-		top: 36px;
-		right: 96px;
-	}
-	/* Add animation (fade in the popup) */
-	@-webkit-keyframes fadeIn {
-	    from {opacity: 0;} 
-	    to {opacity: 1;}
-	}
-	@keyframes fadeIn {
-	    from {opacity: 0;}
-	    to {opacity:1 ;}
-	}
-	</style>
+<!-- 
+	</small></small></small> -->
 
 	<div style="text-align:center">
 		<p class = "helper" style="font-size:12px; font-family:verdana">(click again to close it)</p>
