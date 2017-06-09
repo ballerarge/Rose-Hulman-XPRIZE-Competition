@@ -90,48 +90,57 @@
 </head>
 <body oncontextmenu="return false;">
 
-	<p class = "gestureCount" id = "gestureCount">0</p>
-	<p class = "taskQ" id = "taskQ">
-		<script>
-			setTaskHeader();
-		</script>
-	</p>
-
-	<div class = "instruction" id="instruction" style="font-family: Arial, Helvetica, sans-serif;">
-	    <label>
-	        Enter instructions	:
-	        <input id="txt_instruction" type="text" />
-	    </label>
-
-	    <button class = "buttonenter" onclick="inputlength()">Enter</button>
-
-	    <div class = "numofwords" id="numofwords"></div>
-	</div>
-
-	<div class = "wordsForSearch" id="wordsForSearch">
-	    <label>
-	        Words
-	        <input id="txt_search" type="text" />
-	    </label>
-	</div>
-
-	<div class = "show" id="show">
-		<button class = "buttonShow" onclick="movement()">Show Movement</button>
-		<p class = "showmovement" id = "showmovement"></p>
-	</div>
-	
-	<button class = "buttonEnd" onclick="endGame()">End</button>
-
-	<div style="text-align:center">
-		<p class = "helper" style="font-size:12px; font-family:verdana">(click again to close it)</p>
-		<div class="popup" onclick="popUpGameIntro()" style="font-size:18px; font-family:verdana">Introduction of the game
-			<span class="popuptext" id="myPopup" style="font-size:12px; font-family:verdana">
-		  		<script type="text/javascript">
-		  			document.getElementById("myPopup").innerHTML = instructions[taskID];
-		  		</script>
-			</span>
+	<div class = "taskOverviewWrapper" id = "taskOverviewWrapper">
+		<div style="text-align:center">
+			<div class="popup"  onclick="popUpGameIntro()" style="font-size:18px; font-family:verdana">Introduction of the game
+				<span class="popuptext" id="myPopup" style="font-size:12px; font-family:verdana">
+			  		<script type="text/javascript">
+			  			document.getElementById("myPopup").innerHTML = instructions[taskID];
+			  		</script>
+				</span>
+			</div>
+			<p class = "helper" style="font-size:12px; font-family:verdana">(click again to close it)</p>
 		</div>
 	</div>
+
+	<div class = "gadgetWrapper">
+		<p class = "taskQ" id = "taskQ" style = "font-size: 40px">
+			<script>
+				setTaskHeader();
+			</script>
+		</p>
+
+		<div class = "instruction" id="instruction" style="font-family: Arial, Helvetica, sans-serif;">
+		    <label>
+		        Enter instructions	:
+		        <input id="txt_instruction" type="text" />
+		    </label>
+
+		    <button class = "buttonenter" onclick="inputlength()">Enter</button>
+
+		    <div class = "numofwords" id="numofwords"></div>
+		</div>
+
+		<div class = "wordsForSearch" id="wordsForSearch">
+		    <label>
+		        Words
+		        <input id="txt_search" type="text" />
+		    </label>
+		</div>
+
+		<div class = "show" id="show">
+			<button class = "buttonShow" onclick="movement()">Show Movement</button>
+			<p class = "showmovement" id = "showmovement"></p>
+		</div>
+		
+		<button class = "buttonEnd" onclick="endGame()">End</button>
+
+		<p class = "gestureCount" id = "gestureCount">0</p>
+	</div>
+
+	
+	
+	
 
 </body>
 

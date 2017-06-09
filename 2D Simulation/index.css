@@ -14,14 +14,23 @@
 	-khtml-user-select: none;
 	-ms-user-select: none;
 }
+
+#gadgetWrapper {
+    float: left;
+    width: 200px;
+}
+
+#taskOverviewWrapper {
+    position: static;
+    float: right;
+    width: 200px;
+}
+
 #gestureCount {
 	width: 50px;
 	height: 50px;
 	border: #000 solid 4px;
 	background: gray;
-	position: absolute;
-	top: 220px;
-	left: 10px;
 }
 
 div.fixed {
@@ -31,9 +40,6 @@ div.fixed {
 }
 
 p.taskQ {
-    position: absolute;
-    top: 0px;
-    left: 10px;
     text-align: left;
     font-family: Arial, Helvetica, sans-serif;
 }
@@ -44,53 +50,29 @@ p.taskQ {
 }*/
 
 div.instruction {
-    position: absolute;
     display: inline;
-    top: 50px;
-    left: 10px;
     width: 360px;
 }
 button.buttonenter {
-    position: absolute;
     display: inline;
 }
 
 div.numofwords {
-    position: absolute;
     display: inline;
 }
 
 div.show {
-	position: absolute;
-    display: inline;
-	top: 150px;
-	left: 10px;
     width: 360px;
 }
 
-button.buttonShow {
-    position: absolute;
-    display: inline;
-}
-
 p.showmovement {
-    position: absolute;
     display: inline;
 }
 
 button.buttonEnd {
-    position: fixed;
-    top: 190px;
-    left: 10px;
-}
-div.wordsForSearch {
-    position: absolute;
-    top: 100px;
-    left: 10px;
-    width: 270px;
 }
 
-/* Popup container - can be anything you want */
+/* Popup container - can be anything you want 
 .popup {
     position: fixed;
     top: 20px;
@@ -103,7 +85,8 @@ div.wordsForSearch {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-}
+}*/
+
 /* The actual popup */
 .popup .popuptext {
     visibility: hidden;
@@ -116,8 +99,8 @@ div.wordsForSearch {
     padding: 8px 0;
     position: absolute;
     z-index: 1;
-    top: 70%;
-    left: 22%;
+    right: 0%;
+    top: 15%;
     margin-left: -80px;
     text-align: left;
     padding: 10px;
@@ -126,8 +109,8 @@ div.wordsForSearch {
 .popup .popuptext::after {
     content: "";
     position: absolute;
-    top: 0%;
-    left: 50%;
+   /* top: 0%;
+    left: 50%;*/
     margin-top: -5px;
     border-width: 5px;
     border-style: solid;
@@ -140,9 +123,8 @@ div.wordsForSearch {
     animation: fadeIn 1s;
 }
 p.helper {
-	position: fixed;
-	top: 36px;
-	right: 96px;
+    /*top: 0%;
+    right: 0%;*/
 }
 /* Add animation (fade in the popup) */
 @-webkit-keyframes fadeIn {
