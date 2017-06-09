@@ -21,8 +21,9 @@
 }
 
 #taskOverviewWrapper {
-    position: static;
-    float: right;
+    position: absolute;
+    top: 0%;
+    right: 3%;
     width: 200px;
 }
 
@@ -88,7 +89,8 @@ button.buttonEnd {
 }*/
 
 /* The actual popup */
-.popup .popuptext {
+
+.popuptext {
     visibility: hidden;
     width: 300px;
     height: 450px;
@@ -98,26 +100,22 @@ button.buttonEnd {
     border-radius: 6px;
     padding: 8px 0;
     position: absolute;
-    z-index: 1;
-    right: 0%;
-    top: 15%;
-    margin-left: -80px;
+    right: -30%;
+    top: 100%;
     text-align: left;
     padding: 10px;
     line-height:1.5;
 }
-.popup .popuptext::after {
+.popuptext::after {
     content: "";
     position: absolute;
-   /* top: 0%;
-    left: 50%;*/
     margin-top: -5px;
     border-width: 5px;
     border-style: solid;
     border-color: #555 transparent transparent transparent;
 }
 /* Toggle this class - hide and show the popup */
-.popup .show {
+.show {
     visibility: visible;
     -webkit-animation: fadeIn 1s;
     animation: fadeIn 1s;
