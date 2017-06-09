@@ -4,12 +4,12 @@
 	<title>2D Block World Simulation</title>
 	<meta charset="UTF-8">
 	
-  <link rel="stylesheet" type="text/css" href="index.css">
-  <link href="http://fonts.googleapis.com/css?family=Corben:bold" rel="stylesheet" type="text/css">
+  	<link rel="stylesheet" type="text/css" href="index.css">
+  	<link href="http://fonts.googleapis.com/css?family=Corben:bold" rel="stylesheet" type="text/css">
  	<link href="http://fonts.googleapis.com/css?family=Nobile" rel="stylesheet" type="text/css">
 	
-  <script type="text/javascript" src="index.js"></script>
-  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
+  	<script type="text/javascript" src="index.js"></script>
+  	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
 
 	<script type="text/javascript">
@@ -27,7 +27,6 @@
 					if ((Stoppos.left!=previous_left[i] || Stoppos.top!=previous_top[i]) && oldBlock != $(this)[0].getAttribute('id')) {
 						oldBlock = $(this)[0].getAttribute('id');
 						actualMove++;
-						incrementMovement();
 					}
         			// console.log("STOP: \nLeft: "+ Stoppos.left + "\nTop: " + Stoppos.top);
 				}});
@@ -40,13 +39,6 @@
 			$("#block" + i).draggable({
 			});
 		}
-	</script>
-
-	<script type="text/javascript">
-		initInstructions();
-		initFlipColors();
-		initFlipLetters();
-		initTaskID();
 	</script>
 
 	<script type="text/javascript">
@@ -104,12 +96,21 @@
 		}
 	</script>
 
+
+	<script type="text/javascript">
+		initInstructions();
+		initFlipColors();
+		initFlipLetters();
+		initTaskID();
+	</script>
+
 </head>
+
 <body oncontextmenu="return false;">
 
 	<div class = "taskOverviewWrapper" id = "taskOverviewWrapper">
 		<div style="text-align:center">
-			<div class="popup" onclick="popUpGameIntro()" style="font-size:18px; font-family:verdana">Introduction of the game
+			<div class="popup" onclick="popUpGameIntro()" style="cursor: pointer; font-size:18px; font-family:verdana">Introduction of the game
 				<span class="popuptext" id="myPopup" style="font-size:12px; font-family:verdana">
 			  		<script type="text/javascript">
 			  			document.getElementById("myPopup").innerHTML = instructions[taskID];
@@ -118,7 +119,7 @@
 			</div>
 			<p class = "helper" style="font-size:12px; font-family:verdana">(click again to close it)</p>
 		</div>
-  </div>
+  	</div>
 
 	<div class = "gadgetWrapper">
 		<p class = "taskQ" id = "taskQ" style = "font-size: 40px">
@@ -149,27 +150,30 @@
 			<button class = "buttonShow" onclick="movement()">Show Movement</button>
 			<p class = "showmovement" id = "showmovement"></p>
 		</div>
-    
-    <input type="image" src="./startbutton.png" />
 
-    <button class = "buttonStart" onclick="StartGame()" style="background: url(startbutton.png)">Start</button>
+    <button class = "buttonStart" onclick="StartGame()" >Start</button>
 		
-		<button class = "buttonEnd" onclick="endGame()" style="background: url(startbutton.png)">End</button>
+		<button class = "buttonEnd" onclick="endGame()" >End</button>
 
-    <div class = "wordsForUser1" id="wordsForUser1" style="font-family: Arial, Helvetica, sans-serif;">
+    <div class = "wordsForUser1" id="wordsForUser1" style="font-family: Arial, Helvetica, sans-serif;" >
+    	<script type="text/javascript">
+    		setSearchFieldOne();
+    	</script>
         <label>
             Words For User 1:
-            <input id="txt_instruction" type="text" />
+            <input id="search_words_1_text" type="text" />
         </label>
     </div>
 
-    <div class = "wordsForUser2" id="wordsForUser2" style="font-family: Arial, Helvetica, sans-serif;">
+    <div class = "wordsForUser2" id="wordsForUser2" style="font-family: Arial, Helvetica, sans-serif;" >
+    	<script type="text/javascript">
+    		setSearchFieldTwo();
+    	</script>
         <label>
             Words For User 2:
-            <input id="txt_instruction" type="text" />
+            <input id="search_words_2_text" type="text" />
         </label>
     </div>
-    
 		<p class = "gestureCount" id = "gestureCount" style = "font-size: 40px; text-align: center">0</p>
 	</div>
 

@@ -15,6 +15,10 @@ var taskID = 0;
 var task = [];
 var instructions = [];
 var br; var bm; var pn; var pp; var p; var te; var ie;
+var startTime, endTime;
+var startPosMap = {};
+var endPosMap = {};
+var oldBlock = "blockNone";
 
 
 
@@ -86,9 +90,23 @@ function incrementGesture() {
     gestureCount++;
     property.innerText = gestureCount;
 }
+
 function initTaskID() {
     taskID = Math.floor(Math.random()*4);
     initMetrics();
+    
+}
+
+function setSearchFieldOne() {
+    if(taskID==2){
+        document.getElementById("wordsForUser1").style.visibility = "visible";
+    }
+}
+
+function setSearchFieldTwo() {
+    if(taskID==2){
+        document.getElementById("wordsForUser2").style.visibility = "visible";
+    }
 }
 
 function setTaskHeader() {
@@ -136,11 +154,31 @@ function movement() {
 }
 
 function endGame() {
-    return window.stop() || gBrowser.removeCurrentTab();
+    return window.stop();
 }
 
 // When the user clicks on div, open the popup
 function popUpGameIntro() {
     var popup = document.getElementById("myPopup");
     popup.classList.toggle("show");
+}
+
+function StartGame() {
+    startTime = new Date().getTime();
+}
+
+function endGame() {
+    endTime = new Date().getTime();
+    var time = endTime - startTime;
+    for (var i = 0; i < NumBlocks; i++) {
+        var blockid = document.getElementById('block'+i);
+        if(blockid) {
+            if(NumBlocks >= Object.keys(endPosMap).length){
+                var pos = blockid.style;
+                endPosMap['block'+i] = pos;
+            }
+        }
+    }
+    alert('How long you take to finish the task? ' + time/1000 + 's');
+    window.close();
 }
