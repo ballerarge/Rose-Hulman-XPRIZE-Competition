@@ -57,7 +57,7 @@
 	</script>
 
 	<script type="text/javascript">
-		var st = "<div id =\"container\" ondblclick=\"incrementGesture()\">";
+		var st = "<div id =\"container\" ondblclick=\"incrementGesture()\" style=\"font-size: 40px\">";
 		var position_x = [];var position_y = [];
 		for (var i = 0; i < NumBlocks; i++) {
 			var l = Math.floor(Math.random() * 7);
@@ -110,7 +110,7 @@
 			</script>
 		</p>
 
-		<div class = "instruction" id="instruction" style="font-family: Arial, Helvetica, sans-serif;">
+		<div class = "instruction" id="instruction">
 		    <label>
 		        Enter instructions	:
 		        <input id="txt_instruction" type="text" />
@@ -135,7 +135,7 @@
 		
 		<button class = "buttonEnd" onclick="endGame()">End</button>
 
-		<p class = "gestureCount" id = "gestureCount">0</p>
+		<p class = "gestureCount" id = "gestureCount" style = "font-size: 40px; text-align: center">0</p>
 	</div>
 
 	
