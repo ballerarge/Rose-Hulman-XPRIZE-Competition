@@ -13,7 +13,12 @@ app.get('/', function(req, res) {
 io.on('connection', function(socket) {
 	socket.on('join', function(data) {
 		console.log(data);
-	})
+	});
+
+	socket.on('username', function(username) {
+		socket.username = username;
+		console.log(username + ' has connected to the server!');
+	});
 });
 
 server.listen(8080);
