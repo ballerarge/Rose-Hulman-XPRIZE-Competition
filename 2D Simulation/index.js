@@ -36,7 +36,7 @@ for (var i = 0; i < NumBlocks ;i++) {
 
 function initInstructions() {
     task.push("Sorting");
-    task.push("Matching"); 
+    task.push("Matching");
     task.push("Searching");
     task.push("Rainbow");
     introductions.push("Sorting:<br><br>User1 Instructions:<br>&emsp;You have to give the other user an instruction to sort the blocks in a particular way." + 
@@ -59,6 +59,7 @@ function initInstructions() {
     introductions.push("Rainbow:<br><br>User1 Instructions:<br>&emsp;You will make a pattern in the separate window labelled “Draw”.<br>&emsp;Then instruct the other user " + 
         "to assist you in replicating the same pattern in the other window.<br>&emsp;Once you have replicated the pattern, click the end button.<br>&emsp;Try to complete " + 
         "the task in the minimum number of block moves possible.<br><br>User2 Instructions:<br>&emsp;<br>&emsp;The other user will give you instructions to complete the " + 
+
         "task.<br>&emsp;Try to complete it in the minimum number of block moves possible.<br>&emsp;");
 }
 
@@ -105,7 +106,7 @@ function incrementMovement() {
 
 function initTaskID() {
     taskID = Math.floor(Math.random()*4);
-    
+
 }
 
 function setSearchFieldOne() {
@@ -167,6 +168,10 @@ function inputlength() {
     document.getElementById("txt_instruction").value = "";
 }
 
+function movement() {
+    document.getElementById("showmovement").innerHTML = actualMove;
+}
+
 // When the user clicks on div, open the popup
 function popUpGameIntro() {
     var popup = document.getElementById("myPopup");
@@ -195,7 +200,8 @@ function endGame() {
     
     console.log(instructions);
     alert('How long you take to finish the task? ' + time/1000 + 's');
-    window.close();
+    document.body.innerHTML = '';
+    document.documentElement.innerHTML = 'Good job!';
 }
 
 function getDateTime() {
