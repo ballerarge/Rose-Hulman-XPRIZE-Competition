@@ -6,11 +6,15 @@
 	<meta charset="UTF-8">
 
 	<link rel="stylesheet" type="text/css" href="index.css">
+
   	<link href="http://fonts.googleapis.com/css?family=Corben:bold" rel="stylesheet" type="text/css">
+
  	<link href="http://fonts.googleapis.com/css?family=Nobile" rel="stylesheet" type="text/css">
 
   	<script type="text/javascript" src="index.js"></script>
+
   	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
+
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
 
 	<script type="text/javascript">
@@ -118,7 +122,7 @@
 
 	<div class = "taskOverviewWrapper" id = "taskOverviewWrapper">
 		<div style="text-align:center">
-			<div class="popup" onclick="popUpGameIntro()" style="cursor: pointer; font-size:18px; font-family:verdana"><font color = "white">Introduction of the game
+			<div class="popup" onclick="popUpGameIntro()" style="cursor: pointer; font-size:18px; font-family:verdana"><font color = "white">Introduction of the game</font>
 				<span class="popuptext" id="myPopup" style="font-size:12px; font-family:verdana">
 			  		<script type="text/javascript">
 			  			document.getElementById("myPopup").innerHTML = introductions[taskID];
@@ -182,6 +186,16 @@
 		<p class = "gestureCount" id = "gestureCount" style = "font-size: 40px; text-align: center">0</p>
 		<p class = "MovementCount" id = "MovementCount" style = "font-size: 40px; text-align: center">0</p>
 	</div>
+
+	<script src="/socket.io/socket.io.js"></script>
+
+	<script>
+		var socket = io.connect('http://localhost:8080');
+
+		socket.on('connect', function(message) {
+			socket.emit('join', 'Hello server. From, client');
+		});
+	</script>
 
 </body>
 </html>

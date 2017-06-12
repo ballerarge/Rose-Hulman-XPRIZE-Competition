@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>2D Block World Simulation</title>
+
+	<meta charset="UTF-8">
+
+	<link rel="stylesheet" type="text/css" href="index.css">
+
+  	<link href="http://fonts.googleapis.com/css?family=Corben:bold" rel="stylesheet" type="text/css">
+
+ 	<link href="http://fonts.googleapis.com/css?family=Nobile" rel="stylesheet" type="text/css">
+
+  	<script type="text/javascript" src="index.js"></script>
+
+  	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
+
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
+
+	<script type="text/javascript">
+		var z = 1;
+		$( init );
+		function init() {
+			for (var i = 0; i < NumBlocks; i++) {
+				$('#block' + i).draggable({containment: '#container', start: function(event, ui) {
+					$(this).css('z-index', ++z);
+					var Startpos = $(this).position();
+					previous_left[i] = Startpos.left;previous_top[i] = Startpos.top;
+        			movementstarttime = new Date().getTime();
+        			movementdate = getDateTime();
+				}, stop: function(event, ui) {
+					var Stoppos = $(this).position();
+					if (Stoppos.left!=previous_left[i] || Stoppos.top!=previous_top[i]) {
+						start.push(movementdate);
+						end.push(getDateTime());
+						interval.push(new Date().getTime() - movementstarttime);
+						type.push("Movement");
+						actualMove++;
+						incrementMovement();
+					}
+				}});
+			}
+		}
+	</script>
+
+	<script type="text/javascript">
+		for (var i = 0; i < NumBlocks; i++) {
+			$("#block" + i).draggable({
+			});
+		}
+	</script>
+
+	<script type="text/javascript">
+		$(document).ready(function() {
+    		$(".draggable").draggable();
+		$('.draggable').each(function(el){
+		    var tLeft = Math.floor(Math.random()*1140) + 1,
+		    tTop  = Math.floor(Math.random()*540) + 1;
+		    $(el).css({position:'relative', left: 1140, top: 540});
+		});
+	});
+	</script>
+
+	<script type="text/javascript">
+		var st = "<div id =\"container\" ondblclick=\"incrementGesture()\" style=\"font-size: 40px\">";
+		var position_x = [];var position_y = [];
+		for (var i = 0; i < NumBlocks; i++) {
+			var l = Math.floor(Math.random() * 7);
+			var tLeft = Math.floor(Math.random()*22.8) * 50,
+				tTop  = Math.floor(Math.random()*10.8) * 50;
+			var x = -1;
+			for (var j = 0; j < position_x.length; j ++) {
+				if (position_x[j] == tLeft && position_y[j] == tTop)
+					x = j;
+			}
+			while (x != -1) {
+				if (Math.abs(position_y[x] - tTop) >= 50) break;
+				tLeft = Math.floor(Math.random()*22.8) * 50;
+				tTop  = Math.floor(Math.random()*10.8) * 50;
+				var x = -1;
+				for (var j = 0; j < position_x.length; j ++) {
+					if (position_x[j] == tLeft && position_y[j] == tTop)
+						x = j;
+				}
+			}
+			previous_left.push(tLeft);previous_top.push(tTop);
+			st+="<div id =\"block"+i+"\" style=\"left:"+tLeft+"px; top:"+tTop+"px\" oncontextmenu=\"flipBlock(\'block"+i+"\');\">"+letters[l]+"</div>";
+		}
+		st+="</div>";
+		document.write(st);
+	</script>
+
+	<script type="text/javascript">
+		for (var i = 0; i < NumBlocks; i++) {
+			var blockid = document.getElementById('block'+i);
+			if(blockid) {
+				if(NumBlocks >= Object.keys(startPosMap).length){
+					var pos = blockid.style;
+					startPosMap['block'+i] = pos;
+				}
+			}
+
+		}
+	</script>
+
+	<script type="text/javascript">
+		initInstructions();
+		initFlipColors();
+		initFlipLetters();
+		initTaskID();
+	</script>
+
+  <style>
+    body {
+      background: url(background.jpg) repeat 0 0;
+    }
+  </style>
+
+</head>
+
+<body oncontextmenu="return false;">
+
+	<div class = "taskOverviewWrapper" id = "taskOverviewWrapper">
+		<div style="text-align:center">
+			<div class="popup" onclick="popUpGameIntro()" style="cursor: pointer; font-size:18px; font-family:verdana"><font color = "white">Introduction of the game</font>
+				<span class="popuptext" id="myPopup" style="font-size:12px; font-family:verdana">
+			  		<script type="text/javascript">
+			  			document.getElementById("myPopup").innerHTML = introductions[taskID];
+			  		</script>
+				</span>
+			</div>
+			<p class = "helper" style="font-size:12px; font-family:verdana">(click again to close it)</p>
+		</div>
+  	</div>
+
+	<div class = "gadgetWrapper">
+		<small><small><small>
+		<p class = "taskQ" id = "taskQ" style = "font-size: 30px">
+			<script>
+				setTaskHeader();
+			</script>
+		</p>
+		</small></small></small>
+
+		<div class = "instruction" id="instruction" onclick="instructiontime()" style="font-family:verdana">
+		    <label>
+		        Enter instructions	:
+		        <input id="txt_instruction" type="text" />
+		    </label>
+
+		    <button class = "buttonenter" onclick="inputlength()">Enter</button>
+
+		    <div class = "numofwords" id="numofwords"></div>
+		</div>
+
+		<div class = "show" id="show">
+			<p class = "movement" style="font-size:20px; font-family:verdana">Movement</p>
+			<p class = "showmovement" id = "showmovement" style = "font-size: 40px; text-align: center">0</p>
+		</div>
+		<div class = "gestureToggle" id="gestureToggle"></div>
+    <button class = "buttonStart" onclick="StartGame()" >Start</button>
+
+	<button class = "buttonEnd" onclick="endGame()" >End</button>
+
+    <div class = "wordsForUser1" id="wordsForUser1" style="font-family: Arial, Helvetica, sans-serif;" >
+    	<script type="text/javascript">
+    		setSearchFieldOne();
+    	</script>
+        <label>
+            Words For User 1:
+            <input id="search_words_1_text" type="text" />
+        </label>
+    </div>
+
+    <div class = "wordsForUser2" id="wordsForUser2" style="font-family: Arial, Helvetica, sans-serif;" >
+    	<script type="text/javascript">
+    		setSearchFieldTwo();
+    	</script>
+        <label>
+            Words For User 2:
+            <input id="search_words_2_text" type="text" />
+        </label>
+    </div>
+    	<p class = "gesture" style="font-size:20px; font-family:verdana">Gesture</p>
+    	<p class = "movement" style="font-size:20px; font-family:verdana">Movement</p>
+		<p class = "gestureCount" id = "gestureCount" style = "font-size: 40px; text-align: center">0</p>
+		<p class = "MovementCount" id = "MovementCount" style = "font-size: 40px; text-align: center">0</p>
+	</div>
+
+	<script src="/socket.io/socket.io.js"></script>
+
+	<script>
+		var socket = io.connect('http://localhost:8080');
+
+		socket.on('message', function(message) {
+			alert('The server has a message for you: ' + message);
+		});
+	</script>
+
+</body>
+</html>
