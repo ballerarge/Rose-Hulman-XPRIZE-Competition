@@ -98,6 +98,25 @@
 
 	<script src="/socket.io/socket.io.js"></script>
 
+	<script type="text/javascript" src="index.js">
+		for (var i = 0; i < count; i++) {
+    		var x= Math.floor(Math.random() * 5);
+    		var css = '#block' + i + '{ width: 50px; height: 50px; background:' + color[x] + '; border:#000 solid 4px; cursor: move; position: absolute; z-index: 1; text-align: center; vertical-align: middle; line-height: 50px; font-family:\'Corben\', Georgia, Times, serif;}';
+
+    		var style = document.createElement('style');
+    		if (style.stylesheet) {
+    			style.stylesheet.cssText = css;
+    		} else {
+    			style.appendChild(document.createTextNode(css));
+    		}
+
+    		document.head.appendChild(style);
+    	}
+	</script>
+
+	
+}
+
 	<script type="text/javascript">
 		initBlocks();
 		initInstructions();
@@ -114,14 +133,13 @@
 			container.id = "container";
 			container.ondblclick = function() {
 				incrementGesture();
-			}
+			};
 			container.style.fontSize = "40px";
 			document.body.appendChild(container);
 
-			//var st = "<div id =\"container\" ondblclick=\"incrementGesture()\" style=\"font-size: 40px\">";
 			var position_x = [];var position_y = [];
 			for (var i = 0; i < NumBlocks; i++) {
-				var block_to_add = document.createElement("div");
+				// var block_to_add = document.createElement("div");
 				var l = Math.floor(Math.random() * 7);
 				var tLeft = Math.floor(Math.random()*22.8) * 50,
 					tTop  = Math.floor(Math.random()*10.8) * 50;
@@ -142,19 +160,18 @@
 				}
 				previous_left.push(tLeft);previous_top.push(tTop);
 
-				block_to_add.id = "block" + i;
-				block_to_add.style.left = tLeft + "px";
-				block_to_add.style.top = tTop + "px";
-				block_to_add.oncontextmenu = function() {
-					flipBlock('block' + i);
-				}
-				block_to_add.innerHTML = letters[l];
+				$("#container").append("<div id =\"block"+i+"\" style=\"left:"+tLeft+"px; top:"+tTop+"px\" oncontextmenu=\"flipBlock(\'block"+i+"\');\">"+letters[l]+"</div>");
 
-				document.getElementById("container").appendChild(block_to_add);
-				//st+="<div id =\"block"+i+"\" style=\"left:"+tLeft+"px; top:"+tTop+"px\" oncontextmenu=\"flipBlock(\'block"+i+"\');\">"+letters[l]+"</div>";
+				// block_to_add.id = "block" + i;
+				// block_to_add.style.left = tLeft + "px";
+				// block_to_add.style.top = tTop + "px";
+				// block_to_add.oncontextmenu = function() {
+				// 	flipBlock(block_to_add.id);
+				// };
+				// block_to_add.innerHTML = letters[l];
+
+				// document.getElementById("container").appendChild(block_to_add);
 			}
-			//st+="</div>";
-			//document.write(st);
 		}
 	</script>
 
@@ -211,18 +228,21 @@
 				actualMove = data.movement_count;
 				gestureCount = data.gesture_count;
 
-				for (var i = 0; i < Max_Num_Blocks; i++) {
+				for (var i = 0; i < NumBlocks; i++) {
 					if (i < data.numBlocks) {
 						if (document.getElementById("block" + i) == null) {
-							var div_to_add = document.createElement("div");
-							div_to_add.id = "block" + i;
-							div_to_add.style.left = data.lefts[i] + "px";
-							div_to_add.style.top = data.tops[i] + "px";
-							div_to_add.oncontextmenu = function() {
-								flipBlock('block' + i);
-							};
-							div_to_add.innerHTML = data.letters[i];
-							container.appendChild(div_to_add);
+
+							$("container").append("<div id =\"block"+i+"\" style=\"left:"+data.lefts[i]+"px; top:"+data.tops[i]+"px\" oncontextmenu=\"flipBlock(\'block"+i+"\');\">"+data.letters[i]+"</div>");
+
+							// var div_to_add = document.createElement("div");
+							// div_to_add.id = "block" + i;
+							// div_to_add.style.left = data.lefts[i] + "px";
+							// div_to_add.style.top = data.tops[i] + "px";
+							// div_to_add.oncontextmenu = function() {
+							// 	flipBlock(div_to_add.id);
+							// };
+							// div_to_add.innerHTML = data.letters[i];
+							// container.appendChild(div_to_add);
 						} else {
 							var current_div = document.getElementById("block" + i);
 							current_div.style.left = data.lefts[i] + "px";

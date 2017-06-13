@@ -1,7 +1,7 @@
 var random_multiplier = 10;
 var random_addition = 4;
 var NumBlocks = Math.floor(Math.random() * random_multiplier) + random_addition;
-var Max_Num_Blocks = random_multiplier + random_addition;
+var Max_Num_Blocks = 14;
 var gestureCount = 0;
 var NumWords = 0;
 var n1 = 1; var n2 = 1;
@@ -29,13 +29,6 @@ var type = [];
 var instructiondate;
 var instructionstarttime;
 var instructions = "";
-
-
-
-for (var i = 0; i < Max_Num_Blocks ;i++) {
-    var x= Math.floor(Math.random() * 5);
-    document.write("<style> #block"+i+" {width: 50px; height: 50px; background:"+color[x] +"; border:#000 solid 4px; cursor: move; position: absolute; z-index: 1; text-align: center; vertical-align: middle; line-height: 50px; font-family: 'Corben', Georgia, Times, serif;} </style>");
-}
 
 function initInstructions() {
     task.push("Sorting");
@@ -88,14 +81,14 @@ function flipBlock(box) {
 function swapColor(box) {
     var property = document.getElementById(box);
     var currentColor = property.style.backgroundColor;
-    property.style.backgroundColor = colorMap.get(box);
-    colorMap.set(box, currentColor);
+    property.style.backgroundColor = colorMap.prototype.get(box);
+    colorMap.prototype.set(box, currentColor);
 }
 function swapLetter(box) {
     var property = document.getElementById(box);
     var currentLetter = property.textContent || property.innerText;
-    property.textContent = letterMap.get(box);
-    letterMap.set(box, currentLetter);
+    property.textContent = letterMap.prototype.get(box);
+    letterMap.prototype.set(box, currentLetter);
 }
 function incrementGesture() {
     var property = document.getElementById('gestureCount');
