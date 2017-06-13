@@ -17,49 +17,7 @@
 
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
 
-	<script type="text/javascript">
-		var z = 1;
-		$( init );
-		function init() {
-			for (var i = 0; i < NumBlocks; i++) {
-				$('#block' + i).draggable({containment: '#container', start: function(event, ui) {
-					$(this).css('z-index', ++z);
-					var Startpos = $(this).position();
-					previous_left[i] = Startpos.left;previous_top[i] = Startpos.top;
-        			movementstarttime = new Date().getTime();
-        			movementdate = getDateTime();
-				}, stop: function(event, ui) {
-					var Stoppos = $(this).position();
-					if (Stoppos.left!=previous_left[i] || Stoppos.top!=previous_top[i]) {
-						start.push(movementdate);
-						end.push(getDateTime());
-						interval.push(new Date().getTime() - movementstarttime);
-						type.push("Movement");
-						actualMove++;
-						incrementMovement();
-					}
-				}});
-			}
-		}
-	</script>
-
-	<script type="text/javascript">
-		for (var i = 0; i < NumBlocks; i++) {
-			$("#block" + i).draggable({
-			});
-		}
-	</script>
-
-	<script type="text/javascript">
-		$(document).ready(function() {
-    		$(".draggable").draggable();
-		$('.draggable').each(function(el){
-		    var tLeft = Math.floor(Math.random()*1140) + 1,
-		    tTop  = Math.floor(Math.random()*540) + 1;
-		    $(el).css({position:'relative', left: 1140, top: 540});
-		});
-	});
-	</script>
+	<script src="/socket.io/socket.io.js"></script>
 
 	<script type="text/javascript">
 		var st = "<div id =\"container\" ondblclick=\"incrementGesture()\" style=\"font-size: 40px\">";
@@ -88,6 +46,152 @@
 		}
 		st+="</div>";
 		document.write(st);
+	</script>
+
+	<script type="text/javascript">
+		var socket = io.connect("http://localhost:8080");
+
+		var username = prompt('Please enter your name.');
+
+		socket.emit('username', username);
+
+		var num_blocks = NumBlocks;
+		var left_array = new Array();
+		var top_array = new Array();
+		var current_colors = new Array();
+		var cMap = colorMap;
+		var current_letters = new Array();
+		var lMap = letterMap;
+		var currentTask = taskID;
+		var movement_count = actualMove;
+		var gesture_count = gestureCount;
+
+
+		for (var i = 0; i < NumBlocks; i++) {
+			var position = $("#block" + i).position();
+			var current_color = $("#block" + i).css("color");
+			var current_letter = $("#block" + i).text();
+			left_array.push(position.left);
+			top_array.push(position.top);
+			current_colors.push(current_color);
+			current_letters.push(current_letter);
+		}
+
+		socket.emit('setInitialPosition', {
+			numBlocks: num_blocks,
+			lefts: left_array,
+			tops: top_array,
+			colors: current_colors,
+			colorMap: cMap,
+			letters: current_letters,
+			letterMap: lMap,
+			currentTask: currentTask,
+			movement_count: movement_count,
+			gesture_count: gesture_count
+		});
+
+		socket.on('setInitialPosition', function(data) {
+			var container = document.getElementById("container");
+			
+			if (data != null) {
+				colorMap = data.colorMap;
+				letterMap = data.letterMap;
+				NumBlocks = data.numBlocks;
+				taskID = data.currentTask;
+				actualMove = data.movement_count;
+				gestureCount = data.gesture_count;
+
+				for (var i = 0; i < Max_Num_Blocks; i++) {
+					if (i < data.numBlocks) {
+						if (document.getElementById("block" + i) == null) {
+							var div_to_add = document.createElement("div");
+							div_to_add.id = "block" + i;
+							div_to_add.style.left = data.lefts[i] + "px";
+							div_to_add.style.top = data.tops[i] + "px";
+							div_to_add.oncontextmenu = function() {
+								flipBlock('block' + i);
+							};
+							div_to_add.innerHTML = data.letters[i];
+							container.appendChild(div_to_add);
+						} else {
+							var current_div = document.getElementById("block" + i);
+							current_div.style.left = data.lefts[i] + "px";
+							current_div.style.top = data.tops[i] + "px";
+							current_div.innerHTML = data.letters[i];
+							container.appendChild(current_div);
+						}
+					} else {
+						var div_to_remove = document.getElementById("block" + i);
+						container.removeChild(div_to_remove);
+					}
+				}
+			}
+		});
+
+		$(document).ready(function() {
+			socket.on('update_position', function (data) {
+				var x = data.x;
+				var y = data.y;
+				var block = data.block_id;
+				// jquery code to move div here
+				$("#left").val(x);
+				$("#top").val(y);
+				$(block).css({
+					left: x + "px",
+					top: y + "px"
+				});
+			});
+    		$(".draggable").draggable();
+			
+			$('.draggable').each(function(el){
+			    var tLeft = Math.floor(Math.random()*1140) + 1,
+			    tTop  = Math.floor(Math.random()*540) + 1;
+			    $(el).css({position:'relative', left: 1140, top: 540});
+			});
+		});
+
+		var z = 1;
+		$( init );
+		function init() {
+			for (var i = 0; i < NumBlocks; i++) {
+				$('#block' + i).draggable({containment: '#container', start: function(event, ui) {
+					$(this).css('z-index', ++z);
+					var Startpos = $(this).position();
+					previous_left[i] = Startpos.left;previous_top[i] = Startpos.top;
+        			movementstarttime = new Date().getTime();
+        			movementdate = getDateTime();
+				}, stop: function(event, ui) {
+					var Stoppos = $(this).position();
+					if (Stoppos.left!=previous_left[i] || Stoppos.top!=previous_top[i]) {
+						start.push(movementdate);
+						end.push(getDateTime());
+						interval.push(new Date().getTime() - movementstarttime);
+						type.push("Movement");
+						actualMove++;
+						incrementMovement();
+					}
+				}, drag: function(event, ui) {
+					var coord = $(this).position();
+					var block = this;
+					$("#left").val(coord.left);
+					$("#top").val(coord.top);
+					socket.emit('receive_position', {
+						block_id: block,
+						x: coord.left,
+						y: coord.top
+					});
+				}
+
+				});
+			}
+		}
+	</script>
+
+	<script type="text/javascript">
+		for (var i = 0; i < NumBlocks; i++) {
+			$("#block" + i).draggable({
+			});
+		}
 	</script>
 
 	<script type="text/javascript">
@@ -186,17 +290,6 @@
 		<p class = "gestureCount" id = "gestureCount" style = "font-size: 40px; text-align: center">0</p>
 		<p class = "MovementCount" id = "MovementCount" style = "font-size: 40px; text-align: center">0</p>
 	</div>
-
-	<script src="/socket.io/socket.io.js"></script>
-
-	<script>
-		var socket = io.connect('http://localhost:8080');
-
-		var username = prompt('Please enter your name.');
-
-		socket.emit('username', username);
-
-	</script>
 
 </body>
 </html>

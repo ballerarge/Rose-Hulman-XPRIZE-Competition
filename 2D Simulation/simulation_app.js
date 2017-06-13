@@ -4,6 +4,9 @@ var express = require('express'),
 	io = require('socket.io')(server);
 	path = require('path');
 
+var player_exists = false;
+var starting_game_data;
+
 app.use(express.static(path.join(__dirname, 'Public')));
 
 app.get('/', function(req, res) {
@@ -11,13 +14,23 @@ app.get('/', function(req, res) {
 });
 
 io.on('connection', function(socket) {
-	socket.on('join', function(data) {
-		console.log(data);
-	});
 
 	socket.on('username', function(username) {
 		socket.username = username;
 		console.log(username + ' has connected to the server!');
+	});
+
+	socket.on('receive_position', function(data) {
+		socket.broadcast.emit('update_position', data);
+	});
+
+	socket.on('setInitialPosition', function(data) {
+		if (player_exists == false) {
+			player_exists = true;
+			starting_game_data = data;
+		} else {
+			socket.emit('setInitialPosition', starting_game_data);
+		}
 	});
 });
 

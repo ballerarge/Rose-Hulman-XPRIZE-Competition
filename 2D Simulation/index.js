@@ -1,4 +1,7 @@
-var NumBlocks = Math.floor(Math.random() * 10) + 4;
+var random_multiplier = 10;
+var random_addition = 4;
+var NumBlocks = Math.floor(Math.random() * random_multiplier) + random_addition;
+var Max_Num_Blocks = random_multiplier + random_addition;
 var gestureCount = 0;
 var NumWords = 0;
 var n1 = 1; var n2 = 1;
@@ -29,7 +32,7 @@ var instructions = "";
 
 
 
-for (var i = 0; i < NumBlocks ;i++) {
+for (var i = 0; i < Max_Num_Blocks ;i++) {
     var x= Math.floor(Math.random() * 5);
     document.write("<style> #block"+i+" {width: 50px; height: 50px; background:"+color[x] +"; border:#000 solid 4px; cursor: move; position: absolute; z-index: 1; text-align: center; vertical-align: middle; line-height: 50px; font-family: 'Corben', Georgia, Times, serif;} </style>");
 }
@@ -65,14 +68,14 @@ function initInstructions() {
 
 
 function initFlipColors() {
-    for (var i = 0; i < NumBlocks; i++) {
+    for (var i = 0; i < Max_Num_Blocks; i++) {
         x = Math.floor(Math.random() * 5);
         colorMap.set('block' + i, color[x]);
     }
 }
 
 function initFlipLetters() {
-    for (var i = 0; i < NumBlocks; i++) {
+    for (var i = 0; i < Max_Num_Blocks; i++) {
         y = Math.floor(Math.random() * 7);
         letterMap.set('block' + i, letters[y]);
     }
@@ -98,10 +101,10 @@ function incrementGesture() {
     var property = document.getElementById('gestureCount');
     gestureCount++;
     property.innerText = gestureCount;
-   var gestureElement = document.getElementById("gestureToggle");
-   gestureElement.style.left = event.clientX+'px';
-   gestureElement.style.top = event.clientY+'px';
-   gestureElement.style.visibility = "visible";
+    var gestureElement = document.getElementById("gestureToggle");
+    gestureElement.style.left = event.clientX+'px';
+    gestureElement.style.top = event.clientY+'px';
+    gestureElement.style.visibility = "visible";
 }
 
 function incrementMovement() {
