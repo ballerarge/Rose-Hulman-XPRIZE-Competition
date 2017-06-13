@@ -34,6 +34,10 @@ for (var i = 0; i < NumBlocks ;i++) {
     document.write("<style> #block"+i+" {width: 50px; height: 50px; background:"+color[x] +"; border:#000 solid 4px; cursor: move; position: absolute; z-index: 1; text-align: center; vertical-align: middle; line-height: 50px; font-family: 'Corben', Georgia, Times, serif;} </style>");
 }
 
+function putMetricsIntoDatabase() {
+  Database.CreateUser(3.2, 4, 2);
+}
+
 function initInstructions() {
     task.push("Sorting");
     task.push("Matching");
