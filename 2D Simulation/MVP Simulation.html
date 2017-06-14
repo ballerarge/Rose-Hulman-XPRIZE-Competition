@@ -98,8 +98,8 @@
 
 	<script src="/socket.io/socket.io.js"></script>
 
-	<script type="text/javascript" src="index.js">
-		for (var i = 0; i < count; i++) {
+	<!-- <script type="text/javascript" src="index.js">
+		for (var i = 0; i < 14; i++) {
     		var x= Math.floor(Math.random() * 5);
     		var css = '#block' + i + '{ width: 50px; height: 50px; background:' + color[x] + '; border:#000 solid 4px; cursor: move; position: absolute; z-index: 1; text-align: center; vertical-align: middle; line-height: 50px; font-family:\'Corben\', Georgia, Times, serif;}';
 
@@ -112,10 +112,7 @@
 
     		document.head.appendChild(style);
     	}
-	</script>
-
-	
-}
+	</script> -->
 
 	<script type="text/javascript">
 		initBlocks();
@@ -139,6 +136,7 @@
 
 			var position_x = [];var position_y = [];
 			for (var i = 0; i < NumBlocks; i++) {
+				var x= Math.floor(Math.random() * 5);
 				// var block_to_add = document.createElement("div");
 				var l = Math.floor(Math.random() * 7);
 				var tLeft = Math.floor(Math.random()*22.8) * 50,
@@ -160,41 +158,25 @@
 				}
 				previous_left.push(tLeft);previous_top.push(tTop);
 
-				$("#container").append("<div id =\"block"+i+"\" style=\"left:"+tLeft+"px; top:"+tTop+"px\" oncontextmenu=\"flipBlock(\'block"+i+"\');\">"+letters[l]+"</div>");
-
-				// block_to_add.id = "block" + i;
-				// block_to_add.style.left = tLeft + "px";
-				// block_to_add.style.top = tTop + "px";
-				// block_to_add.oncontextmenu = function() {
-				// 	flipBlock(block_to_add.id);
-				// };
-				// block_to_add.innerHTML = letters[l];
-
-				// document.getElementById("container").appendChild(block_to_add);
+				$("#container").append("<div class = \"block\" id =\"block"+i+"\" style=\"left:"+tLeft+"px; top:"+tTop+"px\" background: " + color[x] + "oncontextmenu=\"flipBlock(\'block"+i+"\');\">"+letters[l]+"</div>");
 			}
 		}
 	</script>
 
-	<script type="text/javascript">
+	<script type="text/javascript" >
 		var socket = io.connect("http://localhost:8080");
 
 		var username = prompt('Please enter your name.');
 
 		socket.emit('username', username);
 
-		var num_blocks = NumBlocks;
-		var left_array = new Array();
-		var top_array = new Array();
-		var current_colors = new Array();
-		var cMap = colorMap;
-		var current_letters = new Array();
-		var lMap = letterMap;
-		var currentTask = taskID;
-		var movement_count = actualMove;
-		var gesture_count = gestureCount;
+		var left_array = [];
+		var top_array = [];
+		var current_colors = [];
+		var current_letters = [];
 
 
-		for (var i = 0; i < NumBlocks; i++) {
+		for (var i = NumBlocks - 1; i > -1; i--) {
 			var position = $("#block" + i).position();
 			var current_color = $("#block" + i).css("color");
 			var current_letter = $("#block" + i).text();
@@ -205,16 +187,16 @@
 		}
 
 		socket.emit('setInitialPosition', {
-			numBlocks: num_blocks,
+			numBlocks: NumBlocks,
 			lefts: left_array,
 			tops: top_array,
 			colors: current_colors,
-			colorMap: cMap,
+			colorMap: colorMap,
 			letters: current_letters,
-			letterMap: lMap,
-			currentTask: currentTask,
-			movement_count: movement_count,
-			gesture_count: gesture_count
+			letterMap: letterMap,
+			currentTask: taskID,
+			movement_count: actualMove,
+			gesture_count: gestureCount
 		});
 
 		socket.on('setInitialPosition', function(data) {
@@ -227,34 +209,37 @@
 				taskID = data.currentTask;
 				actualMove = data.movement_count;
 				gestureCount = data.gesture_count;
+				setTaskHeader();
+				setSearchFieldOne();
+				setSearchFieldTwo();
+				document.getElementById("myPopup").innerHTML = introductions[taskID];
+
+				while(container.firstChild) {
+					container.removeChild(container.firstChild);
+				}
 
 				for (var i = 0; i < NumBlocks; i++) {
-					if (i < data.numBlocks) {
-						if (document.getElementById("block" + i) == null) {
-
-							$("container").append("<div id =\"block"+i+"\" style=\"left:"+data.lefts[i]+"px; top:"+data.tops[i]+"px\" oncontextmenu=\"flipBlock(\'block"+i+"\');\">"+data.letters[i]+"</div>");
-
-							// var div_to_add = document.createElement("div");
-							// div_to_add.id = "block" + i;
-							// div_to_add.style.left = data.lefts[i] + "px";
-							// div_to_add.style.top = data.tops[i] + "px";
-							// div_to_add.oncontextmenu = function() {
-							// 	flipBlock(div_to_add.id);
-							// };
-							// div_to_add.innerHTML = data.letters[i];
-							// container.appendChild(div_to_add);
-						} else {
-							var current_div = document.getElementById("block" + i);
-							current_div.style.left = data.lefts[i] + "px";
-							current_div.style.top = data.tops[i] + "px";
-							current_div.innerHTML = data.letters[i];
-							container.appendChild(current_div);
-						}
-					} else {
-						var div_to_remove = document.getElementById("block" + i);
-						container.removeChild(div_to_remove);
-					}
+					$("<div class = \"block\" id =\"block"+i+"\" style=\"left:"+data.lefts[i]+"px; top:"+data.tops[i]+"px\" background: " + data.colors[i] + "; oncontextmenu=\"flipBlock(\'block"+i+"\');\">"+data.letters[i]+"</div>").appendTo(container);
 				}
+
+				// for (var i = 0; i < 14; i++) {
+				// 	if (i < NumBlocks) {
+				// 		if (document.getElementById("block" + i) == null) {
+
+				// 			$("container").append("<div id =\"block"+i+"\" style=\"left:"+data.lefts[i]+"px; top:"+data.tops[i]+"px\" color: " + data.colors[i] + "; oncontextmenu=\"flipBlock(\'block"+i+"\');\">"+data.letters[i]+"</div>");
+
+				// 		} else {
+				// 			var current_div = document.getElementById("block" + i);
+				// 			current_div.style.left = data.lefts[i] + "px";
+				// 			current_div.style.top = data.tops[i] + "px";
+				// 			current_div.style.color = data.colors[i];
+				// 			current_div.innerHTML = data.letters[i];
+				// 		}
+				// 	} else {
+				// 		var div_to_remove = document.getElementById("block" + i);
+				// 		container.removeChild(div_to_remove);
+				// 	}
+				// }
 			}
 		});
 
@@ -273,11 +258,11 @@
 			});
     		$(".draggable").draggable();
 			
-			$('.draggable').each(function(el){
-			    var tLeft = Math.floor(Math.random()*1140) + 1,
-			    tTop  = Math.floor(Math.random()*540) + 1;
-			    $(el).css({position:'relative', left: 1140, top: 540});
-			});
+			// $('.draggable').each(function(el){
+			//     var tLeft = Math.floor(Math.random()*1140) + 1,
+			//     tTop  = Math.floor(Math.random()*540) + 1;
+			//     $(el).css({position:'relative', left: 1140, top: 540});
+			// });
 		});
 
 		var z = 1;

@@ -1,7 +1,7 @@
 var random_multiplier = 10;
 var random_addition = 4;
 var NumBlocks = Math.floor(Math.random() * random_multiplier) + random_addition;
-var Max_Num_Blocks = 14;
+var Max_Num_Blocks = random_multiplier + random_addition;
 var gestureCount = 0;
 var NumWords = 0;
 var n1 = 1; var n2 = 1;
@@ -63,14 +63,14 @@ function initInstructions() {
 function initFlipColors() {
     for (var i = 0; i < Max_Num_Blocks; i++) {
         x = Math.floor(Math.random() * 5);
-        colorMap.set('block' + i, color[x]);
+        colorMap.prototype.set('block' + i, color[x]);
     }
 }
 
 function initFlipLetters() {
     for (var i = 0; i < Max_Num_Blocks; i++) {
         y = Math.floor(Math.random() * 7);
-        letterMap.set('block' + i, letters[y]);
+        letterMap.prototype.set('block' + i, letters[y]);
     }
 }
 function flipBlock(box) {
@@ -114,12 +114,16 @@ function initTaskID() {
 function setSearchFieldOne() {
     if(taskID==2){
         document.getElementById("wordsForUser1").style.visibility = "visible";
+    } else {
+        document.getElementById("wordsForUser1").style.visibility = "hidden";
     }
 }
 
 function setSearchFieldTwo() {
     if(taskID==2){
         document.getElementById("wordsForUser2").style.visibility = "visible";
+    } else {
+        document.getElementById("wordsForUser2").style.visibility = "hidden";
     }
 }
 
