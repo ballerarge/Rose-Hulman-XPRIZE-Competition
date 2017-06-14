@@ -36,6 +36,10 @@ io.on('connection', function(socket) {
 		socket.broadcast.emit('update_gesture_data', data);
 	});
 
+	socket.on('receive_user_message', function(message) {
+		socket.broadcast.emit('update_user_message', message);
+	});
+
 	socket.on('setInitialPosition', function(data) {
 		if (player_exists == false) {
 			player_exists = true;

@@ -171,8 +171,7 @@ function inputlength() {
         NumWords += numToAdd;
     }
     instructions += x + "\n";
-    document.getElementById("numofwords").innerHTML = numToAdd;
-    // instructions.push(x);
+    // document.getElementById("user_message").innerHTML = numToAdd;
 
     document.getElementById("txt_instruction").value = "";
 }

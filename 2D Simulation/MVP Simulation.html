@@ -43,33 +43,32 @@
 		        <input id="txt_instruction" type="text" />
 		    </label>
 
-		    <button class = "buttonenter" onclick="inputlength()">Enter</button>
+		    <button class = "buttonenter" onclick="send_user_message_to_server(); inputlength()">Enter</button>
 
-		    <div class = "numofwords" id="numofwords"></div>
+		    <div class = "user_message" id="user_message"></div>
 		</div>
 
 		<div class = "show" id="show">
 			<p class = "movement" style="font-size:20px; font-family:verdana">Movement</p>
-			<p class = "showmovement" id = "showmovement" style = "font-size: 40px; text-align: center">0</p>
 		</div>
 		<div class = "gestureToggle" id="gestureToggle"></div>
-    <button class = "buttonStart" onclick="StartGame()" >Start</button>
+    	<button class = "buttonStart" onclick="StartGame()" >Start</button>
 
-	<button class = "buttonEnd" onclick="endGame()" >End</button>
+		<button class = "buttonEnd" onclick="endGame()" >End</button>
 
-    <div class = "wordsForUser1" id="wordsForUser1" style="font-family: Arial, Helvetica, sans-serif;" >
-    	<label>
-            Words For User 1:
-            <input id="search_words_1_text" type="text" />
-        </label>
-    </div>
+    	<div class = "wordsForUser1" id="wordsForUser1" style="font-family: Arial, Helvetica, sans-serif;" >
+	    	<label>
+	            Words For User 1:
+	            <input id="search_words_1_text" type="text" />
+	        </label>
+    	</div>
 
-    <div class = "wordsForUser2" id="wordsForUser2" style="font-family: Arial, Helvetica, sans-serif;" >
-    	<label>
-            Words For User 2:
-            <input id="search_words_2_text" type="text" />
-        </label>
-    </div>
+	    <div class = "wordsForUser2" id="wordsForUser2" style="font-family: Arial, Helvetica, sans-serif;" >
+	    	<label>
+	            Words For User 2:
+	            <input id="search_words_2_text" type="text" />
+	        </label>
+	    </div>
     	<p class = "gesture" style="font-size:20px; font-family:verdana">Gesture</p>
     	<p class = "movement" style="font-size:20px; font-family:verdana">Movement</p>
 		<p class = "gestureCount" id = "gestureCount" style = "font-size: 40px; text-align: center">0</p>
@@ -129,7 +128,6 @@
 			var position_x = [];var position_y = [];
 			for (var i = 0; i < NumBlocks; i++) {
 				var color_x= Math.floor(Math.random() * 5);
-				// var block_to_add = document.createElement("div");
 				var l = Math.floor(Math.random() * 7);
 				var tLeft = Math.floor(Math.random()*22.8) * 50,
 					tTop  = Math.floor(Math.random()*10.8) * 50;
@@ -303,6 +301,15 @@
 			actualMove = data;
 			setMovement();
 		});
+
+		function send_user_message_to_server() {
+			socket.emit('receive_user_message', document.getElementById("txt_instruction").value);
+		}
+
+		socket.on('update_user_message', function(message) {
+			document.getElementById("user_message").innerHTML = message;
+		});
+
 	</script>
 
 	<script type="text/javascript">

@@ -94,7 +94,7 @@ div.instruction {
     position: relative;
     top: -12px;
     left: 0px;
-    width: 400px;
+    width: 1200px;
     z-index: 1;
 }
 
@@ -117,7 +117,7 @@ div.wordsForUser2 {
 }
 
 
-div.numofwords {
+div.user_message {
     display: inline;
 }
 
