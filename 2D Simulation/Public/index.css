@@ -31,6 +31,7 @@
 #gadgetWrapper {
     float: left;
     width: 200px;
+    font-weight: bold;
 }
 
 #taskOverviewWrapper {
@@ -84,41 +85,30 @@ p.taskQ {
     text-align: left;
     font-family: Arial, Helvetica, sans-serif;
 }
-/*      select.menu {
-    position: absolute;
-    top: 28px;
-    left: 210px;
-}*/
 
 div.instruction {
     position: relative;
     top: -12px;
     left: 0px;
-    width: 1200px;
-    z-index: 1;
+    width: 1600px;
 }
 
 div.wordsForUser1 {
-    position: relative;
-    top: -36px;
-    left: 420px;
     width: 400px;
-    z-index: 1;
     visibility:hidden;
+
 }
 
 div.wordsForUser2 {
-    position: relative;
-    top: -58px;
-    left: 800px;
     width: 400px;
-    z-index: 1;
     visibility:hidden;
 }
 
 
 div.user_message {
-    display: inline;
+    position: fixed;
+    top: 90px;
+    left: 500px;
 }
 
 button.buttonEnd {

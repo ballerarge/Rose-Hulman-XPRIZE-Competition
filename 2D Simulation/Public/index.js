@@ -29,6 +29,7 @@ var type = [];
 var instructiondate;
 var instructionstarttime;
 var instructions = "";
+var time;
 
 function initInstructions() {
     task.push("Sorting");
@@ -78,6 +79,8 @@ function flipBlock(box) {
     swapColor(box);
     swapLetter(box);
     document.getElementById("gestureToggle").style.visibility = "hidden";
+    actualMove++;
+    setMovement();
 }
 
 function swapColor(box) {
@@ -98,9 +101,9 @@ function setGesture() {
     var property = document.getElementById('gestureCount');
     property.innerText = gestureCount;
     var gestureElement = document.getElementById("gestureToggle");
-    // gestureElement.style.left = event.clientX+'px';
-    // gestureElement.style.top = event.clientY+'px';
-    // gestureElement.style.visibility = "visible";
+    gestureElement.style.left = event.clientX+'px';
+    gestureElement.style.top = event.clientY+'px';
+    gestureElement.style.visibility = "visible";
 }
 
 function setMovement() {
@@ -192,7 +195,7 @@ function StartGame() {
 
 function endGame() {
     endTime = new Date().getTime();
-    var time = endTime - startTime;
+    time = endTime - startTime;
     for (var i = 0; i < NumBlocks; i++) {
         var blockid = document.getElementById('block'+i);
         if(blockid) {

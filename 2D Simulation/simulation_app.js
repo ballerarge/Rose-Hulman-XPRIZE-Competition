@@ -40,6 +40,10 @@ io.on('connection', function(socket) {
 		socket.broadcast.emit('update_user_message', message);
 	});
 
+	socket.on('end_game_for_all_users', function(time) {
+		socket.broadcast.emit('end_game_for_user', time);
+	});
+
 	socket.on('setInitialPosition', function(data) {
 		if (player_exists == false) {
 			player_exists = true;
