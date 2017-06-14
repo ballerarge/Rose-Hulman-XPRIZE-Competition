@@ -160,6 +160,16 @@
 
 		socket.emit('username', username);
 
+		socket.on('update_position', function (data) {
+			var left = data.left;
+			var top = data.top;
+			var block = data.block_id;
+			$("#" + block).css({
+				left: left + "px",
+				top: top + "px"
+			});
+		});
+
 		var left_array = [];
 		var top_array = [];
 		var current_colors = [];
@@ -215,25 +225,13 @@
 		});
 
 		$(document).ready(function() {
-			socket.on('update_position', function (data) {
-				var x = data.x;
-				var y = data.y;
-				var block = data.block_id;
-				// jquery code to move div here
-				$("#left").val(x);
-				$("#top").val(y);
-				$(block).css({
-					left: x + "px",
-					top: y + "px"
-				});
-			});
     		$(".draggable").draggable();
 			
-			// $('.draggable').each(function(el){
-			//     var tLeft = Math.floor(Math.random()*1140) + 1,
-			//     tTop  = Math.floor(Math.random()*540) + 1;
-			//     $(el).css({position:'relative', left: 1140, top: 540});
-			// });
+			$('.draggable').each(function(el){
+			    var tLeft = Math.floor(Math.random()*1140) + 1,
+			    tTop  = Math.floor(Math.random()*540) + 1;
+			    $(el).css({position:'relative', left: 1140, top: 540});
+			});
 		});
 
 		var z = 1;
@@ -258,13 +256,11 @@
 					}
 				}, drag: function(event, ui) {
 					var coord = $(this).position();
-					var block = this;
-					$("#left").val(coord.left);
-					$("#top").val(coord.top);
+					var block_id = $(this).attr('id');
 					socket.emit('receive_position', {
-						block_id: block,
-						x: coord.left,
-						y: coord.top
+						block_id: block_id,
+						left: coord.left,
+						top: coord.top
 					});
 				}
 
