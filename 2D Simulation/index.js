@@ -8,8 +8,8 @@ var n1 = 1; var n2 = 1;
 var actualMove = 0;
 var w1 = 0.1, w2 = 0.5;
 var previous_top = [];var previous_left = [];
-var colorMap = new Map();
-var letterMap = new Map();
+var flipColorArray = [];
+var flipLetterArray = [];
 var x;
 var y;
 var letters = ["A", "B", "C", "D", "E", "F", "G"];
@@ -63,41 +63,44 @@ function initInstructions() {
 function initFlipColors() {
     for (var i = 0; i < Max_Num_Blocks; i++) {
         x = Math.floor(Math.random() * 5);
-        colorMap.prototype.set('block' + i, color[x]);
-    }
+        flipColorArray[i] = color[x];
 }
 
 function initFlipLetters() {
     for (var i = 0; i < Max_Num_Blocks; i++) {
         y = Math.floor(Math.random() * 7);
-        letterMap.prototype.set('block' + i, letters[y]);
+        flipLetterArray[i] = letters[y];
     }
 }
+
 function flipBlock(box) {
     swapColor(box);
     swapLetter(box);
     document.getElementById("gestureToggle").style.visibility = "hidden";
 }
+
 function swapColor(box) {
-    var property = document.getElementById(box);
+    var property = document.getElementById('block' + box);
     var currentColor = property.style.backgroundColor;
-    property.style.backgroundColor = colorMap.prototype.get(box);
-    colorMap.prototype.set(box, currentColor);
+    property.style.backgroundColor = flipColorArray[box];
+    flipColorArray[box] = currentColor;
 }
+
 function swapLetter(box) {
-    var property = document.getElementById(box);
+    var property = document.getElementById('block' + box);
     var currentLetter = property.textContent || property.innerText;
-    property.textContent = letterMap.prototype.get(box);
-    letterMap.prototype.set(box, currentLetter);
+    property.textContent = flipLetterArray[box];
+    flipLetterArray[box] = currentLetter;
 }
+
 function incrementGesture() {
     var property = document.getElementById('gestureCount');
     gestureCount++;
     property.innerText = gestureCount;
     var gestureElement = document.getElementById("gestureToggle");
-    gestureElement.style.left = event.clientX+'px';
-    gestureElement.style.top = event.clientY+'px';
-    gestureElement.style.visibility = "visible";
+    // gestureElement.style.left = event.clientX+'px';
+    // gestureElement.style.top = event.clientY+'px';
+    // gestureElement.style.visibility = "visible";
 }
 
 function incrementMovement() {

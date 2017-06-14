@@ -5,6 +5,8 @@
 
 	<meta charset="UTF-8">
 
+	<meta http-equiv="pragma" content="no-cache" />
+
 	<link rel="stylesheet" type="text/css" href="index.css">
 
   	<link href="http://fonts.googleapis.com/css?family=Corben:bold" rel="stylesheet" type="text/css">
@@ -98,22 +100,6 @@
 
 	<script src="/socket.io/socket.io.js"></script>
 
-	<!-- <script type="text/javascript" src="index.js">
-		for (var i = 0; i < 14; i++) {
-    		var x= Math.floor(Math.random() * 5);
-    		var css = '#block' + i + '{ width: 50px; height: 50px; background:' + color[x] + '; border:#000 solid 4px; cursor: move; position: absolute; z-index: 1; text-align: center; vertical-align: middle; line-height: 50px; font-family:\'Corben\', Georgia, Times, serif;}';
-
-    		var style = document.createElement('style');
-    		if (style.stylesheet) {
-    			style.stylesheet.cssText = css;
-    		} else {
-    			style.appendChild(document.createTextNode(css));
-    		}
-
-    		document.head.appendChild(style);
-    	}
-	</script> -->
-
 	<script type="text/javascript">
 		initBlocks();
 		initInstructions();
@@ -124,6 +110,8 @@
 		setSearchFieldOne();
 		setSearchFieldTwo();
 		document.getElementById("myPopup").innerHTML = introductions[taskID];
+
+		var color = ['red', 'blue','green','orange','yellow'];
 
 		function initBlocks() {
 			var container = document.createElement("div");
@@ -136,15 +124,16 @@
 
 			var position_x = [];var position_y = [];
 			for (var i = 0; i < NumBlocks; i++) {
-				var x= Math.floor(Math.random() * 5);
+				var color_x= Math.floor(Math.random() * 5);
 				// var block_to_add = document.createElement("div");
 				var l = Math.floor(Math.random() * 7);
 				var tLeft = Math.floor(Math.random()*22.8) * 50,
 					tTop  = Math.floor(Math.random()*10.8) * 50;
 				var x = -1;
 				for (var j = 0; j < position_x.length; j ++) {
-					if (position_x[j] == tLeft && position_y[j] == tTop)
+					if (position_x[j] == tLeft && position_y[j] == tTop) {
 						x = j;
+					}
 				}
 				while (x != -1) {
 					if (Math.abs(position_y[x] - tTop) >= 50) break;
@@ -152,13 +141,14 @@
 					tTop  = Math.floor(Math.random()*10.8) * 50;
 					var x = -1;
 					for (var j = 0; j < position_x.length; j ++) {
-						if (position_x[j] == tLeft && position_y[j] == tTop)
+						if (position_x[j] == tLeft && position_y[j] == tTop) {
 							x = j;
+						}
 					}
 				}
 				previous_left.push(tLeft);previous_top.push(tTop);
 
-				$("#container").append("<div class = \"block\" id =\"block"+i+"\" style=\"left:"+tLeft+"px; top:"+tTop+"px\" background: " + color[x] + "oncontextmenu=\"flipBlock(\'block"+i+"\');\">"+letters[l]+"</div>");
+				$("#container").append("<div class = \"block\" id =\"block"+i+"\" style=\"left:"+tLeft+"px; top:"+tTop+"px; background: " + color[color_x] + "\" oncontextmenu=\"flipBlock(\'block" + i + "\')\">"+letters[l]+"</div>");
 			}
 		}
 	</script>
@@ -176,9 +166,9 @@
 		var current_letters = [];
 
 
-		for (var i = NumBlocks - 1; i > -1; i--) {
+		for (var i = 0; i < NumBlocks; i++) {
 			var position = $("#block" + i).position();
-			var current_color = $("#block" + i).css("color");
+			var current_color = $("#block" + i).css("background-color");
 			var current_letter = $("#block" + i).text();
 			left_array.push(position.left);
 			top_array.push(position.top);
@@ -191,9 +181,9 @@
 			lefts: left_array,
 			tops: top_array,
 			colors: current_colors,
-			colorMap: colorMap,
+			flipColorArray: flipColorArray,
 			letters: current_letters,
-			letterMap: letterMap,
+			flipLetterArray: flipLetterArray,
 			currentTask: taskID,
 			movement_count: actualMove,
 			gesture_count: gestureCount
@@ -203,8 +193,8 @@
 			var container = document.getElementById("container");
 			
 			if (data != null) {
-				colorMap = data.colorMap;
-				letterMap = data.letterMap;
+				flipColorArray = data.flipColorArray.slice(0);
+				flipLetterArray = data.flipLetterArray.slice(0);
 				NumBlocks = data.numBlocks;
 				taskID = data.currentTask;
 				actualMove = data.movement_count;
@@ -219,27 +209,8 @@
 				}
 
 				for (var i = 0; i < NumBlocks; i++) {
-					$("<div class = \"block\" id =\"block"+i+"\" style=\"left:"+data.lefts[i]+"px; top:"+data.tops[i]+"px\" background: " + data.colors[i] + "; oncontextmenu=\"flipBlock(\'block"+i+"\');\">"+data.letters[i]+"</div>").appendTo(container);
+					$("<div class = \"block\" id =\"block"+i+"\" style=\"left:"+data.lefts[i]+"px; top:"+data.tops[i]+"px; background: " + data.colors[i] + "\" oncontextmenu=\"flipBlock(\'block" + i + "\')\">"+data.letters[i]+"</div>").appendTo(container);
 				}
-
-				// for (var i = 0; i < 14; i++) {
-				// 	if (i < NumBlocks) {
-				// 		if (document.getElementById("block" + i) == null) {
-
-				// 			$("container").append("<div id =\"block"+i+"\" style=\"left:"+data.lefts[i]+"px; top:"+data.tops[i]+"px\" color: " + data.colors[i] + "; oncontextmenu=\"flipBlock(\'block"+i+"\');\">"+data.letters[i]+"</div>");
-
-				// 		} else {
-				// 			var current_div = document.getElementById("block" + i);
-				// 			current_div.style.left = data.lefts[i] + "px";
-				// 			current_div.style.top = data.tops[i] + "px";
-				// 			current_div.style.color = data.colors[i];
-				// 			current_div.innerHTML = data.letters[i];
-				// 		}
-				// 	} else {
-				// 		var div_to_remove = document.getElementById("block" + i);
-				// 		container.removeChild(div_to_remove);
-				// 	}
-				// }
 			}
 		});
 
