@@ -94,9 +94,8 @@ function swapLetter(box) {
     flipLetterArray[box.substring(5)] = currentLetter;
 }
 
-function incrementGesture() {
+function setGesture() {
     var property = document.getElementById('gestureCount');
-    gestureCount++;
     property.innerText = gestureCount;
     var gestureElement = document.getElementById("gestureToggle");
     // gestureElement.style.left = event.clientX+'px';
@@ -104,7 +103,7 @@ function incrementGesture() {
     // gestureElement.style.visibility = "visible";
 }
 
-function incrementMovement() {
+function setMovement() {
     var property = document.getElementById('MovementCount');
     property.innerText = actualMove;
     document.getElementById("gestureToggle").style.visibility = "hidden";

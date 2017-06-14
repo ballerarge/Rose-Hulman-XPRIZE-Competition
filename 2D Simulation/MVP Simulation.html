@@ -111,13 +111,17 @@
 		setSearchFieldTwo();
 		document.getElementById("myPopup").innerHTML = introductions[taskID];
 
+		var socket = io.connect("http://localhost:8080");
+
 		var color = ['red', 'blue','green','orange','yellow'];
 
 		function initBlocks() {
 			var container = document.createElement("div");
 			container.id = "container";
 			container.ondblclick = function() {
-				incrementGesture();
+				gestureCount++;
+				setGesture();
+				send_gesture_to_server();
 			};
 			container.style.fontSize = "40px";
 			document.body.appendChild(container);
@@ -148,9 +152,19 @@
 				}
 				previous_left.push(tLeft);previous_top.push(tTop);
 
-				$("#container").append("<div class = \"block\" id =\"block"+i+"\" style=\"left:"+tLeft+"px; top:"+tTop+"px; background: " + color[color_x] + "\" oncontextmenu=\"flipBlock(\'block" + i + "\')\">"+letters[l]+"</div>");
+				$("#container").append("<div class = \"block\" id =\"block"+i+"\" style=\"left:"+tLeft+"px; top:"+tTop+"px; background: " + color[color_x] + "\" oncontextmenu=\"flipBlock(\'block" + i + "\'); send_flip_to_server(\'block" + i + "\')\">"+letters[l]+"</div>");
 			}
 		}
+
+		function send_gesture_to_server() {
+			socket.emit('receive_gesture_data', gestureCount);
+		}
+
+		socket.on('update_gesture_data', function(data) {
+			gestureCount = data;
+			setGesture();
+		});
+
 	</script>
 
 	<script type="text/javascript" >
@@ -160,7 +174,10 @@
 
 		socket.emit('username', username);
 
+		var z = 1;
+
 		socket.on('update_position', function (data) {
+			
 			var left = data.left;
 			var top = data.top;
 			var block = data.block_id;
@@ -168,6 +185,11 @@
 				left: left + "px",
 				top: top + "px"
 			});
+			$("#" + block).css('z-index', ++z);
+		});
+
+		socket.on('update_flip_block', function (block_id) {
+			flipBlock(block_id);
 		});
 
 		var left_array = [];
@@ -219,10 +241,14 @@
 				}
 
 				for (var i = 0; i < NumBlocks; i++) {
-					$("<div class = \"block\" id =\"block"+i+"\" style=\"left:"+data.lefts[i]+"px; top:"+data.tops[i]+"px; background: " + data.colors[i] + "\" oncontextmenu=\"flipBlock(\'block" + i + "\')\">"+data.letters[i]+"</div>").appendTo(container);
+					$("<div class = \"block\" id =\"block"+i+"\" style=\"left:"+data.lefts[i]+"px; top:"+data.tops[i]+"px; background: " + data.colors[i] + "\" oncontextmenu=\"flipBlock(\'block" + i + "\'); \"send_flip_to_server(\'block" + i + "\')\">"+data.letters[i]+"</div>").appendTo(container);
 				}
 			}
 		});
+
+		function send_flip_to_server(block_id) {
+			socket.emit('receive_flip_block', block_id);
+		}
 
 		$(document).ready(function() {
     		$(".draggable").draggable();
@@ -252,7 +278,8 @@
 						interval.push(new Date().getTime() - movementstarttime);
 						type.push("Movement");
 						actualMove++;
-						incrementMovement();
+						setMovement();
+						send_movement_to_server();
 					}
 				}, drag: function(event, ui) {
 					var coord = $(this).position();
@@ -267,6 +294,15 @@
 				});
 			}
 		}
+
+		function send_movement_to_server() {
+			socket.emit('receive_movement_data', actualMove);
+		}
+
+		socket.on('update_movement_data', function(data) {
+			actualMove = data;
+			setMovement();
+		});
 	</script>
 
 	<script type="text/javascript">

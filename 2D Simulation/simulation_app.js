@@ -24,6 +24,18 @@ io.on('connection', function(socket) {
 		socket.broadcast.emit('update_position', data);
 	});
 
+	socket.on('receive_flip_block', function(data) {
+		socket.broadcast.emit('update_flip_block', data);
+	});
+
+	socket.on('receive_movement_data', function(data) {
+		socket.broadcast.emit('update_movement_data', data);
+	});
+
+	socket.on('receive_gesture_data', function(data) {
+		socket.broadcast.emit('update_gesture_data', data);
+	});
+
 	socket.on('setInitialPosition', function(data) {
 		if (player_exists == false) {
 			player_exists = true;
