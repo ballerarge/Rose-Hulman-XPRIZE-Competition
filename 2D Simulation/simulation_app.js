@@ -37,6 +37,7 @@ io.on('connection', function(socket) {
 	});
 
 	socket.on('receive_user_message', function(message) {
+		socket.emit('update_user_message', message);
 		socket.broadcast.emit('update_user_message', message);
 	});
 
