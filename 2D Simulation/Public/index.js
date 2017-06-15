@@ -97,12 +97,22 @@ function swapLetter(box) {
     flipLetterArray[box.substring(5)] = currentLetter;
 }
 
-function setGesture() {
+// function setGesture() {
+//     var event = e || window.event;
+//     var property = document.getElementById('gestureCount');
+//     property.innerText = gestureCount;
+//     var gestureElement = document.getElementById("gestureToggle");
+//     gestureElement.style.left = event.clientX+'px';
+//     gestureElement.style.top = event.clientY+'px';
+//     gestureElement.style.visibility = "visible";
+// }
+
+function setGestureWithPosition(left, top) {
     var property = document.getElementById('gestureCount');
     property.innerText = gestureCount;
-    var gestureElement = document.getElementById("gestureToggle");
-    gestureElement.style.left = event.clientX+'px';
-    gestureElement.style.top = event.clientY+'px';
+    var gestureElement = document.getElementById('gestureToggle');
+    gestureElement.style.left = left + 'px';
+    gestureElement.style.top = top + 'px';
     gestureElement.style.visibility = "visible";
 }
 

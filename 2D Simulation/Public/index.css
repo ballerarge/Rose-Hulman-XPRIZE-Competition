@@ -112,7 +112,7 @@ div.user_message {
 }
 
 button.buttonEnd {
-    background-image: url(startButton.png);
+    background-image: url(startbutton.png);
     position: fixed;
     top: 550px;
     left: 50px;
@@ -121,7 +121,7 @@ button.buttonEnd {
 }
 
 button.buttonStart {
-    background-image: url(startButton.png);
+    background-image: url(startbutton.png);
     position: fixed;
     top: 450px;
     left: 50px;

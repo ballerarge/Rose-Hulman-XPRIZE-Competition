@@ -118,9 +118,18 @@
 		function initBlocks() {
 			var container = document.createElement("div");
 			container.id = "container";
-			container.ondblclick = function() {
+
+			// container.addEventListener("dblClick", function(e) {
+			// 	gestureCount++;
+			// 	event = e || window.event;
+			// 	setGestureWithPosition(event.clientX, event.clientY);
+			// 	send_gesture_to_server();
+			// });
+
+			container.ondblclick = function(e) {
 				gestureCount++;
-				setGesture();
+				var event = e || window.event;
+				setGestureWithPosition(event.clientX, event.clientY);
 				send_gesture_to_server();
 			};
 			container.style.fontSize = "40px";
@@ -156,12 +165,16 @@
 		}
 
 		function send_gesture_to_server() {
-			socket.emit('receive_gesture_data', gestureCount);
+			socket.emit('receive_gesture_data', {
+				gestureCount: gestureCount,
+				left: $("#gestureToggle").position().left,
+				top: $("#gestureToggle").position().top
+			});
 		}
 
 		socket.on('update_gesture_data', function(data) {
-			gestureCount = data;
-			setGesture();
+			gestureCount = data.gestureCount;
+			setGestureWithPosition(data.left, data.top);
 		});
 
 	</script>
