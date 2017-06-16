@@ -24,19 +24,19 @@ io.on('connection', function(socket) {
 	if (recentRoom >= 0) {
 		room_to_join = "Room" + recentRoom;
 		socket.join(room_to_join);
-		numPlayersInRoom[recentRoom] = 2;
+		//numPlayersInRoom[recentRoom] = 2;
 		recentRoom = -1;
 	} else {
 		if (unoccupiedRooms.length != 0) {
 			room_to_join = "Room" + unoccupiedRooms[0];
 			socket.join(room_to_join);
-			numPlayersInRoom[unoccupiedRooms[0]] = 1;
+			//numPlayersInRoom[unoccupiedRooms[0]] = 1;
 			recentRoom = unoccupiedRooms[0];
 			unoccupiedRooms.splice(0, 1);
 		} else {
 			room_to_join = "Room" + nextRoom;
 			socket.join(room_to_join);
-			numPlayersInRoom[nextRoom] = 1;
+			//numPlayersInRoom[nextRoom] = 1;
 			recentRoom = nextRoom;
 			nextRoom++;
 		}
@@ -66,11 +66,11 @@ io.on('connection', function(socket) {
 
 	socket.on('receive_user_message', function(data) {
 		io.to(data.room).emit('update_user_message', data.message);
-		// socket.in(room).broadcast.emit('update_user_message', message);
 	});
 
 	socket.on('end_game_for_all_users', function(data) {
 		socket.to(data.room).emit('end_game_for_user', data.time);
+		unoccupiedRooms.push(data.room.substring(4));
 	});
 
 	socket.on('setInitialPosition', function(data) {

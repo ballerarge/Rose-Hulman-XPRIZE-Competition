@@ -1,11 +1,11 @@
 #container {
     width: 1200px;
     height: 600px;
-    position: fixed;
+    position: absolute;
     background-image: url(parchment.jpg);
-    top:100px;
+    top:50%;
     left:0;
-    bottom:0;
+    bottom:50%;
     right:0;
     margin: auto;
     border:#000 solid 8px;
