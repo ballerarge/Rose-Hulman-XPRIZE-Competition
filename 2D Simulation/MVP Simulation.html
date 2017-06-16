@@ -4,15 +4,22 @@
 	<title>2D Block World Simulation</title>
 
 	<meta charset="UTF-8">
-	
+
 	<link rel="stylesheet" type="text/css" href="index.css">
   	<link href="http://fonts.googleapis.com/css?family=Corben:bold" rel="stylesheet" type="text/css">
  	<link href="http://fonts.googleapis.com/css?family=Nobile" rel="stylesheet" type="text/css">
-	
+
   	<script type="text/javascript" src="index.js"></script>
   	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
 
+	<script type="text/javascript">
+		var pc1;
+		var pc2;
+		var peer;
+		var conn;
+	</script>
+	
 	<script type="text/javascript">
 		var z = 1;
 		$( init );
@@ -105,7 +112,7 @@
 		initFlipLetters();
 		initTaskID();
 	</script>
-  
+
   <style>
     body {
       background: url(img/background.jpg) repeat 0 0;
@@ -150,8 +157,9 @@
 		</div>
 
     <button class = "buttonStart" onclick="StartGame()" >Start</button>
-		
+
 	<button class = "buttonEnd" onclick="endGame()" >End</button>
+	<div class = "gestureToggle" id="gestureToggle"></div>
 
     <div class = "referenceLink" id = "referenceLink" style="font-family: Arial, Helvetica, sans-serif;">
 		<script type="text/javascript">
@@ -167,23 +175,174 @@
 		<div class = "showChosen" id = "showChosen" style="font-size:12px; font-family:verdana"></div>
 		</div>
 	</div>
-  
+
 </body>
 	<body>
 		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<meta name="description" content="">
-		<meta name="author" conten="">
+
+		<link rel="icon" sizes="192x192" href="../../../images/webrtc-icon-192x192.png">
+		<link href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet" type="text/css">
+		<link href="//fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet" type="text/css">
 
 		<div id = "AudioRecord" class = "AudioRecord">
 			<fieldset><legend>RECORD AUDIO</legend>
-				<input onclick="startRecording()" type="button" value="start recording"/>
-				<input onclick="stopRecording()" type="button" value="stop recording" />
+				<div>
+					<div class="label">Local audio:</div><audio id="audio1" autoplay controls muted></audio>
+				</div>
+				<div>
+					<div class="label">Remote audio:</div><audio id="audio2" autoplay controls></audio>
+				</div>
+				<select id="codec">
+					<option value="opus">Opus</option>
+					<option value="ISAC">iSAC 16K</option>
+					<option value="G722">G722</option>
+					<option value="PCMU">PCMU</option>
+				</select>
+				<button id="callButton" onclick="recordingAndCall()">start recording</button>
+				<button id="hangupButton" onclick="stopAndHangup()">stop recording</button>
 			</fieldset>
 		</div>
 
-		<script src="Recorderjs/recorder.js"></script>   
-    	<script src="jsHtml5AudioRecorder.js"></script>               
+		<script type="text/javascript">
+			function recordingAndCall() {
+				startRecording();
+			}
+			function stopAndHangup() {
+				stopRecording();
+			}
+		</script>
+
+		<script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+
+		<script src="Recorderjs/recorder.js"></script>
+    	<script src="jsHtml5AudioRecorder.js"></script>
     	<script src="js/init.js"></script>
     </body>
+
+<!-- 	<body>
+		<link rel="stylesheet" href="style.css">
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+		<script> jq18 = jQuery.noConflict(true);</script>
+		<script type="text/javascript" src="/dist/peer.js"></script>
+		<script type="text/javascript">
+	    	// Compatibility shim
+			// navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+
+		    // PeerJS object
+		    var peer = new Peer({ key: 'lwjd5qra8257b9', debug: 3});
+
+		    peer.on('open', function(){
+		    	$('#my-id').text(peer.id);
+		    });
+
+		    // Receiving a call
+		    peer.on('call', function(call){
+		    	// Answer the call automatically (instead of prompting user) for demo purposes
+		    	call.answer(window.localStream);
+		      step3(call);
+		    });
+		    peer.on('error', function(err){
+		    	alert(err.message);
+		    	// Return to step 2 if error occurs
+		    	step2();
+		    });
+
+		    // Click handlers setup
+			$(function() {
+				$('#make-call').click(function() {
+			        // Initiate a call!
+					var call = peer.call($('#callto-id').val(), window.localStream);
+					startRecording();
+					step3(call);
+				});
+
+				$('#end-call').click(function(){
+					window.existingCall.close();
+					stopRecording();
+					step2();
+				});
+
+				// Retry if getUserMedia fails
+				$('#step1-retry').click(function(){
+					$('#step1-error').hide();
+						step1();
+				});
+
+					// Get things started
+				step1();
+			});
+
+			function step1 () {
+				// Get audio/video stream
+				navigator.getUserMedia({audio: true, video: false}, function(stream){
+					// Set your video displays
+					// $('#my-video').prop('src', URL.createObjectURL(stream));
+					window.localStream = stream;
+					step2();
+				}, function(){ $('#step1-error').show(); });
+			}
+
+			function step2 () {
+				$('#step1, #step3').hide();
+				$('#step2').show();
+			}
+
+			function step3 (call) {
+				// Hang up on an existing call if present
+				if (window.existingCall) {
+					window.existingCall.close();
+				}
+				// Wait for stream on the call, then set peer video display
+				call.on('stream', function(stream){
+					jq18('#their-video').prop('src', URL.createObjectURL(stream));
+				});
+				// UI stuff
+				window.existingCall = call;
+				$('#their-id').text(call.peer);
+				call.on('close', step2);
+				$('#step1, #step2').hide();
+				$('#step3').show();
+			}
+
+		</script>
+
+		<div class="pure-g">
+
+			<div class="pure-u-2-3" id="video-container">
+				<video id="their-video" autoplay></video>
+				<video id="my-video" muted="true" autoplay></video>
+			</div>
+
+			<div class="pure-u-1-3">
+				<h2>PeerJS Video Chat</h2>
+
+				<div id="step1">
+					<p>Please click `allow` on the top of the screen so we can access your webcam and microphone for calls.</p>
+				
+					<div id="step1-error">
+						<p>Failed to access the webcam and microphone. Make sure to run this demo on an http server and click allow when asked for permission by the browser.</p>
+						<a href="#" class="pure-button pure-button-error" id="step1-retry">Try again</a>
+				    </div>
+	        	</div>
+
+				<div id="step2">
+					<p>Your id: <span id="my-id">...</span></p>
+					<p>Share this id with others so they can call you.</p>
+					<h3>Make a call</h3>
+					<div class="pure-form">
+						<input type="text" placeholder="Call user id..." id="callto-id">
+						<a href="#" class="pure-button pure-button-success" id="make-call">Call</a>
+					</div>
+				</div>
+
+				<div id="step3">
+					<p>Currently in call with <span id="their-id">...</span></p>
+					<p><a href="#" class="pure-button pure-button-error" id="end-call">End call</a></p>
+				</div>
+			</div>
+		</div>
+	</body>
+ -->
 </html>
+
+
