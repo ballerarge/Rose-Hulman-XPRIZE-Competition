@@ -101,6 +101,7 @@
 	<script src="/socket.io/socket.io.js"></script>
 
 	<script type="text/javascript">
+
 		initBlocks();
 		initInstructions();
 		initFlipColors();
@@ -111,20 +112,11 @@
 		setSearchFieldTwo();
 		document.getElementById("myPopup").innerHTML = introductions[taskID];
 
-		var socket = io.connect("http://localhost:8080");
-
 		var color = ['red', 'blue','green','orange','yellow'];
 
 		function initBlocks() {
 			var container = document.createElement("div");
 			container.id = "container";
-
-			// container.addEventListener("dblClick", function(e) {
-			// 	gestureCount++;
-			// 	event = e || window.event;
-			// 	setGestureWithPosition(event.clientX, event.clientY);
-			// 	send_gesture_to_server();
-			// });
 
 			container.ondblclick = function(e) {
 				gestureCount++;
@@ -164,19 +156,6 @@
 			}
 		}
 
-		function send_gesture_to_server() {
-			socket.emit('receive_gesture_data', {
-				gestureCount: gestureCount,
-				left: $("#gestureToggle").position().left,
-				top: $("#gestureToggle").position().top
-			});
-		}
-
-		socket.on('update_gesture_data', function(data) {
-			gestureCount = data.gestureCount;
-			setGestureWithPosition(data.left, data.top);
-		});
-
 	</script>
 
 	<script type="text/javascript" >
@@ -186,23 +165,11 @@
 
 		socket.emit('username', username);
 
-		var z = 1;
-
-		socket.on('update_position', function (data) {
-			
-			var left = data.left;
-			var top = data.top;
-			var block = data.block_id;
-			$("#" + block).css({
-				left: left + "px",
-				top: top + "px"
-			});
-			$("#" + block).css('z-index', ++z);
+		socket.on('here_is_your_room', function(room) {
+			room_id = room;
 		});
 
-		socket.on('update_flip_block', function (block_id) {
-			flipBlock(block_id);
-		});
+		// socket.emit('give_me_a_room', room_id);
 
 		var left_array = [];
 		var top_array = [];
@@ -230,7 +197,26 @@
 			flipLetterArray: flipLetterArray,
 			currentTask: taskID,
 			movement_count: actualMove,
-			gesture_count: gestureCount
+			gesture_count: gestureCount,
+			room: room_id
+		});
+
+		var z = 1;
+
+		socket.on('update_position', function (data) {
+			
+			var left = data.left;
+			var top = data.top;
+			var block = data.block_id;
+			$("#" + block).css({
+				left: left + "px",
+				top: top + "px"
+			});
+			$("#" + block).css('z-index', ++z);
+		});
+
+		socket.on('update_flip_block', function (data) {
+			flipBlock(data.block_id);
 		});
 
 		socket.on('setInitialPosition', function(data) {
@@ -263,7 +249,7 @@
 		});
 
 		function send_flip_to_server(block_id) {
-			socket.emit('receive_flip_block', block_id);
+			socket.emit('receive_flip_block', {block_id: block_id, room: room_id});
 		}
 
 		$(document).ready(function() {
@@ -303,7 +289,8 @@
 					socket.emit('receive_position', {
 						block_id: block_id,
 						left: coord.left,
-						top: coord.top
+						top: coord.top,
+						room: room_id
 					});
 				}
 
@@ -312,16 +299,16 @@
 		}
 
 		function send_movement_to_server() {
-			socket.emit('receive_movement_data', actualMove);
+			socket.emit('receive_movement_data', {actualMove: actualMove, room: room_id});
 		}
 
 		socket.on('update_movement_data', function(data) {
-			actualMove = data;
+			actualMove = data.actualMove;
 			setMovement();
 		});
 
 		function send_user_message_to_server() {
-			socket.emit('receive_user_message', document.getElementById("txt_instruction").value);
+			socket.emit('receive_user_message', {message: document.getElementById("txt_instruction").value, room: room_id});
 		}
 
 		socket.on('update_user_message', function(message) {
@@ -329,13 +316,27 @@
 		});
 
 		function endGameForAllUsers() {
-			socket.emit('end_game_for_all_users', time);
+			socket.emit('end_game_for_all_users', {time: time, room: room_id});
 		}
 
 		socket.on('end_game_for_user', function(time_data) {
 			alert('How long you take to finish the task? ' + time_data/1000 + 's');
 		    document.body.innerHTML = '';
 		    document.documentElement.innerHTML = 'Good job!';
+		});
+
+		function send_gesture_to_server() {
+			socket.emit('receive_gesture_data', {
+				gestureCount: gestureCount,
+				left: $("#gestureToggle").position().left,
+				top: $("#gestureToggle").position().top,
+				room: room_id
+			});
+		}
+
+		socket.on('update_gesture_data', function(data) {
+			gestureCount = data.gestureCount;
+			setGestureWithPosition(data.left, data.top);
 		});
 
 	</script>

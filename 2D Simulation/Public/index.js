@@ -30,6 +30,7 @@ var instructiondate;
 var instructionstarttime;
 var instructions = "";
 var time;
+var room_id = "hue";
 
 function initInstructions() {
     task.push("Sorting");
