@@ -95,7 +95,7 @@ io.on('connection', function(socket) {
 			recentRoom = -1;
 			if (!contains(unoccupiedRooms, socket.room.substring(4))) {
 				unoccupiedRooms.push(socket.room.substring(4));
-			}	
+			}
 		}
 
 		socket.to(socket.room).emit('user_left_game');
