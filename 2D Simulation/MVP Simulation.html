@@ -8,10 +8,11 @@
 	<meta http-equiv="pragma" content="no-cache" />
 
 	<link rel="stylesheet" type="text/css" href="index.css">
-
-  	<link href="http://fonts.googleapis.com/css?family=Corben:bold" rel="stylesheet" type="text/css">
-
+  <link href="http://fonts.googleapis.com/css?family=Corben:bold" rel="stylesheet" type="text/css">
  	<link href="http://fonts.googleapis.com/css?family=Nobile" rel="stylesheet" type="text/css">
+  <link rel="icon" sizes="192x192" href="../../../images/webrtc-icon-192x192.png">
+	<link href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet" type="text/css">
+	<link href="//fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet" type="text/css">
 
   <style>
     body {
@@ -25,12 +26,19 @@
 
 	<div class = "taskOverviewWrapper" id = "taskOverviewWrapper">
 		<div style="text-align:center">
-			<div class="popup" onclick="popUpGameIntro()" style="cursor: pointer; font-size:18px; font-family:verdana"><font color = "white">Introduction of the game</font>
-				<span class="popuptext" id="myPopup" style="font-size:12px; font-family:verdana"></span>
+			<div class="popup" onclick="popUpGameIntro()" style="cursor: pointer; font-size:18px; font-family:verdana"><font color = "white">Introduction of the game
+				<span class="popuptext" id="myPopup" style="font-size:12px; font-family:verdana">
+			  		<script type="text/javascript">
+			  		    var generalintro = "General Instructions:<br>&emsp;In this game, you will see a table of two-sided cards with different colors and letters on each side. You will be paired with a partner and given a task. Click the start button to start the game when you are ready to do the task. Once the task is complete, click the end button. Try to complete the task as efficiently as possible.<br>";
+    					  var cardintro = "Card instructions:<br>&emsp;Mouse right click: flips card<br>&emsp;Mouse left double click: This acts like pointing to a position on the table.<br>&emsp;Whenever you do this, the gestures box count increases by 1 and a small black block appears at the position of the gesture.<br>&emsp;Mouse left click and drag card to another position: moves card to another position.<br>&emsp;Whenever you do this, the movement box count increases by 1.<br>";
+
+			  			  document.getElementById("myPopup").innerHTML = generalintro + cardintro + introductions1[taskID];
+			  		</script>
+				</span>
+				<p class = "helper" style="font-size:12px; font-family:verdana">(click again to close it)</p>
 			</div>
-			<p class = "helper" style="font-size:12px; font-family:verdana">(click again to close it)</p>
 		</div>
-  	</div>
+  </div>
 
 	<div class = "gadgetWrapper">
 		<small><small><small>
@@ -45,45 +53,59 @@
 
 		    <button class = "buttonenter" onclick="send_user_message_to_server(); inputlength()">Enter</button>
 
-		    <div class = "wordsForUser1" id="wordsForUser1" style="font-family: Arial, Helvetica, sans-serif;" >
-		    	<label>
-		            Words For User 1:
-		            <input id="search_words_1_text" type="text" />
-		        </label>
-	    	</div>
-
-		    <div class = "wordsForUser2" id="wordsForUser2" style="font-family: Arial, Helvetica, sans-serif;" >
-		    	<label>
-		            Words For User 2:
-		            <input id="search_words_2_text" type="text" />
-		        </label>
-		    </div>
+		    <div class = "numofwords" id="numofwords"></div>
 
 		</div>
 
-		<div class = "gestureToggle" id="gestureToggle"></div>
-    	<button class = "buttonStart" id="buttonStart" onclick="StartGame()" >Start</button>
+    <div class = "gestureToggle" id="gestureToggle"></div>
+    <button class = "buttonStart" id="buttonStart" onclick="StartGame()" >Start</button>
 
-		<button class = "buttonEnd" id="buttonEnd" onclick="endGame(); endGameForAllUsers()" >End</button>
+    <button class = "buttonEnd" id="buttonEnd" onclick="endGame(); endGameForAllUsers()" >End</button>
 
-	    <div class = "user_message" id="user_message"></div>
-    	<p class = "gesture" style="font-size:20px; font-family:verdana">Gesture</p>
-    	<p class = "gestureCount" id = "gestureCount" style = "font-size: 40px; text-align: center">0</p>
-    	<p class = "movement" style="font-size:20px; font-family:verdana">Movement</p>
+    <div class = "referenceLink" id = "referenceLink" style="font-family: Arial, Helvetica, sans-serif;">
+
+    <div class = "user_message" id="user_message"></div>
+    <p class = "gesture" style="font-size:20px; font-family:verdana">Gesture</p>
+    <p class = "gestureCount" id = "gestureCount" style = "font-size: 40px; text-align: center">0</p>
+    <p class = "movement" style="font-size:20px; font-family:verdana">Movement</p>
 		<p class = "MovementCount" id = "MovementCount" style = "font-size: 40px; text-align: center">0</p>
+    <div class = "showChosen" id = "showChosen" style="font-size:12px; font-family:verdana"></div>
 	</div>
+    
+  <div id = "AudioRecord" class = "AudioRecord">
+			<fieldset><legend>RECORD AUDIO</legend>
+				<div>
+					<div class="label">Local audio:</div><audio id="audio1" autoplay controls muted></audio>
+				</div>
+				<div>
+					<div class="label">Remote audio:</div><audio id="audio2" autoplay controls></audio>
+				</div>
+				<button id="callButton" onclick="startRecording()">start recording</button>
+				<button id="hangupButton" onclick="stopRecording()">stop recording</button>
+			</fieldset>
+	</div>
+    
+  <div class = "liveAudio">
+      <a class = "buttonLike" href="Live Audio.html" onclick="window.open('Live Audio.html', 'newwindow', 'width=500, height=450'); return false;">Live Audio</a>
+  </div>
 
 
 	<script type="text/javascript" src="index.js"></script>
 
-  	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
 
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
 
 	<script src="/socket.io/socket.io.js"></script>
+    
+  <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+
+	<script src="Recorderjs/recorder.js"></script>
+  <script src="jsHtml5AudioRecorder.js"></script>
+  <script src="js/init.js"></script>
 
 	<script type="text/javascript">
-
+    setRefLink();
 		initBlocks();
 		initInstructions();
 		initFlipColors();
@@ -343,6 +365,7 @@
 
 		}
 	</script>
-
+    
 </body>
 </html>
+
