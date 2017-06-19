@@ -21,7 +21,7 @@
 
 </head>
 
-<body oncontextmenu="return false;">
+<body oncontextmenu="return false;" onunload="closeEvent()">
 
 	<div class = "taskOverviewWrapper" id = "taskOverviewWrapper">
 		<div style="text-align:center">
@@ -61,9 +61,6 @@
 
 		</div>
 
-		<div class = "show" id="show">
-			<p class = "movement" style="font-size:20px; font-family:verdana">Movement</p>
-		</div>
 		<div class = "gestureToggle" id="gestureToggle"></div>
     	<button class = "buttonStart" id="buttonStart" onclick="StartGame()" >Start</button>
 
@@ -71,25 +68,10 @@
 
 	    <div class = "user_message" id="user_message"></div>
     	<p class = "gesture" style="font-size:20px; font-family:verdana">Gesture</p>
+    	<p class = "gestureCount" id = "gestureCount" style = "font-size: 40px; text-align: center">0</p>
     	<p class = "movement" style="font-size:20px; font-family:verdana">Movement</p>
-		<p class = "gestureCount" id = "gestureCount" style = "font-size: 40px; text-align: center">0</p>
 		<p class = "MovementCount" id = "MovementCount" style = "font-size: 40px; text-align: center">0</p>
 	</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 	<script type="text/javascript" src="index.js"></script>
@@ -150,7 +132,8 @@
 						}
 					}
 				}
-				previous_left.push(tLeft);previous_top.push(tTop);
+				previous_left.push(tLeft);
+				previous_top.push(tTop);
 
 				$("#container").append("<div class = \"block\" id =\"block"+i+"\" style=\"left:"+tLeft+"px; top:"+tTop+"px; background: " + color[color_x] + "\" oncontextmenu=\"flipBlock(\'block" + i + "\'); send_flip_to_server(\'block" + i + "\')\">"+letters[l]+"</div>");
 			}
@@ -164,12 +147,6 @@
 		var username = prompt('Please enter your name.');
 
 		socket.emit('username', username);
-
-		socket.on('here_is_your_room', function(room) {
-			room_id = room;
-		});
-
-		// socket.emit('give_me_a_room', room_id);
 
 		var left_array = [];
 		var top_array = [];
@@ -197,8 +174,7 @@
 			flipLetterArray: flipLetterArray,
 			currentTask: taskID,
 			movement_count: actualMove,
-			gesture_count: gestureCount,
-			room: room_id
+			gesture_count: gestureCount
 		});
 
 		var z = 1;
@@ -215,8 +191,8 @@
 			$("#" + block).css('z-index', ++z);
 		});
 
-		socket.on('update_flip_block', function (data) {
-			flipBlock(data.block_id);
+		socket.on('update_flip_block', function (block_id) {
+			flipBlock(block_id);
 		});
 
 		socket.on('setInitialPosition', function(data) {
@@ -249,7 +225,7 @@
 		});
 
 		function send_flip_to_server(block_id) {
-			socket.emit('receive_flip_block', {block_id: block_id, room: room_id});
+			socket.emit('receive_flip_block', block_id);
 		}
 
 		$(document).ready(function() {
@@ -289,8 +265,7 @@
 					socket.emit('receive_position', {
 						block_id: block_id,
 						left: coord.left,
-						top: coord.top,
-						room: room_id
+						top: coord.top
 					});
 				}
 
@@ -299,16 +274,16 @@
 		}
 
 		function send_movement_to_server() {
-			socket.emit('receive_movement_data', {actualMove: actualMove, room: room_id});
+			socket.emit('receive_movement_data', actualMove);
 		}
 
 		socket.on('update_movement_data', function(data) {
-			actualMove = data.actualMove;
+			actualMove = data;
 			setMovement();
 		});
 
 		function send_user_message_to_server() {
-			socket.emit('receive_user_message', {message: document.getElementById("txt_instruction").value, room: room_id});
+			socket.emit('receive_user_message', document.getElementById("txt_instruction").value);
 		}
 
 		socket.on('update_user_message', function(message) {
@@ -316,7 +291,7 @@
 		});
 
 		function endGameForAllUsers() {
-			socket.emit('end_game_for_all_users', {time: time, room: room_id});
+			socket.emit('end_game_for_all_users', time);
 		}
 
 		socket.on('end_game_for_user', function(time_data) {
@@ -329,14 +304,22 @@
 			socket.emit('receive_gesture_data', {
 				gestureCount: gestureCount,
 				left: $("#gestureToggle").position().left,
-				top: $("#gestureToggle").position().top,
-				room: room_id
+				top: $("#gestureToggle").position().top
 			});
 		}
 
 		socket.on('update_gesture_data', function(data) {
 			gestureCount = data.gestureCount;
 			setGestureWithPosition(data.left, data.top);
+		});
+
+		function closeEvent() {
+			socket_emit('user_left_game');
+		}
+
+		socket.on('user_left_game', function() {
+			document.body.innerHTML = '';
+			document.documentElement.innerHTML = 'Your partner left the game. If you\'d like to play again, please close and reopen the tab with the link to the game.';
 		});
 
 	</script>

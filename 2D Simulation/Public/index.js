@@ -30,7 +30,12 @@ var instructiondate;
 var instructionstarttime;
 var instructions = "";
 var time;
-var room_id = "hue";
+var room_id = "";
+
+var leave_message = "Note: If you refresh or leave the page, you and your partner " + 
+					"will be disconnected, all your progress will be lost, and you " + 
+					"will have to enter another instance of the game. Do you wish to " + 
+					"continue?"
 
 function initInstructions() {
     task.push("Sorting");
