@@ -42,6 +42,7 @@ function initInstructions() {
     task.push("Matching");
     task.push("Searching");
     task.push("Rainbow");
+
     introductions1.push("Sorting:<br>&emsp;Your task is to sort the blocks in a particular way.<br>User1 Instructions:<br>&emsp;You will decide how you want to sort the block and instruct your partner to get help finishing the task, by speaking into your device’s microphone, or by typing in the text box. You can only speak/type after pressing the start button. Your partner will be able to hear what you say and see what you type. You can also use gestures to point to the intended card/position to communicate effectively. You can use these gestures while speaking or at any time while playing the game.<br>&emsp;The partner will assist you in the sorting task according to your instructions but only you can speak to him. The partner can’t speak back. Both of you will be able to see anything either of you do on the table.");
     introductions2.push("Sorting:<br>&emsp;Your task is to sort the blocks in a particular way.<br>User2 Instructions:<br>&emsp;Your partner will give you instructions to complete the task. Your partner might also point while speaking or at any time while playing the game so you must pay attention to them and try to cooperate.You have to follow your partner’shis instructions and try to assist your partnerhim in the best possible way. Both of you will will be able to see anything either of you do on the table.<br>");
     introductions1.push("Matching:<br>Your task is to match the blocks in a particular way. Once the game starts, both of you and your partner will simultaneously flip two separate blocks. If the blocks match, user1 should drag both the blocks to the left. If they don’t, the user2 will drag both the blocks to the right.Your goal is to flip all the blocks. If one block is left at the end, user1 will drag it to the left and click the end button.<br>User1 Instructions:<br>&emsp;You will decide by what criteria you want to match the cards and instruct your partner in order to get help finishing the task, by speaking into your device’s microphone, or by typing in the text box. You can only speak/type after pressing the start button. Your partner will be able to hear what you say and see what you type. You can also use gestures to point to the intended card/position to communicate effectively. You can use these gestures while speaking or at any time while playing the game.<br>&emsp;Your partner will be able to hear what you say and see what you type but they will not be able to talk or type to you. Both of you will see the outcomes of any changes either of you make to the table.<br>");
@@ -84,13 +85,14 @@ function swapLetter(box) {
     property.textContent = letterMap.get(box);
     letterMap.set(box, currentLetter);
 }
-function incrementGesture() {
+function incrementGesture(e) {
     var property = document.getElementById('gestureCount');
     gestureCount++;
     property.innerText = gestureCount;
     var gestureElement = document.getElementById("gestureToggle");
-    gestureElement.style.left = event.clientX+'px';
-    gestureElement.style.top = event.clientY+'px';
+
+    gestureElement.style.left = e.clientX+'px';
+    gestureElement.style.top = e.clientY+'px';
     gestureElement.style.visibility = "visible";
 }
 

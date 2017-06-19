@@ -6,11 +6,14 @@
 	<meta charset="UTF-8">
 
 	<link rel="stylesheet" type="text/css" href="index.css">
-  	<link href="http://fonts.googleapis.com/css?family=Corben:bold" rel="stylesheet" type="text/css">
+  <link href="http://fonts.googleapis.com/css?family=Corben:bold" rel="stylesheet" type="text/css">
  	<link href="http://fonts.googleapis.com/css?family=Nobile" rel="stylesheet" type="text/css">
+  <link rel="icon" sizes="192x192" href="../../../images/webrtc-icon-192x192.png">
+	<link href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet" type="text/css">
+	<link href="//fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet" type="text/css">
 
-  	<script type="text/javascript" src="index.js"></script>
-  	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
+  <script type="text/javascript" src="index.js"></script>
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
 
 	<script type="text/javascript">
@@ -65,7 +68,7 @@
 	</script>
 
 	<script type="text/javascript">
-		var st = "<div id =\"container\" ondblclick=\"incrementGesture()\" style=\"font-size: 40px\">";
+		var st = "<div id =\"container\" ondblclick=\"incrementGesture(event)\" style=\"font-size: 40px\">";
 		var position_x = [];var position_y = [];
 		for (var i = 0; i < NumBlocks; i++) {
 			var l = Math.floor(Math.random() * 7);
@@ -178,16 +181,12 @@
 		<div class = "showChosen" id = "showChosen" style="font-size:12px; font-family:verdana"></div>
 		</div>
 	</div>
-</body>
-	<!-- Audio recording and live audio -->
-	<body>
-		<meta charset="utf-8" />
-
-		<link rel="icon" sizes="192x192" href="../../../images/webrtc-icon-192x192.png">
-		<link href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet" type="text/css">
-		<link href="//fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet" type="text/css">
-
-		<div id = "AudioRecord" class = "AudioRecord">
+  
+  
+  <!-- Audio recording and live audio -->
+  
+  
+  <div id = "AudioRecord" class = "AudioRecord">
 			<fieldset><legend>RECORD AUDIO</legend>
 				<div>
 					<div class="label">Local audio:</div><audio id="audio1" autoplay controls muted></audio>
@@ -198,19 +197,19 @@
 				<button id="callButton" onclick="startRecording()">start recording</button>
 				<button id="hangupButton" onclick="stopRecording()">stop recording</button>
 			</fieldset>
-		</div>
+	</div>
 
-		<script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+	<script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
 
-		<script src="Recorderjs/recorder.js"></script>
-    	<script src="jsHtml5AudioRecorder.js"></script>
-    	<script src="js/init.js"></script>
-    </body>
+	<script src="Recorderjs/recorder.js"></script>
+  <script src="jsHtml5AudioRecorder.js"></script>
+  <script src="js/init.js"></script>
+    
+    
+  <div class = "liveAudio">
+      <a class = "buttonLike" href="Live Audio.html" onclick="window.open('Live Audio.html', 'newwindow', 'width=500, height=450'); return false;">Live Audio</a>
+  </div>
 
-    <body>
-    	<div class = "liveAudio">
-    		<a class = "buttonLike" href="Live Audio.html" onclick="window.open('Live Audio.html', 'newwindow', 'width=500, height=450'); return false;">Live Audio</a>
-    	</div>
-    </body>
+</body>
 </html>
 
