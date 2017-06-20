@@ -22,7 +22,7 @@
 
 </head>
 
-<body oncontextmenu="return false;" onunload="closeEvent()">
+<body oncontextmenu="return false;">
 
 	<div class = "taskOverviewWrapper" id = "taskOverviewWrapper">
 		<div style="text-align:center">
@@ -225,7 +225,14 @@
 			}
 
 			for (var i = 0; i < NumBlocks; i++) {
-				$("<div class = \"block\" id =\"block"+i+"\" style=\"left:"+data.lefts[i]+"px; top:"+data.tops[i]+"px; background: " + data.colors[i] + "\" oncontextmenu=\"flipBlock(\'block" + i + "\'); send_flip_to_server(\'block" + i + "\')\">"+data.letters[i]+"</div>").appendTo(container);
+				$("<div class = \"block ui-draggable\" id =\"block"+i+"\" style=\"left:"+data.lefts[i]+"px; top:"+data.tops[i]+"px; background: " + data.colors[i] + "\" oncontextmenu=\"flipBlock(\'block" + i + "\'); send_flip_to_server(\'block" + i + "\')\">"+data.letters[i]+"</div>").appendTo(container);
+			}
+
+			$( init );
+
+			for (var i = 0; i < NumBlocks; i++) {
+				$("#block" + i).draggable({
+				});
 			}
 
 			document.getElementById("instruction").style.visibility = "hidden";
@@ -324,10 +331,6 @@
 			setGestureWithPosition(data.left, data.top);
 		});
 
-		function closeEvent() {
-			socket_emit('user_left_game');
-		}
-
 		socket.on('user_left_game', function() {
 			document.body.innerHTML = '';
 			document.documentElement.innerHTML = 'Your partner left the game. If you\'d like to play again, please close and reopen the tab with the link to the game.';
@@ -335,13 +338,13 @@
 
 	</script>
 
-	<!-- <script type="text/javascript">
+	<script type="text/javascript">
 		for (var i = 0; i < NumBlocks; i++) {
 			$("#block" + i).draggable({
 			});
 		}
 	</script>
- -->
+
 	<script type="text/javascript">
 		for (var i = 0; i < NumBlocks; i++) {
 			var blockid = document.getElementById('block'+i);
