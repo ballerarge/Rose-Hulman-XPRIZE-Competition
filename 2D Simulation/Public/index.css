@@ -148,8 +148,8 @@ p.movement {
 
 div.referenceLink {
     position: absolute;
-    left: 55%;
-    top: 6.5%;
+    left: 60%;
+    top: 7%;
     z-index: 1;
     color: white;
     visibility:hidden;
@@ -157,8 +157,8 @@ div.referenceLink {
 
 div.showChosen {
     position: absolute;
-    left: 30%;
-    top: 6.5%;
+    left: 35%;
+    top: 7%;
     z-index: 1;
     color: white;
 }
