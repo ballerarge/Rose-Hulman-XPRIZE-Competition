@@ -6,6 +6,7 @@
     top:120px;
     left:180px;
     margin: auto;
+    z-index: 1;
     border:#000 solid 8px;
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -172,6 +173,7 @@ div.showChosen {
     height: 80px;
     display: inline-block;
     cursor: pointer;
+    z-index: 2;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
