@@ -98,14 +98,14 @@
   	<script src="js/init.js"></script>
 
 	<script type="text/javascript">
-		setIntroduction();
-    	setRefLink();
 		initBlocks();
 		initInstructions();
 		initFlipColors();
 		initFlipLetters();
 		initTaskID();
 		setTaskHeader();
+		setIntroduction();
+    	setRefLink();
 
 		var color = ['red', 'blue','green','orange','yellow'];
 
@@ -219,6 +219,7 @@
 			gestureCount = data.gesture_count;
 			setTaskHeader();
 			setIntroduction();
+			setRefLink();
 
 			while(container.firstChild) {
 				container.removeChild(container.firstChild);
