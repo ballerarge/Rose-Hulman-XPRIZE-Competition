@@ -125,11 +125,9 @@ function initTaskID() {
 function setRefLink() {
     if (taskID==3){
         document.getElementById("referenceLink").style.visibility = "visible";
-        //document.getElementById("referenceLink").innerHTML = "<iframe class=\"buttonLike\" src=\"selection_rainbow.html\">Select Your Rainbow Path!</iframe>"
         document.getElementById("referenceLink").innerHTML = "<a class = \"buttonLike\" href=\"selection_rainbow.html\" target=\"_blank\">Select Your Rainbow Path!</a>";
     } else if (taskID==2) {
         document.getElementById("referenceLink").style.visibility = "visible";
-        //document.getElementById("referenceLink").innerHTML = "<iframe class=\"buttonLike\" src=\"selection_searching.html\">Select Your Words Here!</iframe>"
         document.getElementById("referenceLink").innerHTML = "<a class = \"buttonLike\" href=\"selection_searching.html\" target=\"_blank\">Select Your Words Here!</a>";
     }
 }
