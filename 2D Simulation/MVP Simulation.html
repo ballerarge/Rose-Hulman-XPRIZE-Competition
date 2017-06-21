@@ -242,6 +242,9 @@
 			document.getElementById("referenceLink").style.visibility = "hidden";
 			document.getElementById("showChosen").style.visibility = "hidden";
 
+			document.getElementById("container").ondblclick = function(e) {
+				e.preventDefault();
+			};
 
 		});
 
@@ -376,7 +379,7 @@
 		        showChosenStuff();
 		    }
 		    startTime = new Date().getTime();
-		    startPeer(1);
+		    //startPeer(1);
 		    startRecording();
 		}
 
