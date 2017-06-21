@@ -104,7 +104,7 @@
 		initFlipLetters();
 		initTaskID();
 		setTaskHeader();
-		setIntroduction();
+		setIntroduction(1);
     	setRefLink();
 
 		var color = ['red', 'blue','green','orange','yellow'];
@@ -245,6 +245,8 @@
 			document.getElementById("container").ondblclick = function(e) {
 				e.preventDefault();
 			};
+
+			setIntroduction(2);
 
 		});
 
