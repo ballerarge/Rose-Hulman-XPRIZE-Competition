@@ -79,6 +79,15 @@ io.on('connection', function(socket) {
 		}
 	});
 
+	socket.on('reset_audio_id', function() {
+		voice_connection_data.set(socket.room, null);
+		socket.to(socket.room).emit('alert_human_disconnect');
+	});
+
+	socket.on('human_reconnected', function() {
+		socket.to(socket.room).emit('alert_human_reconnected', voice_connection_data.get(socket.room));
+	});
+
 	socket.on('disconnect', function() {
 
 		var room = io.sockets.adapter.rooms[socket.room];

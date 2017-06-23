@@ -76,6 +76,10 @@
 		</fieldset>
 	</div>
 
+	<div class = "liveAudio">
+      	<a class = "buttonLike" href="Live Audio.html" onclick="window.open('Live Audio.html', 'newwindow', 'width=500, height=450'); return false;">Live Audio</a>
+  	</div>
+
 	<script type="text/javascript">
       
         var recognizer = null;
@@ -136,11 +140,6 @@
         ga('create', 'UA-57883751-1', 'auto');
         ga('send', 'pageview');
     </script>
-    
-  	<div class = "liveAudio">
-      	<a class = "buttonLike" href="Live Audio.html" onclick="window.open('Live Audio.html', 'newwindow', 'width=500, height=450'); return false;">Live Audio</a>
-  	</div>
-
 
 	<script type="text/javascript" src="index.js"></script>
 
@@ -269,7 +268,8 @@
 
 		socket.on('setInitialPosition', function(data) {
 			var container = document.getElementById("container");
-			
+
+			human_voice = false;			
 			flipColorArray = data.flipColorArray.slice(0);
 			flipLetterArray = data.flipLetterArray.slice(0);
 			NumBlocks = data.numBlocks;
@@ -403,6 +403,9 @@
 			document.documentElement.innerHTML = 'Your partner left the game. If you\'d like to play again, please close and reopen the tab with the link to the game.';
 		});
 
+		// Opens the popup window for communication between clients.
+		window.open('Live Audio.html', 'newwindow', 'width=500, height=450');
+
 	</script>
 
 	<script type="text/javascript">
@@ -425,7 +428,7 @@
 		}
 	</script>
 
-		<script type="text/javascript">
+	<script type="text/javascript">
 		function StartGame() {
 		    if (taskID == 3) {
 		        RainbowPath = localStorage.getItem("Rainbow Path");
