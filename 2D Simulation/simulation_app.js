@@ -1,7 +1,4 @@
-var express = require('express'),
-	app = express(),
-	server = require('http').createServer(app),
-	io = require('socket.io')(server),
+var	io = require('socket.io').listen(8080),
 	path = require('path');
 
 var starting_game_data = new Map();
@@ -14,12 +11,6 @@ var unoccupiedRooms = [];
 var numPlayersInRoom = [];
 var hmnUser = true
 var room_to_join;
-
-app.use(express.static(path.join(__dirname, 'Public')));
-
-app.get('/', function(req, res) {
-	res.sendFile(__dirname + '/MVP Simulation.html');
-});
 
 io.on('connection', function(socket) {
 
@@ -132,8 +123,6 @@ io.on('connection', function(socket) {
 		}
 	});
 });
-
-server.listen(8080);
 
 function contains(arr, obj) {
 	var i = arr.length;
