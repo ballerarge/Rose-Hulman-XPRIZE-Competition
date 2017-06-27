@@ -450,6 +450,7 @@
 			document.getElementById('tutorial3').innerHTML += "<img src = \"img/pointerRight.png\" width = 60px height = 80px style=\"position:absolute; top:"+blocks_x+"px; left: "+(blocks_y - 64)+"px\">";
 			document.getElementById('tutorial3').innerHTML += "<div style=\"font-size:18px; font-family:verdana;width:50px;height:50px;position:absolute; top:"+blocks_x+"px; left: "+(blocks_y - 120)+"px\">Here is the block.</div>";
 			document.getElementById('tutorial3').innerHTML += "<div onclick = \"BlockOp()\" style=\"font-size:18px; font-family:verdana;width:300px;height:50px;position:absolute; top:"+(blocks_x + 80)+"px; left: "+(blocks_y - 120)+"px\">>>Try block operation.</div>";
+			document.getElementById('tutorial3').innerHTML += "<div onclick = \"nextPageTo3()\" style=\"font-size:18px; font-family:verdana;width:300px;height:50px;position:absolute; top:"+(blocks_x + 110)+"px; left: "+(blocks_y - 120)+"px\">>>Skip block operation.</div>";
 		}
 		function BlockOp() {
 			document.getElementById('tutorial3').style.visibility = 'hidden';
@@ -474,7 +475,7 @@
 			document.getElementById('text1').textContent = "Good! Now Try Double Click it."
 			document.getElementById('text2').textContent = "You can make a gesture (point) by double click. It will be counted as one gesture.";
 			document.getElementById('tutorial4').innerHTML += "<div id = \"tog\" style=\"width: 20px;height: 20px; background-color: black;position: absolute;visibility: hidden;left: auto; top: auto; vertical-align: middle; z-index:1002;\"></div>";
-			document.getElementById('tutorial4').innerHTML += "<div style=\"position:absolute; top:"+ (blocks_x + 150) +"px; left:"+ (blocks_y + 100)  +"px; width: 150px; text-align:center;font-size:18px; font-family:verdana\" onclick = nextPageTo3()>>>Next</div>";
+			document.getElementById('tutorial4').innerHTML += "<div style=\"position:absolute; top:"+ (blocks_x + 150) +"px; left:"+ (blocks_y + 100)  +"px; width: 150px; text-align:center;font-size:18px; font-family:verdana\" onclick = notSkip()>>>Next</div>";
 		}
 		function ShowGestureMovement() {
 			document.getElementById('tutorial4').style.visibility = 'hidden';
@@ -490,9 +491,15 @@
 			console.log(x);
 			gestureElement.style.visibility = "visible";
 		}
-		function nextPageTo3() {
-			document.getElementById('tutorial4').style.visibility = 'hidden';
+		function notSkip() {
 			document.getElementById('tog').style.visibility = 'hidden';
+			nextPageTo3();
+		}
+		function nextPageTo3() {
+			document.getElementById('tutorial2').style.visibility = 'hidden';
+			document.getElementById('tutorial3').style.visibility = 'hidden';
+			document.getElementById('tutorial4').style.visibility = 'hidden';
+			
 			document.getElementById('tutorial5').style.visibility = "visible";
 			document.getElementById('tutorial5').innerHTML = "<div style = \"width: 50px; height: 50px; border: white solid 4px; position: absolute; top: 190px; left: 50px;\"></div>";
 			document.getElementById('tutorial5').innerHTML += "<div style = \"width: 50px; height: 50px; border: white solid 4px; position: absolute; top: 320px; left: 50px;\"></div>";
@@ -526,7 +533,12 @@
 		function nextPageTo6() {
 			document.getElementById('tutorial7').style.visibility = 'hidden';
 			document.getElementById('tutorial8').style.visibility = "visible";
-			document.getElementById('tutorial7').innerHTML = 
+			document.getElementById('tutorial8').innerHTML = "<div style=\"position:absolute; top: 25%; left: 25%; width: 50%; text-align:center;font-size:30px; font-family:verdana\">Now You finished the tutorial. Click next to prepare the game.</div>";
+			document.getElementById('tutorial8').innerHTML += "<div style=\"position:absolute; top: 40%; left: 40%; width: 50%; text-align:center;font-size:30px; font-family:verdana\" onclick = \"closeDisable()\">>>Next</div>";
+		}
+		function closeDisable() {
+			document.getElementById('tutorial8').style.visibility = 'hidden';
+			document.getElementById('disablingDiv').style.display='none';
 		}
 	</script>
 
