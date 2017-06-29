@@ -44,7 +44,7 @@
 		        <input id="txt_instruction" type="text" />
 		    </label>
 
-		    <button class = "buttonenter" onclick="send_user_message_to_server(); inputlength()">Enter</button>
+		    <button class = "buttonenter" id = "buttonEnter" onclick="send_user_message_to_server(); inputlength()">Enter</button>
 
 		    <div class = "numofwords" id="numofwords"></div>
 
@@ -248,6 +248,73 @@
 			gesture_count: gestureCount
 		});
 
+		socket.emit('am_I_second_to_join');
+
+		socket.on('freeze_everything', function() {
+			console.log("Freezing everything!");
+			var startButton = document.getElementById('buttonStart');
+			var endButton = document.getElementById('buttonEnd');
+			var enterButton = document.getElementById('buttonEnter');
+			var refButton = document.getElementById('referenceLink');
+
+			startButton.onclick = function(e) {
+				// Do nothing;
+			};
+
+			endButton.onclick = function(e) {
+				// Do nothing;
+			};
+
+			enterButton.onclick = function(e) {
+				// Do nothing;
+			};
+
+			document.getElementById('container').ondblclick = function(e) {
+				// Do nothing;
+			};
+
+			for (var i = 0; i < NumBlocks; i++) {
+				flip_on = false;
+
+				$("#block" + i).draggable("disable");
+			}
+		});
+
+		socket.on('unfreeze_everything', function() {
+           	console.log("Unfreezing everything!");
+            var startButton = document.getElementById('buttonStart');
+            var endButton = document.getElementById('buttonEnd');
+            var enterButton = document.getElementById('buttonEnter');
+            var refButton = document.getElementById('referenceLink');
+
+            startButton.onclick = function(e) {
+                StartGame();
+            };
+
+            endButton.onclick = function(e) {
+                endGame();
+                endGameForAllUsers();
+            };
+
+            enterButton.onclick = function(e) {
+                send_user_message_to_server();
+                inputlength();
+            };
+
+            document.getElementById('container').ondblclick = function(e) {
+                gestureCount++;
+                var event = e || window.event;
+                setGestureWithPosition(event.clientX, event.clientY);
+                send_gesture_to_server();
+            };
+
+            for (var i = 0; i < NumBlocks; i++) {
+                flip_on = true;
+				$("#block" + i).draggable("enable");
+            }
+        });
+
+
 		var z = 1;
 
 		socket.on('update_position', function (data) {
@@ -291,8 +358,7 @@
 			$( init );
 
 			for (var i = 0; i < NumBlocks; i++) {
-				$("#block" + i).draggable({
-				});
+				$("#block" + i).draggable("enable");
 			}
 
 			document.getElementById("instruction").style.visibility = "hidden";

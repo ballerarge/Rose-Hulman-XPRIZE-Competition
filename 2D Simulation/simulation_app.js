@@ -2,8 +2,8 @@ var	io = require('socket.io').listen(8080),
 	path = require('path');
 
 var starting_game_data = new Map();
-
 var voice_connection_data = new Map();
+var waiting_data = new Map();
 
 var recentRoom = -1;
 var nextRoom = 0;
@@ -36,6 +36,15 @@ io.on('connection', function(socket) {
 	socket.on('username', function(username) {
 		socket.username = username;
 		console.log(username + ' has connected to the server!');
+	});
+
+	socket.on('am_I_second_to_join', function() {
+		if (waiting_data.get(socket.room) == null) {
+			waiting_data.set(socket.room, true);
+			socket.emit('freeze_everything');
+		} else {
+			socket.to(socket.room).emit('unfreeze_everything');
+		}
 	});
 
 	socket.on('receive_position', function(data) {
@@ -104,6 +113,7 @@ io.on('connection', function(socket) {
 				}
 			}
 			voice_connection_data.set(socket.room, null);
+			waiting_data.set(socket.room, null);
 			socket.to(socket.room).emit('user_left_game');
 		}
 		
