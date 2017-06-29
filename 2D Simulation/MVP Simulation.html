@@ -14,9 +14,9 @@
 	<link href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet" type="text/css">
 	<link href="//fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet" type="text/css">
 	<link rel="icon" href="data:;base64,iVBORw0KGgo=">
-
   	<style>
     	body {
+
       		background: url(img/background.jpg) repeat 0 0;
     	}
   	</style>
@@ -51,8 +51,8 @@
 
 	<script type="text/javascript">
 		function closeWindow() {
-			alert("Sorry, you need to agree in order to play the game.");
-			window.close();
+			document.body.innerHTML = '';
+		    document.documentElement.innerHTML = "<h1>You need to accept the agreement to play the game.</h1>";
 		}
 	</script>
 
