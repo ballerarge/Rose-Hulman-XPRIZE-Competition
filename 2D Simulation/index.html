@@ -464,7 +464,9 @@
 		});
 
 		function endGameForAllUsers() {
-			socket.emit('end_game_for_all_users', time);
+			if (start_button_pressed) {
+				socket.emit('end_game_for_all_users', time);
+			}
 		}
 
 		socket.on('end_game_for_user', function(time_data) {
@@ -653,6 +655,7 @@
 		<script type="text/javascript">
 
 		function StartGame() {
+			start_button_pressed = true;
 		    if (taskID == 3) {
 		        RainbowPath = localStorage.getItem("Rainbow Path");
 		        console.log(RainbowPath);
@@ -672,37 +675,40 @@
 		}
 
 		function endGame() {
-		    endTime = new Date().getTime();
-		    stopRecording();
-		    time = endTime - startTime;
-		    for (var i = 0; i < NumBlocks; i++) {
-		        var blockid = document.getElementById('block'+i);
-		        if(blockid) {
-		            if(NumBlocks >= Object.keys(endPosMap).length){
-		                var pos = blockid.style;
-		                endPosMap['block'+i] = pos;
-		            }
-		        }
-		    }
-		    for (var i = 0; i < start.length;i++) {
-		        console.log(type[i]+" "+start[i]+" "+end[i]+" "+interval[i]);
-		    }
+			if (start_button_pressed) {
+				endTime = new Date().getTime();
+			    stopRecording();
+			    time = endTime - startTime;
+			    for (var i = 0; i < NumBlocks; i++) {
+			        var blockid = document.getElementById('block'+i);
+			        if(blockid) {
+			            if(NumBlocks >= Object.keys(endPosMap).length){
+			                var pos = blockid.style;
+			                endPosMap['block'+i] = pos;
+			            }
+			        }
+			    }
+			    for (var i = 0; i < start.length;i++) {
+			        console.log(type[i]+" "+start[i]+" "+end[i]+" "+interval[i]);
+			    }
 
-		    console.log(instructions);
-		    alert('How long you take to finish the task? ' + time/1000 + 's');
-		    stopRecog();
-		    window.location.href = "Public/Survey.html";
-		    // console.log(recordCounter);
-		    // if (recordCounter != 0) {
-		    //     const testFolder = '/media/Temp';
-		    //     const fs = require('fs');
+			    console.log(instructions);
+			    alert('How long you take to finish the task? ' + time/1000 + 's');
+			    stopRecog();
+			    window.location.href = "Public/Survey.html";
+			    // console.log(recordCounter);
+			    // if (recordCounter != 0) {
+			    //     const testFolder = '/media/Temp';
+			    //     const fs = require('fs');
 
-		    //     fs.readdir(testFolder, (err, files) => {
-		    //       files.forEach(file => {
-		    //         console.log(file);
-		    //       });
-		    //     })
-		    // }
+			    //     fs.readdir(testFolder, (err, files) => {
+			    //       files.forEach(file => {
+			    //         console.log(file);
+			    //       });
+			    //     })
+			    // }
+			}
+		    
 		}
 	</script>
     

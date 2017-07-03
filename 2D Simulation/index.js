@@ -36,6 +36,7 @@ var RainbowPath = "!";
 var searchingwords = "!";
 var human_voice = true;
 // var flip_on = true;
+var start_button_pressed = false;
 var blocks_x, blocks_y;
 
 var generalintro = "General Instructions:<br>&emsp;In this game, you will see a table of two-sided cards with different colors and letters on each side. You will be paired with a partner and given a task. Click the start button to start the game when you are ready to do the task. Once the task is complete, click the end button. Try to complete the task as efficiently as possible.<br>";
