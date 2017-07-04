@@ -175,18 +175,20 @@ function factorial(x) {
 }
 
 function inputlength() {
-    end.push(getDateTime());
-    start.push(instructiondate);
-    type.push("Instructions");
-    interval.push(new Date().getTime() - instructionstarttime);
-    var x = document.getElementById("txt_instruction").value;
-    if (x.length != 0) {
-        var numToAdd = (x.split(" ").length - 1) + 1;
-        NumWords += numToAdd;
-    }
-    instructions += x + "\n";
+    if (start_button_pressed) {
+        end.push(getDateTime());
+        start.push(instructiondate);
+        type.push("Instructions");
+        interval.push(new Date().getTime() - instructionstarttime);
+        var x = document.getElementById("txt_instruction").value;
+        if (x.length != 0) {
+            var numToAdd = (x.split(" ").length - 1) + 1;
+            NumWords += numToAdd;
+        }
+        instructions += x + "\n";
 
-    document.getElementById("txt_instruction").value = "";
+        document.getElementById("txt_instruction").value = ""; 
+    }   
 }
 
 function movement() {

@@ -456,7 +456,9 @@
 		});
 
 		function send_user_message_to_server() {
-			socket.emit('receive_user_message', document.getElementById("txt_instruction").value);
+			if (start_button_pressed) {
+				socket.emit('receive_user_message', document.getElementById("txt_instruction").value);
+			}
 		}
 
 		socket.on('update_user_message', function(message) {
