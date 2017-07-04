@@ -106,6 +106,12 @@
                 // Set your video displays
                 $('#my-video').prop('src', URL.createObjectURL(stream));
                 window.localStream = stream;
+
+                // This should theoretically disable the audio stream in the call.
+                if (human_voice) {
+                    window.localStream.getAudioTracks()[0].enabled = false;
+                }
+                
                 step2();
             }, function(){ $('#step1-error').show(); });
         }
