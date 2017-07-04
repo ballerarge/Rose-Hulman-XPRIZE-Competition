@@ -177,11 +177,11 @@
   	<script src="js/init.js"></script>
 
 	<script type="text/javascript">
+		initTaskID();
 		initBlocks();
 		initInstructions();
 		initFlipColors();
 		initFlipLetters();
-		initTaskID();
 		setTaskHeader();
 		setIntroduction(1);
     	setRefLink();
@@ -189,6 +189,15 @@
 		var color = ['red', 'blue','green','orange','yellow'];
 
 		function initBlocks() {
+			// Adds 1 to NumBlocks if the task is matching, ensuring an even
+			// number of blocks to be matched.
+			if (taskID == 1) {
+				if (NumBlocks % 2 != 0) {
+					NumBlocks++;
+				}
+			}
+
+
 			var container = document.createElement("div");
 			container.id = "container";
 
