@@ -4,6 +4,7 @@ var	io = require('socket.io').listen(8080),
 var starting_game_data = new Map();
 var voice_connection_data = new Map();
 var waiting_data = new Map();
+var game_times = new Map();
 
 var recentRoom = -1;
 var nextRoom = 0;
@@ -68,7 +69,7 @@ io.on('connection', function(socket) {
 	});
 
 	socket.on('end_game_for_all_users', function(time) {
-		socket.to(socket.room).emit('end_game_for_user', time);
+		game_times.set(socket.room, time);
 	});
 
 	socket.on('audio_connection', function(id) {
@@ -114,7 +115,7 @@ io.on('connection', function(socket) {
 			}
 			voice_connection_data.set(socket.room, null);
 			waiting_data.set(socket.room, null);
-			socket.to(socket.room).emit('user_left_game');
+			socket.to(socket.room).emit('end_game_for_user', game_times.get(socket.room));
 		}
 		
 	});
