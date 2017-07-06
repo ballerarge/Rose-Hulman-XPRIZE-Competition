@@ -18,7 +18,6 @@
 	
 	<script type="text/javascript">
 		var z = 1;
-		$( init );
 		function init() {
 			for (var i = 0; i < NumBlocks; i++) {
 				$('#block' + i).draggable({containment: '#container', start: function(event, ui) {
@@ -36,6 +35,7 @@
 						type.push("Movement");
 						actualMove++;
 						document.getElementById("MovementCount").innerText = actualMove;
+						document.getElementById('button5').disabled = false;
 					}
 				}});
 			}
@@ -71,6 +71,7 @@
 			gestureElement.style.left = x + 'px';
 			gestureElement.style.top = y + 'px';
 			gestureElement.style.visibility = "visible";
+			document.getElementById('button4').disabled = false;
 		}
 	</script>
 
@@ -81,23 +82,8 @@
 		var position_x = [];var position_y = [];
 		for (var i = 0; i < NumBlocks; i++) {
 			var l = Math.floor(Math.random() * 7);
-			var tLeft = Math.floor(Math.random()*22.8) * 50,
-				tTop  = Math.floor(Math.random()*10.8) * 50;
-			var x = -1;
-			for (var j = 0; j < position_x.length; j ++) {
-				if (position_x[j] == tLeft && position_y[j] == tTop)
-					x = j;
-			}
-			while (x != -1) {
-				if (Math.abs(position_y[x] - tTop) >= 50) break;
-				tLeft = Math.floor(Math.random()*22.8) * 50;
-				tTop  = Math.floor(Math.random()*10.8) * 50;
-				var x = -1;
-				for (var j = 0; j < position_x.length; j ++) {
-					if (position_x[j] == tLeft && position_y[j] == tTop)
-						x = j;
-				}
-			}
+			var tLeft = Math.floor(Math.random()*10) * 50 + 300,
+				tTop  = Math.floor(Math.random()*4) * 50 + 150;
 			previous_left.push(tLeft);previous_top.push(tTop);
 			st+="<div id =\"block"+i+"\" style=\"left:"+tLeft+"px; top:"+tTop+"px\" oncontextmenu=\"flipBlock(\'block"+i+"\');\">"+letters[l]+"</div>";
 			blocks_x = tTop; blocks_y = tLeft;
@@ -190,7 +176,6 @@
 		</div>
 	</div>
     
-    
 	<div class = "liveAudio">
 		<a class = "buttonLike" href="Live Audio.html" onclick="window.open('Live Audio.html', 'newwindow', 'width=500, height=450'); return false;">Live Audio</a>
 	</div>
@@ -207,7 +192,7 @@
 	</script>
 
 	<div id = "tutorial1">
-		<p id = "head1" style="text-align:center; font-size:30px; font-family:verdana">Hello! Welcome to block world tutorial!</p>
+		<p id = "head1" style="text-align:center; font-size:30px; font-family:verdana">Hello! Welcome to card world tutorial!</p>
 		<div id = "generalins" style="position:absolute; left: 25%; width: 50%; text-align:center;font-size:18px; font-family:verdana">General Instructions:<br>&emsp;IIn this game, you will see a table of two-sided cards with different colors and letters on each side. You will be paired with a partner and given a task. You will be able to communicate with your partner but they will not be able to communicate with you. The two of you will need to work together to complete the task. Once you are satisfied that the task has been completed, click the End button. <em>Try to complete the task as efficiently as possible.<br></div>
 		<button id = "next1" style="position:absolute; top: 40%; left: 45%; width: 50%; text-align:center;font-size:18px; font-family:verdana; width: 10%;" onclick = "nextPageTo2()">>>Next</button>
 	</div>
@@ -235,7 +220,7 @@
 			document.getElementById('tutorial1').innerHTML = "<div id = \"highlight1\" style = \"width: 50px; height:50px; border:white solid 4px; position:absolute; top:"+blocks_x+"px;left:"+blocks_y+"px;\"></div>";
 			document.getElementById('tutorial1').innerHTML += "<img id = \"img2\" src = \"img/pointerRight.png\" width = 60px height = 80px style=\"position:absolute; top:"+blocks_x+"px; left: "+(blocks_y - 64)+"px\">";
 			document.getElementById('tutorial1').innerHTML += "<div id = \"inst1\" style=\"font-size:18px; font-family:verdana;width:50px;height:50px;position:absolute; top:"+blocks_x+"px; left: "+(blocks_y - 120)+"px\">Here is one card.</div>";
-			document.getElementById('tutorial1').innerHTML += "<button id = \"next2\" onclick = \"BlockOp()\" style=\"font-size:18px; font-family:verdana;width:300px;height:30px;position:absolute; top:"+(blocks_x + 100)+"px; left: "+(blocks_y - 120)+"px\">>>Try block operation.</button>";
+			document.getElementById('tutorial1').innerHTML += "<button id = \"next2\" onclick = \"BlockOp()\" style=\"font-size:18px; font-family:verdana;width:300px;height:30px;position:absolute; top:"+(blocks_x + 100)+"px; left: "+(blocks_y - 120)+"px\">>>Try card operation.</button>";
 		}
 
 		function BlockOp() {
@@ -249,8 +234,9 @@
 			$("#block1").css("z-index", "2000");
 			console.log($("#block1").css("z-index"));
 			document.getElementById('tutorial').innerHTML += "<img src = \"img/pointerRight.png\" width = 60px height = 80px style=\"position:absolute; top:"+(blocks_x - 120)+"px; left: "+(blocks_y - 64)+"px\">";
-			document.getElementById('tutorial').innerHTML += "<div id = \"text2\" style=\"font-size:18px; font-family:verdana; color: black; width:200px;height:50px;position:absolute; top:"+(blocks_x-120)+"px; left: "+(blocks_y - 250)+"px\">Each card has two sides. You can flip a card over by right-clicking it. Try it now.</div>";
+			document.getElementById('tutorial').innerHTML += "<div id = \"text2\" style=\"font-size:18px; font-family:verdana; width:200px;height:50px;position:absolute; top:"+(blocks_x-120)+"px; left: "+(blocks_y - 250)+"px\">Each card has two sides. You can flip a card over by right-clicking it. Try it now.</div>";
 			document.getElementById('tutorial').innerHTML += "<button id = \"button3\" onclick = \"Showgesture()\" style=\"font-size:18px; font-family:verdana;width:100px;height:30px;position:absolute; top:"+(blocks_x-40)+"px; left: "+(blocks_y - 40)+"px\">>>Next</button>";
+			document.getElementById("button3").disabled = true;
 		}
 
 		function Showgesture() {
@@ -258,21 +244,23 @@
 			document.getElementById('button3').style.visibility = "hidden";
 
 			document.getElementById('tutorial').innerHTML += "<img src = \"img/pointerRight.png\" width = 60px height = 80px style=\"position:absolute; top:"+(blocks_x - 120)+"px; left: "+(blocks_y - 64)+"px\">";
-			document.getElementById('tutorial').innerHTML += "<div id = \"text3\" style=\"font-size:18px; font-family:verdana; color: black; width:200px;height:50px;position:absolute; top:"+(blocks_x-120)+"px; left: "+(blocks_y - 250)+"px\">You can \"point\" to a location on the table by double-clicking there. Try it now by double-clicking somewhere on the table.</div>";
-			document.getElementById('tutorial').innerHTML += "<div id = \"text4\" style=\"font-size:18px; font-family:verdana; color: black; width:200px;height:50px;position:absolute; top:"+(blocks_x-120)+"px; left: "+(blocks_y + 80)+"px\">When you point to a location, a small icon remains on the screen at that location until you do something else. Your parter can also see this icon.</div>";
+			document.getElementById('tutorial').innerHTML += "<div id = \"text3\" style=\"font-size:18px; font-family:verdana; width:200px;height:50px;position:absolute; top:"+(blocks_x-120)+"px; left: "+(blocks_y - 250)+"px\">You can \"point\" to a location on the table by double-clicking there. Try it now by double-clicking somewhere on the table.</div>";
+			document.getElementById('tutorial').innerHTML += "<div id = \"text4\" style=\"font-size:18px; font-family:verdana; width:200px;height:50px;position:absolute; top:"+(blocks_x-120)+"px; left: "+(blocks_y + 80)+"px\">When you point to a location, a small icon remains on the screen at that location until you do something else. Your partner can also see this icon.</div>";
 			document.getElementById('tutorial').innerHTML += "<button id = \"button4\" onclick = \"nextPageTo3()\" style=\"font-size:18px; font-family:verdana;width:100px;height:30px;position:absolute; top:"+(blocks_x-40)+"px; left: "+(blocks_y - 40)+"px\">>>Next</button>";
+			document.getElementById('button4').disabled = true;
 		}
 
 		function nextPageTo3() {
+			document.getElementById('tog').style.visibility = "hidden";
 			document.getElementById("text3").innerText = "You can move the cards around by clicking and dragging. Try moving this card somewhere else.";
 			document.getElementById("text4").style.visibility = "hidden";
 			document.getElementById("button4").style.visibility = "hidden";
-
+			$( init );
 			document.getElementById('tutorial').innerHTML += "<button id = \"button5\" onclick = \"nextPageTo4()\" style=\"font-size:18px; font-family:verdana;width:100px;height:30px;position:absolute; top:"+(blocks_x-40)+"px; left: "+(blocks_y - 40)+"px\">>>Next</button>";
+			document.getElementById("button5").disabled = true;
 		}
 
 		function nextPageTo4() {
-			document.getElementById("button5").style.visibility = "hidden";
 			document.getElementById("text3").style.visibility = "hidden";
 			document.getElementById("disablingDivbottom").style.display = "block";
 			document.getElementById("tutorial").style.visibility = "hidden";

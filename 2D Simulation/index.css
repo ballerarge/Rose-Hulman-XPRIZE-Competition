@@ -344,3 +344,25 @@ div.liveAudio {
     width: 100%; 
     height: 100%; 
 }
+
+#disablingDivbottom {
+    /* Do not display it on entry */
+    display: none; 
+ 
+    /* Display it on the layer with index 1001.
+       Make sure this is the highest z-index value
+       used by layers on that page */
+    z-index:100;
+    
+    /* make it cover the whole screen */
+    position: absolute; 
+    top: 17%; 
+    left: 12%; 
+    width: 78.5%; 
+    height: 83%; 
+ 
+    /* make it white but fully transparent */
+    background-color: black; 
+    opacity:.70; 
+    filter: alpha(opacity=00); 
+}
