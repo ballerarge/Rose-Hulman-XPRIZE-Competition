@@ -147,7 +147,13 @@ io.on('connection', function(socket) {
 			}
 			voice_connection_data.set(socket.room, null);
 			waiting_data.set(socket.room, null);
-			socket.to(socket.room).emit('end_game_for_user', game_times.get(socket.room));
+			if (game_times.get(socket.room) != null) {
+				socket.to(socket.room).emit('end_game_for_user', game_times.get(socket.room));
+			} else {
+				socket.to(socket.room).emit('user_left_game');
+			}
+			
+			game_times.set(socket.room, null);
 		}
 		
 	});
