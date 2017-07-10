@@ -66,10 +66,18 @@ io.on('connection', function(socket) {
 	socket.on('am_I_second_to_join', function() {
 		if (waiting_data.get(socket.room) == null) {
 			waiting_data.set(socket.room, true);
-			socket.emit('freeze_everything');
+			socket.emit('freeze_start');
 		} else {
-			socket.to(socket.room).emit('unfreeze_everything');
+			socket.to(socket.room).emit('unfreeze_start');
 		}
+	});
+
+	socket.on('enable_blocks_for_player_2', function() {
+		socket.to(socket.room).emit('enable_blocks_for_player_2');
+	});
+
+	socket.on('disable_blocks_for_player_2', function() {
+		socket.to(socket.room).emit('disable_blocks_for_player_2');
 	});
 
 	socket.on('receive_position', function(data) {
