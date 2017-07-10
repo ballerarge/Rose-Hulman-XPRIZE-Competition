@@ -136,7 +136,7 @@ function setMovement() {
 function initTaskID() {
     taskID = Math.floor(Math.random()*4);
     if (taskID == 2) {
-        chosenWords = Math.floor(Math.random() * 2);
+        chosenWords = Math.floor(Math.random() * initialWords1.length);
         NumBlocks = Math.floor(Math.random() * random_multiplier) + initialWords1[chosenWords].length * 2;
         letters = [];
         for (var i = 0; i < initialWords1[chosenWords].length; i++) {
