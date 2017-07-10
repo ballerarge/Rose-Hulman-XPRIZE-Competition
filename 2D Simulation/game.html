@@ -45,7 +45,7 @@
 		});
 	</script>
  
-	<div id="dialog-confirm" title="Are you agree?">
+	<div id="dialog-confirm" title="Do you agree?">
 		<p><span class="ui-icon ui-icon-alert" style="float:left; margin:12px 12px 20px 0;"></span>Here is the agreement, please choose agree or not.</p>
 	</div>
 
@@ -101,11 +101,11 @@
 
 	<div class = "referenceLink" id = "referenceLink" style="font-family: Arial, Helvetica, sans-serif;"></div>
 
-	<div class = "liveAudio">
+	<!-- <div class = "liveAudio">
 -      	<a class = "buttonLike" href="Live Audio.html" onclick="window.open('Live Audio.html', 'newwindow', 'width=500, height=450'); return false;">Live Audio</a>
--  	</div>
+-  	</div> -->
     
-	<script type="text/javascript">
+	<!-- <script type="text/javascript">
       
         var recognizer = null;
 
@@ -164,7 +164,7 @@
 
         ga('create', 'UA-57883751-1', 'auto');
         ga('send', 'pageview');
-    </script>
+    </script> -->
 
 	<script type="text/javascript" src="index.js"></script>
 
@@ -174,10 +174,10 @@
 
 	<script src="/node_modules/socket.io-client/dist/socket.io.js"></script>
     
-  	<script src="//webrtc.github.io/adapter/adapter-latest.js"></script>
+  	<!-- <script src="//webrtc.github.io/adapter/adapter-latest.js"></script>
 
 	<script src="Recorderjs/recorder.js"></script>
-  	<script src="jsHtml5AudioRecorder.js"></script>
+  	<script src="jsHtml5AudioRecorder.js"></script> -->
   	<script src="js/init.js"></script>
 
 	<script type="text/javascript">
@@ -502,7 +502,7 @@
 		});
 
 		// Opens the popup window for communication between clients.
-		window.open('Live Audio.html', 'newwindow', 'width=500, height=450');
+		// window.open('Live Audio.html', 'newwindow', 'width=500, height=450');
 
 	</script>
 
@@ -678,14 +678,14 @@
 		    }
 		    startTime = new Date().getTime();
 		    //startPeer(1);
-		    startRecording();
-		    recognize();
+		    // startRecording();
+		    // recognize();
 		}
 
 		function endGame() {
 			if (start_button_pressed) {
 				endTime = new Date().getTime();
-			    stopRecording();
+			    // stopRecording();
 			    time = endTime - startTime;
 			    for (var i = 0; i < NumBlocks; i++) {
 			        var blockid = document.getElementById('block'+i);
@@ -702,7 +702,7 @@
 
 			    console.log(instructions);
 			    alert('Time you took to finish the task? ' + time/1000 + 's');
-			    stopRecog();
+			    // stopRecog();
 
 				socket.emit('end_game_for_all_users', time);
 
