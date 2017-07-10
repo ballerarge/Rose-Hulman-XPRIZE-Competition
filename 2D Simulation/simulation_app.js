@@ -1,5 +1,29 @@
-var	io = require('socket.io').listen(8080),
+var https = require('https');
+var fs = require('fs');
+
+var options = {
+	key: fs.readFileSync('/etc/ssl/private/ibm-mvpsim.key'),
+	cert: fs.readFileSync('/etc/ssl/ibm-mvpsimulator_rose-hulman_edu_cert.cer')
+};
+
+var app = https.createServer(options);
+
+var	io = require('socket.io').listen(app),
 	path = require('path');
+
+app.listen(8080, "0.0.0.0");
+
+
+var PeerServer = require('peer').PeerServer;
+var peerServer = PeerServer({
+	host: 'https://blockworld.rose-hulman.edu', 
+	port: 9000, 
+	path: '/var/www/html/',
+	ssl: {
+		key: fs.readFileSync('/etc/ssl/private/ibm-mvpsim.key'),
+		cert: fs.readFileSync('/etc/ssl/ibm-mvpsimulator_rose-hulman_edu_cert.cer')
+	}
+});
 
 var starting_game_data = new Map();
 var voice_connection_data = new Map();
