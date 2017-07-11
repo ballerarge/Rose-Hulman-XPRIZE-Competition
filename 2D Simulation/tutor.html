@@ -175,9 +175,9 @@
 		</div>
 	</div>
     
-	<div class = "liveAudio">
+<!-- 	<div class = "liveAudio">
 		<a class = "buttonLike" href="Live Audio.html" onclick="window.open('Live Audio.html', 'newwindow', 'width=500, height=450'); return false;">Live Audio</a>
-	</div>
+	</div> -->
 
 	<div id = "disablingDivtop"></div>
 	<div id = "disablingDivleft"></div>
@@ -192,7 +192,7 @@
 
 	<div id = "tutorial1">
 		<p id = "head1" style="text-align:center; font-size:30px; font-family:verdana">Hello! Welcome to card world tutorial!</p>
-		<div id = "generalins" style="position:absolute; left: 25%; width: 50%; text-align:center;font-size:18px; font-family:verdana">General Instructions:<br>&emsp;IIn this game, you will see a table of two-sided cards with different colors and letters on each side. You will be paired with a partner and given a task. You will be able to communicate with your partner but they will not be able to communicate with you. The two of you will need to work together to complete the task. Once you are satisfied that the task has been completed, click the End button. <em>Try to complete the task as efficiently as possible.<br></div>
+		<div id = "generalins" style="position:absolute; left: 25%; width: 50%; text-align:center;font-size:18px; font-family:verdana">General Instructions:<br>&emsp;In this game, you will see a table of two-sided cards with different colors and letters on each side. You will be paired with a partner and given a task. You will be able to communicate with your partner but they will not be able to communicate with you. The two of you will need to work together to complete the task. Once you are satisfied that the task has been completed, click the End button. <em>Try to complete the task as efficiently as possible.<br></div>
 		<button id = "next1" style="position:absolute; top: 40%; left: 45%; width: 50%; text-align:center;font-size:18px; font-family:verdana; width: 10%;" onclick = "nextPageTo2()">>>Next</button>
 	</div>
 
@@ -260,6 +260,7 @@
 		}
 
 		function nextPageTo4() {
+			document.getElementById('tog').style.visibility = "hidden";
 			document.getElementById("text3").style.visibility = "hidden";
 			document.getElementById("disablingDivbottom").style.display = "block";
 			document.getElementById("tutorial").style.visibility = "hidden";
@@ -274,6 +275,7 @@
 		}
 
 		function nextPageTo5() {
+			document.getElementById('tog').style.visibility = "hidden";
 			document.getElementById('tutorial1').innerHTML = "<div style = \"width: 68px; height: 40px; border: white solid 4px; position: absolute; top: 445px; left: 45px;\"></div>";
 			document.getElementById('tutorial1').innerHTML += "<div style = \"width: 68px; height: 40px; border: white solid 4px; position: absolute; top: 545px; left: 45px;\"></div>";
 			document.getElementById('tutorial1').innerHTML += "<img src = \"img/pointerLeft.png\" width = 60px height = 80px style=\"position:absolute; top: 410px; left: 110px\">";
@@ -284,15 +286,17 @@
 		}
 
 		function nextPageTo6() {
-			document.getElementById('tutorial1').innerHTML = "<div style = \"width: 80px; height: 30px; border: white solid 4px; position: absolute; top: 50px; left: 800px;\"></div>";
-			document.getElementById('tutorial1').innerHTML += "<div style = \"width: 400px; height: 24px; border: white solid 4px; position: absolute; top: 80px; left: 5px;\"></div>";
-			document.getElementById('tutorial1').innerHTML += "<img src = \"img/pointerTop.png\" width = 80px height = 60px style=\"position:absolute; top: 100px; left: 830px\">";
+			document.getElementById('tog').style.visibility = "hidden";
+			// document.getElementById('tutorial1').innerHTML = "<div style = \"width: 80px; height: 30px; border: white solid 4px; position: absolute; top: 50px; left: 800px;\"></div>";
+			document.getElementById('tutorial1').innerHTML = "<div style = \"width: 400px; height: 24px; border: white solid 4px; position: absolute; top: 80px; left: 5px;\"></div>";
+			// document.getElementById('tutorial1').innerHTML += "<img src = \"img/pointerTop.png\" width = 80px height = 60px style=\"position:absolute; top: 100px; left: 830px\">";
 			document.getElementById('tutorial1').innerHTML += "<img src = \"img/pointerLeft.png\" width = 60px height = 80px style=\"position:absolute; top: 35px; left: 430px\">";
 			document.getElementById('tutorial1').innerHTML += "<div style = \"position:absolute; top: 90px; left: 500px; width:300px; font-size:18px; font-family:verdana\">Here are the communication tools. You must keep the live audio page open for the duration of the game or your partner will not be able to hear you.</div>";
 			document.getElementById('tutorial1').innerHTML += "<button style=\"position:absolute; top: 200px; left: 720px; width: 100px; text-align:center;font-size:18px; font-family:verdana\" onclick = nextPageTo7()>>>Next</button>";
 		}
 
 		function nextPageTo7() {
+			document.getElementById('tog').style.visibility = "hidden";
 			document.getElementById('tutorial1').innerHTML = "<div style=\"position:absolute; top: 25%; left: 25%; width: 50%; text-align:center;font-size:30px; font-family:verdana\">You have finished the tutorial. Click next to enter the game.</div>";
 			document.getElementById('tutorial1').innerHTML += "<button style=\"position:absolute; top: 40%; left: 45%; width: 50%; text-align:center;font-size:18px; font-family:verdana; width: 10%;\" onclick = \"location.href = 'game.html';\">>>Next</button>";
 		}
