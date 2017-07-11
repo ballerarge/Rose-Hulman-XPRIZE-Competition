@@ -66,10 +66,18 @@ io.on('connection', function(socket) {
 	socket.on('am_I_second_to_join', function() {
 		if (waiting_data.get(socket.room) == null) {
 			waiting_data.set(socket.room, true);
-			socket.emit('freeze_everything');
+			socket.emit('freeze_start');
 		} else {
-			socket.to(socket.room).emit('unfreeze_everything');
+			socket.to(socket.room).emit('unfreeze_start');
 		}
+	});
+
+	socket.on('enable_blocks_for_player_2', function() {
+		socket.to(socket.room).emit('enable_blocks_for_player_2');
+	});
+
+	socket.on('disable_blocks_for_player_2', function() {
+		socket.to(socket.room).emit('disable_blocks_for_player_2');
 	});
 
 	socket.on('receive_position', function(data) {
@@ -139,7 +147,13 @@ io.on('connection', function(socket) {
 			}
 			voice_connection_data.set(socket.room, null);
 			waiting_data.set(socket.room, null);
-			socket.to(socket.room).emit('end_game_for_user', game_times.get(socket.room));
+			if (game_times.get(socket.room) != null) {
+				socket.to(socket.room).emit('end_game_for_user', game_times.get(socket.room));
+			} else {
+				socket.to(socket.room).emit('user_left_game');
+			}
+			
+			game_times.set(socket.room, null);
 		}
 		
 	});
@@ -156,6 +170,14 @@ io.on('connection', function(socket) {
 			socket.room = room_to_join;
 			hmnUser = true;
 		}
+	});
+
+	socket.on('send_data_to_server', function(data) {
+		// In order to access the data, use the following:
+		// data.time, data.task, data.bm, data.br, data.pn,
+		// data.pp, data.te, data.ie, data.p. All of them
+		// should be numbers except for the task, which will
+		// be a string of the task.
 	});
 });
 
