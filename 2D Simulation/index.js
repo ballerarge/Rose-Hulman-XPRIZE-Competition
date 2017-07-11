@@ -38,7 +38,7 @@ var human_voice = true;
 var flip_on = true;
 var start_button_pressed = false;
 var blocks_x, blocks_y;
-var initialWords1 = ['abcde', 'position'], initialWords2 = ['aqeri', 'previous'];
+var initialWords1 = ['ABCDE', 'POSITION'], initialWords2 = ['AQERI', 'PREVIOUS'];
 var chosenWords;
 var random_x = 22.8, random_y = 10.8;
 var init_x = 0; init_y = 0;
