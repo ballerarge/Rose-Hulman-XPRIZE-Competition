@@ -167,7 +167,7 @@ function setUpVisibility() {
         document.getElementById('user1').style.visibility = "hidden";
         document.getElementById('user2').style.visibility = "hidden";
     }
-    if (taskID == 2) {
+    if (taskID == 2 || taskID == 0) {
         document.getElementById('vertical-line').style.visibility = "hidden";
         document.getElementById('vertical-line2').style.visibility = "hidden";
         document.getElementById('user3').style.visibility = "hidden";
