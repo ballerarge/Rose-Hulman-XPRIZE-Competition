@@ -420,7 +420,7 @@
 		});
 		socket.on('end_game_for_user', function(time_data) {
 			alert('How long you take to finish the task? ' + time_data/1000 + 's');
-		    window.location.href = "Survey.html";
+		    window.location.href = "Robot_Survey.html";
 		});
 		function send_gesture_to_server() {
 			socket.emit('receive_gesture_data', {
