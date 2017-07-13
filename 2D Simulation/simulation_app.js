@@ -204,6 +204,7 @@ io.on('connection', function(socket) {
 		    console.log(JSON.stringify(result.rows, null, "    "));
 		    client.end();
 		});
+
 		// In order to access the data, use the following:
 		// data.time, data.task, data.bm, data.br, data.pn,
 		// data.pp, data.te, data.ie, data.p. All of them
@@ -223,6 +224,7 @@ survey_io.on('connection', function(socket) {
 		    console.log(JSON.stringify(result.rows, null, "    "));
 		    client.end();
 		});
+
 		// This will be for data that is received by the survey.
 		// It needs its own Node server so as to not conflict with
 		// players connecting to the other one.
