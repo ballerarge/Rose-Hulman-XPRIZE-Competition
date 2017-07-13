@@ -527,8 +527,6 @@
 			    alert('Time you took to finish the task? ' + time/1000 + 's');
 			    // stopRecog();
 
-				socket.emit('end_game_for_all_users', time);
-
 				calculateBackEndData();
                 
                 socket.emit('send_data_to_server', {                                      
