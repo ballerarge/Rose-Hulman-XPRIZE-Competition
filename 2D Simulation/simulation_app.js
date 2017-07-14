@@ -145,12 +145,12 @@ io.on('connection', function(socket) {
 	});
 
 	socket.on('setInitialPosition', function(data) {
-		console.log("Room to join: " + room_to_join);
+		console.log("Room to join: " + socket.room);
 		if (io.sockets.adapter.rooms[socket.room].length == 1) {
-			starting_game_data.set(room_to_join, data);
+			starting_game_data.set(socket.room, data);
 		} else {
 			console.log("Sharing data");
-			socket.emit('setInitialPosition', starting_game_data.get(room_to_join));
+			socket.emit('setInitialPosition', starting_game_data.get(socket.room));
 		}
 	});
 
