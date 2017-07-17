@@ -173,7 +173,7 @@
 			container.ondblclick = function(e) {
 				gestureCount++;
 				var event = e || window.event;
-				setGestureWithPosition(event.clientX, event.clientY);
+				setGestureWithPosition(event.clientX, event.clientY);		
 				send_gesture_to_server();
 			};
 			container.style.fontSize = "40px";
@@ -197,7 +197,7 @@
 				var x = -1;
 				for (var j = 0; j < position_x.length; j ++) {
 					if (position_x[j] == tLeft && position_y[j] == tTop) {
-						x = j;
+						x = j; break;
 					}
 				}
 				while (x != -1) {
@@ -211,8 +211,9 @@
 						}
 					}
 				}
-				previous_left.push(tLeft);
-				previous_top.push(tTop);
+				position_x.push(tLeft);
+				position_y.push(tTop);
+				console.log(tLeft+" "+ tTop);
 				blocks_y = tLeft;blocks_x = tTop;
 				if (i < letters.length) {
 					l = i;
@@ -236,7 +237,7 @@
 				} else {
 					colors = color[color_x];
 				}
-				$("#container").append("<div class = \"block\" id =\"block"+i+"\" style=\"left:"+tLeft+"px; top:"+tTop+"px; background: " + colors + "\" oncontextmenu=\"flipBlock(\'block" + i + "\'); send_flip_to_server(\'block" + i + "\')\">"+letters[l]+"</div>");
+				$("#container").append("<div class = \"block\" id =\"block"+i+"\" style=\"left:"+tLeft+"px; top:"+tTop+"px; background: " + colors + "\" oncontextmenu=\"flipBlock(\'block" + i + "\', event); send_flip_to_server(\'block" + i + "\')\">"+letters[l]+"</div>");
 			}
 		}
 	</script>
@@ -389,6 +390,8 @@
 						interval.push(new Date().getTime() - movementstarttime);
 						type.push("Movement");
 						actualMove++;
+						movement_startpos.push("(" + previous_left[i] + "," + previous_top[i] + ")");
+						movement_endpos.push("(" + Stoppos.left + "," + Stoppos.top + ")");
 						setMovement();
 						send_movement_to_server();
 					}
@@ -421,7 +424,7 @@
 		});
 		socket.on('end_game_for_user', function(time_data) {
 			alert('How long you take to finish the task? ' + time_data/1000 + 's');
-		    window.location.href = "Survey.html";
+		    window.location.href = "Robot_Survey.html";
 		});
 		function send_gesture_to_server() {
 			socket.emit('receive_gesture_data', {
@@ -505,6 +508,8 @@
 
             socket.emit("enable_blocks_for_player_2");
 
+            document.getElementById('buttonStart').disabled = true;
+
 			// document.getElementById('disablingDivbottom').style.display='none';
 		}
 		function endGame() {
@@ -521,20 +526,31 @@
 			            }
 			        }
 			    }
-			    for (var i = 0; i < start.length;i++) {
-			        console.log(type[i]+" "+start[i]+" "+end[i]+" "+interval[i]);
+			    var x= 0, y= 0, z = 0, counter = 0; var action = [];
+			    for (var i = 0; i < type.length;i++) {
+			        if (type[i] == "Movement") {
+			        	action.push(type[i]+" "+start[counter]+" "+end[counter]+" "+interval[counter] + " " + movement_startpos[x] + " " +movement_endpos[x]);
+			        	x++; counter++;
+			        } else if (type[i] == "Instructions") {
+			        	action.push(type[i]+" "+start[counter]+" "+end[counter]+" "+interval[counter] + " " + instructions[y]);
+			        	y++; counter++;
+			        } else {
+			        	action.push(type[i]+" "+time_GF[z] + " " + GF_position[z]);
+			        	z++;
+			        }
 			    }
-			    console.log(instructions);
 			    alert('Time you took to finish the task? ' + time/1000 + 's');
 			    // stopRecog();
 
-				socket.emit('end_game_for_all_users', time);
+			    for (var i = 0; i < action.length; i++) {
+			    	console.log(action[i]);
+			    }
 
 				calculateBackEndData();
                 
                 socket.emit('send_data_to_server', {                                      
                     time: time,
-                    task: task[taskID],
+                    task: task[taskID] + " " + specificIns,
                     W: NumWords,
                     G: gestureCount,
                     b: actualMove, 
@@ -544,10 +560,11 @@
                     pp: pp,
                     te: te,
                     ie: ie,
-                    p: p
+                    p: p,
+                    Action: action
                 });
 
-			    window.location.href = "Survey.html";
+			    // window.location.href = "Survey.html";
 			    // console.log(recordCounter);
 			    // if (recordCounter != 0) {
 			    //     const testFolder = '/media/Temp';
