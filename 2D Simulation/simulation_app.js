@@ -146,11 +146,10 @@ io.on('connection', function(socket) {
 		if (room == null || io.sockets.adapter.rooms[socket.room].length == 0) {
 			unoccupiedRooms.push(socket.room.substring(4));
 			recentRoom = -1;		
-		} else {
-			voice_connection_data.set(socket.room, null);
-			waiting_data.set(socket.room, null);
-			game_times.set(socket.room, null);
 		}
+		voice_connection_data.set(socket.room, null);
+		waiting_data.set(socket.room, null);
+		game_times.set(socket.room, null);
 		
 	});
 
