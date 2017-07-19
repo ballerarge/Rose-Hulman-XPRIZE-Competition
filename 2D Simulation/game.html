@@ -257,7 +257,9 @@
 		alert("If your partner does not connect within 30 to 60 seconds of you receiving this prompt, please refresh the page and try reconnecting to the server.");
 
 		socket.on('disconnect', function() {
-			window.location.href = "server_down.html"; 
+			if (!ending_survey) {
+				window.location.href = "server_down.html";	
+			} 
 		});
 
 		var left_array = [];
@@ -601,9 +603,8 @@
             	} catch (err) {
             		window.location.href = "server_down.html"; 
             	}
-                
-
-			  window.location.href = "finalPage.html";  
+                ending_survey = true;
+			  	window.location.href = "finalPage.html";  
             };
         });
 
@@ -925,10 +926,9 @@
 					} catch (err) {
 						window.location.href = "server_down.html"; 
 					}
-				    
-                window.location.href = "finalPage.html";  
-
-			}
+				    ending_survey = true;
+                	window.location.href = "finalPage.html";  
+				}
 				//window.location.href = "Survey.html";
 							    // console.log(recordCounter);
 							    // if (recordCounter != 0) {

@@ -145,7 +145,6 @@ io.on('connection', function(socket) {
 
 		if (room == null || io.sockets.adapter.rooms[socket.room].length == 0) {
 			unoccupiedRooms.push(socket.room.substring(4));
-			recentRoom = -1;
 			starting_game_data.set(socket.room, null);	
 		}
 		voice_connection_data.set(socket.room, null);
