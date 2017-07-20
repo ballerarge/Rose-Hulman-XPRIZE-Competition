@@ -64,8 +64,6 @@
 	    <button class = "buttonStart" id="buttonStart" onclick="StartGame()" >Start</button>
 
 	    <button class = "buttonEnd" id="buttonEnd" onclick="endGame();" >End</button>
-
-	    <div class = "user_message" id="user_message"></div>
 	    <p class = "gesture" style="font-size:20px; font-family:verdana">Gesture</p>
 	    <p class = "gestureCount" id = "gestureCount" style = "font-size: 40px; text-align: center">0</p>
 	    <p class = "movement" style="font-size:20px; font-family:verdana">Movement</p>
@@ -75,7 +73,7 @@
 
 	<div class = "referenceLink" id = "referenceLink" style="font-family: Arial, Helvetica, sans-serif;"></div>
 
-	<div id = "chatBox" style="height:400px; width:250px;border:5px solid #000;font:14px Arial, Helvetica, sans-serif; overflow:auto; bottom:25%; right: 5%; position: absolute; background: white"></div>
+	<div id = "chatBox" style="height:400px; width:250px;border:5px solid #000;font:14px Arial, Helvetica, sans-serif; overflow:auto; bottom:25%; right: 5%; position: absolute; background: white; color: black;"></div>
 
 	<!-- <script type="text/javascript">
 
@@ -257,7 +255,7 @@
 		try {
 			socket = io.connect("https://blockworld.rose-hulman.edu:8080");
 		} catch (err) {
-			//window.location.href = "server_down.html";
+			window.location.href = "server_down.html";
 		}
 
 		alert("If your partner does not connect within 30 to 60 seconds of you receiving this prompt, please refresh the page and try reconnecting to the server.");
@@ -296,13 +294,13 @@
 				ins : specificIns
 			});
 		} catch (err) {
-			//window.location.href = "server_down.html"; 
+			window.location.href = "server_down.html"; 
 		}
 
 		try {
 			socket.emit('am_I_second_to_join');
 		} catch (err) {
-			//window.location.href = "server_down.html"; 
+			window.location.href = "server_down.html"; 
 		}
 
 		socket.on('freeze_start', function() {
@@ -518,7 +516,7 @@
 			}
 		}
 		socket.on('update_user_message', function(message) {
-			document.getElementById("user_message").innerHTML = message;
+			document.getElementById("chatBox").innerHTML = document.getElementById("chatBox").value + "<br>" + message;
 		});
 		socket.on('end_game_for_user', function(time_data) {
 			var minutes = Math.floor(time_data / 60);
