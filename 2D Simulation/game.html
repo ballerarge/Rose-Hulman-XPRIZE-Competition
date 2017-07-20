@@ -244,6 +244,11 @@
 		            } else {
 		                players.push("Robot");
 		            }
+
+		            var flipped_block_color = document.getElementById('block' + i).style.backgroundColor;
+		            var flipped_block_letter = document.getElementById('block' + i).value;
+
+		            block_actions.push("Block id: " + i + " " + "Letter: " + flipped_block_letter + " " + "Color: " + flipped_block_color);
 				});
 			}
 		}
@@ -476,6 +481,11 @@
 				            } else {
 				                players.push("Robot");
 				            }
+				            var moved_block_color = document.getElementById('block' + i).style.backgroundColor;
+		            		var moved_block_letter = document.getElementById('block' + i).value;
+
+		            		block_actions.push("Block id: " + i + " " + "Letter: " + moved_block_letter + " " + "Color: " + moved_block_color);
+							
 							setMovement();
 							send_movement_to_server();
 					}
@@ -733,17 +743,23 @@
 			            }
 			        }
 			    }
-			    var x= 0, y= 0, z = 0, counter = 0, user = 0; var action = [];
+			    var x= 0, y= 0, z = 0, counter = 0, user = 0; block_count = 0; var action = [];
 			    for (var i = 0; i < type.length;i++) {
 			        if (type[i] == "Movement") {
-			        	action.push(players[user]+" "+type[i]+" "+start[counter]+" "+end[counter]+" "+interval[counter] + " " + movement_startpos[x] + " " +movement_endpos[x]);
-			        	x++; counter++; user++;
+			        	action.push(players[user]+" "+type[i]+" "+block_actions[block_count]+" "+start[counter]+" "+end[counter]+" "+interval[counter] + " " + movement_startpos[x] + " " +movement_endpos[x]);
+			        	x++; counter++; user++; block_count++;
 			        } else if (type[i] == "Instructions") {
 			        	action.push(ype[i]+" "+start[counter]+" "+end[counter]+" "+interval[counter] + " " + instructions[y]);
 			        	y++; counter++;
 			        } else {
-			        	action.push(players[user]+" "+type[i]+" "+time_GF[z] + " " + GF_position[z]);
+			        	if (type[i] == "Flip") {
+			        		action.push(players[user]+" "+type[i]+" "+block_actions[block_count]+" "+time_GF[z] + " " + GF_position[z]);
+							block_count++;
+			        	} else {
+			        		action.push(players[user]+" "+type[i]+" "+time_GF[z] + " " + GF_position[z]);
+			        	}
 			        	z++; user++;
+			        	
 			        }
 			    }
 			    alert('Time you took to finish the task? ' + minutes + "minutes, " + seconds + "seconds");

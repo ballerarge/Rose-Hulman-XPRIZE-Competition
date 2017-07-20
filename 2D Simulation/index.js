@@ -47,6 +47,7 @@ var movement_startpos = [], movement_endpos = [];
 var time_GF = [];
 var GF_position = [];
 var players = [];
+var block_actions = [];
 var ending_survey = false;
 var am_i_player1 = true;
 
