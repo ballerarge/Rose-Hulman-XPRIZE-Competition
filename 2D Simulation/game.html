@@ -75,6 +75,8 @@
 
 	<div class = "referenceLink" id = "referenceLink" style="font-family: Arial, Helvetica, sans-serif;"></div>
 
+	<div id = "chatBox" style="height:400px; width:250px;border:5px solid #000;font:14px Arial, Helvetica, sans-serif; overflow:auto; bottom:25%; right: 5%; position: absolute; background: white"></div>
+
 	<!-- <script type="text/javascript">
 
         var recognizer = null;
@@ -255,7 +257,7 @@
 		try {
 			socket = io.connect("https://blockworld.rose-hulman.edu:8080");
 		} catch (err) {
-			window.location.href = "server_down.html";
+			//window.location.href = "server_down.html";
 		}
 
 		alert("If your partner does not connect within 30 to 60 seconds of you receiving this prompt, please refresh the page and try reconnecting to the server.");
@@ -294,13 +296,13 @@
 				ins : specificIns
 			});
 		} catch (err) {
-			window.location.href = "server_down.html"; 
+			//window.location.href = "server_down.html"; 
 		}
 
 		try {
 			socket.emit('am_I_second_to_join');
 		} catch (err) {
-			window.location.href = "server_down.html"; 
+			//window.location.href = "server_down.html"; 
 		}
 
 		socket.on('freeze_start', function() {
@@ -402,8 +404,8 @@
 		    }
 		    if (taskID == 3) {
 		    	// document.getElementById('vertical-line3').style.visibility = "visible";
-		    	document.getElementById('user1').style.visibility = "visible";
-		    	document.getElementById('user2').style.visibility = "visible";
+		    	document.getElementById('user1').style.visibility = "hidden";
+		    	document.getElementById('user2').style.visibility = "hidden";
 
 		        document.getElementById('vertical-line').style.visibility = "hidden";
 		        document.getElementById('vertical-line2').style.visibility = "hidden";

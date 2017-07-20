@@ -229,20 +229,25 @@ function initTaskID() {
 
 function setUpVisibility() {
     if (taskID == 1) {
-        document.getElementById('vertical-line3').style.visibility = "hidden";
+        //document.getElementById('vertical-line3').style.visibility = "hidden";
         document.getElementById('user1').style.visibility = "hidden";
         document.getElementById('user2').style.visibility = "hidden";
+        document.getElementById('user3').style.visibility = "visible";
+        document.getElementById('user4').style.visibility = "visible";
+
     }
     if (taskID == 2 || taskID == 0) {
         document.getElementById('vertical-line').style.visibility = "hidden";
         document.getElementById('vertical-line2').style.visibility = "hidden";
         document.getElementById('user3').style.visibility = "hidden";
         document.getElementById('user4').style.visibility = "hidden";
-        document.getElementById('vertical-line3').style.visibility = "hidden";
+        //document.getElementById('vertical-line3').style.visibility = "hidden";
         document.getElementById('user1').style.visibility = "hidden";
         document.getElementById('user2').style.visibility = "hidden";
     }
     if (taskID == 3) {
+        document.getElementById('user1').style.visibility = "visible";
+        document.getElementById('user2').style.visibility = "visible";
         document.getElementById('vertical-line').style.visibility = "hidden";
         document.getElementById('vertical-line2').style.visibility = "hidden";
         document.getElementById('user3').style.visibility = "hidden";
