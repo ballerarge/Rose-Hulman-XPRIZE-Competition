@@ -35,7 +35,7 @@
 
   	<div id ="vertical-line" style="background-color: black; width: 5px; height: 610px; position: absolute; left: 550px; top: 120px; z-index: 200;"> </div>
 	<div id ="vertical-line2" style="background-color: black; width: 5px; height: 610px; position: absolute; left: 980px; top: 120px; z-index: 200;"> </div>
-	<div id ="vertical-line3" style="background-color: black; width: 5px; height: 610px; position: absolute; left: 760px; top: 120px; z-index: 200;"> </div>
+	<!-- <div id ="vertical-line3" style="background-color: black; width: 5px; height: 610px; position: absolute; left: 760px; top: 120px; z-index: 200;"> </div> -->
 
 	<p id ="user1" style="position: absolute; left: 400px; top: 120px; z-index: 2;font-size:18px; font-family:verdana"> Player1 (You) </p>
 	<p id ="user2" style="position: absolute; left: 1000px; top: 120px; z-index: 2;font-size:18px; font-family:verdana"> Player2 </p>
@@ -375,7 +375,7 @@
 			specificIns = data.ins;
 
 			if (taskID == 1) {
-		        document.getElementById('vertical-line3').style.visibility = "hidden";
+		        // document.getElementById('vertical-line3').style.visibility = "hidden";
 		        document.getElementById('user1').style.visibility = "hidden";
 		        document.getElementById('user2').style.visibility = "hidden";
 
@@ -390,12 +390,12 @@
 		        document.getElementById('user3').style.visibility = "hidden";
 		        document.getElementById('user4').style.visibility = "hidden";
 
-		        document.getElementById('vertical-line3').style.visibility = "hidden";
+		        // document.getElementById('vertical-line3').style.visibility = "hidden";
 		        document.getElementById('user1').style.visibility = "hidden";
 		        document.getElementById('user2').style.visibility = "hidden";
 		    }
 		    if (taskID == 3) {
-		    	document.getElementById('vertical-line3').style.visibility = "visible";
+		    	// document.getElementById('vertical-line3').style.visibility = "visible";
 		    	document.getElementById('user1').style.visibility = "visible";
 		    	document.getElementById('user2').style.visibility = "visible";
 
@@ -686,9 +686,11 @@
                 send_gesture_to_server();
             };
 
-            for (var i = 0; i < NumBlocks; i++) {
-                flip_on = true;
-				$("#block" + i).draggable("enable");
+            if (taskID != 3) {
+            	for (var i = 0; i < NumBlocks; i++) {
+	                flip_on = true;
+					$("#block" + i).draggable("enable");
+	            }
             }
 
             try {
