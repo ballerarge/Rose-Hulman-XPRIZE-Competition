@@ -503,7 +503,9 @@
 			document.getElementById("user_message").innerHTML = message;
 		});
 		socket.on('end_game_for_user', function(time_data) {
-			alert('How long you take to finish the task? ' + time_data/1000 + 's');
+			var minutes = Math.floor(time_data / 60);
+			var seconds = time - (minutes * 60);
+			alert('Time you took to finish the task? ' + minutes + "minutes, " + seconds + "seconds");
       		document.body.innerHTML = '';
 			document.documentElement.innerHTML = "";
 
@@ -699,6 +701,11 @@
 				endTime = new Date().getTime();
 			    // stopRecording();
 			    time = endTime - startTime;
+			    time = time / 1000; // Convert to seconds.
+
+			    var minutes = Math.floor(time / 60);
+			    var seconds = time - (minutes * 60);
+
 			    for (var i = 0; i < NumBlocks; i++) {
 			        var blockid = document.getElementById('block'+i);
 			        if(blockid) {
@@ -721,7 +728,7 @@
 			        	z++;
 			        }
 			    }
-			    alert('Time you took to finish the task? ' + time/1000 + 's');
+			    alert('Time you took to finish the task? ' + minutes + "minutes, " + seconds + "seconds");
 			    // stopRecog();
 
 			    for (var i = 0; i < action.length; i++) {
