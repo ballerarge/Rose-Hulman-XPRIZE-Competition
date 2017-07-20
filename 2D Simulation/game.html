@@ -239,6 +239,11 @@
 				$("#block" + i).bind("contextmenu", function(e) {
 					var event = e || window.event;
 					flipBlock('block' + i, event);
+					if (am_i_player1) {
+		                players.push("Human");
+		            } else {
+		                players.push("Robot");
+		            }
 				});
 			}
 		}
@@ -363,6 +368,7 @@
 			document.getElementById('user2').innerText = "Player2 (You)";
 			document.getElementById('user3').innerText = "Player1";
 			document.getElementById('user4').innerText = "Player2 (You)";
+			am_i_player1 = false;
 
 			var container = document.getElementById("container");
 			human_voice = false;
@@ -465,6 +471,11 @@
 							actualMove++;
 							movement_startpos.push("(" + previous_left[i] + "," + previous_top[i] + ")");
 							movement_endpos.push("(" + Stoppos.left + "," + Stoppos.top + ")");
+							if (am_i_player1) {
+				                players.push("Human");
+				            } else {
+				                players.push("Robot");
+				            }
 							setMovement();
 							send_movement_to_server();
 					}
@@ -722,17 +733,17 @@
 			            }
 			        }
 			    }
-			    var x= 0, y= 0, z = 0, counter = 0; var action = [];
+			    var x= 0, y= 0, z = 0, counter = 0, user = 0; var action = [];
 			    for (var i = 0; i < type.length;i++) {
 			        if (type[i] == "Movement") {
-			        	action.push(type[i]+" "+start[counter]+" "+end[counter]+" "+interval[counter] + " " + movement_startpos[x] + " " +movement_endpos[x]);
-			        	x++; counter++;
+			        	action.push(players[user]+" "+type[i]+" "+start[counter]+" "+end[counter]+" "+interval[counter] + " " + movement_startpos[x] + " " +movement_endpos[x]);
+			        	x++; counter++; user++;
 			        } else if (type[i] == "Instructions") {
-			        	action.push(type[i]+" "+start[counter]+" "+end[counter]+" "+interval[counter] + " " + instructions[y]);
+			        	action.push(ype[i]+" "+start[counter]+" "+end[counter]+" "+interval[counter] + " " + instructions[y]);
 			        	y++; counter++;
 			        } else {
-			        	action.push(type[i]+" "+time_GF[z] + " " + GF_position[z]);
-			        	z++;
+			        	action.push(players[user]+" "+type[i]+" "+time_GF[z] + " " + GF_position[z]);
+			        	z++; user++;
 			        }
 			    }
 			    alert('Time you took to finish the task? ' + minutes + "minutes, " + seconds + "seconds");
