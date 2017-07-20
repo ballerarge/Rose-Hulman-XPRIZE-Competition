@@ -37,11 +37,11 @@
 	<div id ="vertical-line2" style="background-color: black; width: 5px; height: 610px; position: absolute; left: 980px; top: 120px; z-index: 200;"> </div>
 	<div id ="vertical-line3" style="background-color: black; width: 5px; height: 610px; position: absolute; left: 760px; top: 120px; z-index: 200;"> </div>
 
-	<p id ="user1" style="position: absolute; left: 400px; top: 120px; z-index: 2;font-size:18px; font-family:verdana"> User1 </p>
-	<p id ="user2" style="position: absolute; left: 1000px; top: 120px; z-index: 2;font-size:18px; font-family:verdana"> User2 </p>
+	<p id ="user1" style="position: absolute; left: 400px; top: 120px; z-index: 2;font-size:18px; font-family:verdana"> Player1 (You) </p>
+	<p id ="user2" style="position: absolute; left: 1000px; top: 120px; z-index: 2;font-size:18px; font-family:verdana"> Player2 </p>
 
-	<p id ="user3" style="position: absolute; left: 360px; top: 120px; z-index: 2;font-size:18px; font-family:verdana"> User1 </p>
-	<p id ="user4" style="position: absolute; left: 1150px; top: 120px; z-index: 2;font-size:18px; font-family:verdana"> User2 </p>
+	<p id ="user3" style="position: absolute; left: 360px; top: 120px; z-index: 2;font-size:18px; font-family:verdana"> Player1 (You) </p>
+	<p id ="user4" style="position: absolute; left: 1150px; top: 120px; z-index: 2;font-size:18px; font-family:verdana"> Player2 </p>
 
 	<div class = "gadgetWrapper">
 		<small><small><small>
@@ -359,6 +359,11 @@
 			flipBlock(block_id, null);
 		});
 		socket.on('setInitialPosition', function(data) {
+			document.getElementById('user1').innerText = "Player1";
+			document.getElementById('user2').innerText = "Player2 (You)";
+			document.getElementById('user3').innerText = "Player1";
+			document.getElementById('user4').innerText = "Player2 (You)";
+
 			var container = document.getElementById("container");
 			human_voice = false;
 			flipColorArray = data.flipColorArray.slice(0);
