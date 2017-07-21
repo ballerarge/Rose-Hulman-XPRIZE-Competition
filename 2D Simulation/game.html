@@ -240,18 +240,21 @@
 				initialInfo.push(i + " " + "initial position: (" + tLeft + ", " + tTop + ") color: " + colors + " letters: " + letters[l]);
 
 				$("#block" + i).bind("contextmenu", function(e) {
-					var event = e || window.event;
-					flipBlock('block' + i, event);
-					if (am_i_player1) {
-		                players.push("Human");
-		            } else {
-		                players.push("Robot");
-		            }
+					if (!((taskID == 1 || taskID == 3) && am_i_player1)) {
+						var event = e || window.event;
+						flipBlock('block' + i, event);
+						if (am_i_player1) {
+			                players.push("Human");
+			            } else {
+			                players.push("Robot");
+			            }
 
-		            var flipped_block_color = document.getElementById('block' + i).style.backgroundColor;
-		            var flipped_block_letter = document.getElementById('block' + i).value;
+			            var flipped_block_color = document.getElementById('block' + i).style.backgroundColor;
+			            var flipped_block_letter = document.getElementById('block' + i).value;
 
-		            block_actions.push("Block id: " + i + " " + "Letter: " + flipped_block_letter + " " + "Color: " + flipped_block_color);
+			            block_actions.push("Block id: " + i + " " + "Letter: " + flipped_block_letter + " " + "Color: " + flipped_block_color);
+					}
+					
 				});
 			}
 		}
@@ -430,6 +433,25 @@
 			for (var i = 0; i < NumBlocks; i++) {
 				$("<div class = \"block ui-draggable\" id =\"block"+i+"\" style=\"left:"+data.lefts[i]+"px; top:"+data.tops[i]+"px; background: " + data.colors[i] + "\" oncontextmenu=\"flipBlock(\'block" + i + "\'); send_flip_to_server(\'block" + i + "\')\">"+data.letters[i]+"</div>").appendTo(container);
 			}
+
+			$("#block" + i).bind("contextmenu", function(e) {
+				if (!((taskID == 1 || taskID == 3) && am_i_player1)) {
+					var event = e || window.event;
+					flipBlock('block' + i, event);
+					if (am_i_player1) {
+		                players.push("Human");
+		            } else {
+		                players.push("Robot");
+		            }
+
+		            var flipped_block_color = document.getElementById('block' + i).style.backgroundColor;
+		            var flipped_block_letter = document.getElementById('block' + i).value;
+
+		            block_actions.push("Block id: " + i + " " + "Letter: " + flipped_block_letter + " " + "Color: " + flipped_block_color);
+				}
+				
+			});
+
 			$( init );
 			for (var i = 0; i < NumBlocks; i++) {
 				$("#block" + i).draggable("enable");
@@ -446,7 +468,9 @@
 		});
 		function send_flip_to_server(block_id) {
 			try {
-				socket.emit('receive_flip_block', block_id);
+				if (!((taskID == 1 || taskID == 3) && am_i_player1)) {
+					socket.emit('receive_flip_block', block_id);
+				}
 			} catch (err) {
 				window.location.href = "server_down.html"; 
 			}
@@ -486,8 +510,8 @@
 				            } else {
 				                players.push("Robot");
 				            }
-				            var moved_block_color = document.getElementById('block' + i).style.backgroundColor;
-		            		var moved_block_letter = document.getElementById('block' + i).value;
+				            var moved_block_color = this.style.backgroundColor;
+		            		var moved_block_letter = this.value;
 
 		            		block_actions.push("Block id: " + i + " " + "Letter: " + moved_block_letter + " " + "Color: " + moved_block_color);
 							
@@ -534,7 +558,7 @@
 			}
 		}
 		socket.on('update_user_message', function(message) {
-			document.getElementById("chatBox").innerHTML = document.getElementById("chatBox").value + "<br>" + message;
+			document.getElementById("chatBox").innerHTML = document.getElementById("chatBox").innerHTML + "<br>" + message;
 		});
 
 		socket.on('end_game_for_user', function(time_data) {
@@ -719,12 +743,13 @@
                 send_gesture_to_server();
             };
 
-            if (taskID != 3) {
-            	for (var i = 0; i < NumBlocks; i++) {
-	                flip_on = true;
-	                $("#block" + i).draggable("enable");					
-	            }
-            }
+            
+        	for (var i = 0; i < NumBlocks; i++) {
+                flip_on = true;
+                if (taskID != 3 && taskID != 1) {
+                	$("#block" + i).draggable("enable");					
+            	}
+        	}
 
             try {
             	socket.emit("enable_blocks_for_player_2");
@@ -762,6 +787,7 @@
 
 			    while (initialInfo[init] != null) {
 			    	action.push(initialInfo[init]);
+			    	init++;
 			    }
 
 			    var x= 0, y= 0, z = 0, counter = 0, user = 0; block_count = 0; var action = [];
