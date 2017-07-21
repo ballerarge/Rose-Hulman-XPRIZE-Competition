@@ -541,6 +541,8 @@
 		socket.on('update_user_message', function(message) {
 			document.getElementById("chatBox").innerHTML = document.getElementById("chatBox").value + "<br>" + message;
 		});
+
+		socket.on('end_game_for_user', function(time_data) {
 			var minutes = Math.floor(time_data / 60);
 			var seconds = time - (minutes * 60);
 			alert('Time you took to finish the task? ' + minutes + "minutes, " + seconds + "seconds");
@@ -762,6 +764,13 @@
 			            }
 			        }
 			    }
+
+			    var init = 0;
+
+			    while (initialInfo[init] != null) {
+			    	action.push(initialInfo[init]);
+			    }
+
 			    var x= 0, y= 0, z = 0, counter = 0, user = 0; block_count = 0; var action = [];
 			    for (var i = 0; i < type.length;i++) {
 			        if (type[i] == "Movement") {
@@ -810,7 +819,6 @@
 	                    ie: ie,
 	                    p: p,
 	                    Action: action,
-	                    initialInfo: initialInfo,
 	                    other: words
 	                });
                 } catch (err) {
