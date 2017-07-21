@@ -158,9 +158,6 @@
 		setTaskHeader();
 		setIntroduction(1);
     	setRefLink();
-    	for (var i = 0; i < flipLetterArray.length; i++) {
-    		console.log(flipLetterArray[i]);
-    	}
 		var color = ['red', 'blue','green','orange','yellow'];
 		function initBlocks() {
 			// Adds 1 to NumBlocks if the task is matching, ensuring an even
@@ -643,7 +640,7 @@
 			ending_survey = true;
 		  	window.location.href = "finalPage.html";  
             };
-        };
+        });
 
 		function send_gesture_to_server() {
 			try {
@@ -793,10 +790,6 @@
 			    alert('Time you took to finish the task? ' + minutes + "minutes, " + seconds + "seconds");
 			    // stopRecog();
 
-			    for (var i = 0; i < action.length; i++) {
-			    	console.log(action[i]);
-			    }
-
 				calculateBackEndData();
 
 				var words = "";
@@ -810,7 +803,7 @@
 	                    task: task[taskID] + " " + specificIns,
 	                    W: NumWords,
 	                    G: gestureCount,
-	                    b: actualMove, 
+	                    b: actualMove,
 	                    bm: bm,
 	                    br: br,
 	                    pn: pn,
@@ -1075,7 +1068,6 @@
 			q1 = document.getElementById("q1").value;
 			q2 = document.getElementById("q2").value;
 			q3 = document.getElementById("q3").value;
-			console.log(q1 +" " + q2 + " " +q3);
 
 			document.body.innerHTML += "<p id = \"require\" style = \"font-family:verdana; visibility: hidden;\">Please finish all the questions.</p>";
 
