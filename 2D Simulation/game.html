@@ -239,23 +239,24 @@
 
 				initialInfo.push(i + " " + "initial position: (" + tLeft + ", " + tTop + ") color: " + colors + " letters: " + letters[l]);
 
+				$("#block" + i).data("id", i);
+
 				$("#block" + i).bind("contextmenu", function(e) {
-					if (!((taskID == 1 || taskID == 3) && am_i_player1)) {
+					if (!((taskID == 3 || taskID == 0) && am_i_player1)) {
 						var event = e || window.event;
-						flipBlock('block' + i, event);
-						send_flip_to_server('block' + i);
+						flipBlock('block' + $(this).data("id"), event);
+						send_flip_to_server('block' + $(this).data("id"));
 						if (am_i_player1) {
 			                players.push("Human");
 			            } else {
 			                players.push("Robot");
 			            }
 
-			            var flipped_block_color = document.getElementById('block' + i).style.backgroundColor;
-			            var flipped_block_letter = document.getElementById('block' + i).value;
+			            var flipped_block_color = document.getElementById('block' + $(this).data("id")).style.backgroundColor;
+			            var flipped_block_letter = document.getElementById('block' + $(this).data("id")).value;
 
-			            block_actions.push("Block id: " + i + " " + "Letter: " + flipped_block_letter + " " + "Color: " + flipped_block_color);
+			            block_actions.push("Block id: " + $(this).data("id") + " " + "Letter: " + flipped_block_letter + " " + "Color: " + flipped_block_color);
 					}
-					
 				});
 			}
 		}
@@ -432,26 +433,30 @@
 				container.removeChild(container.firstChild);
 			}
 			for (var i = 0; i < NumBlocks; i++) {
-				$("<div class = \"block ui-draggable\" id =\"block"+i+"\" style=\"left:"+data.lefts[i]+"px; top:"+data.tops[i]+"px; background: " + data.colors[i] + "\" oncontextmenu=\"flipBlock(\'block" + i + "\'); send_flip_to_server(\'block" + i + "\')\">"+data.letters[i]+"</div>").appendTo(container);
+				$("<div class = \"block ui-draggable\" id =\"block"+i+"\" style=\"left:"+data.lefts[i]+"px; top:"+data.tops[i]+"px; background: " + data.colors[i] + "\">"+data.letters[i]+"</div>").appendTo(container);
+
+				$("#block" + i).data("id", i);
+
+				$("#block" + i).bind("contextmenu", function(e) {
+					if (taskID != 1) {
+						var event = e || window.event;
+						flipBlock('block' + $(this).data("id"), event);
+						send_flip_to_server('block' + $(this).data("id"));
+						if (am_i_player1) {
+			                players.push("Human");
+			            } else {
+			                players.push("Robot");
+			            }
+
+			            var flipped_block_color = document.getElementById('block' + $(this).data("id")).style.backgroundColor;
+			            var flipped_block_letter = document.getElementById('block' + $(this).data("id")).value;
+
+			            block_actions.push("Block id: " + $(this).data("id") + " " + "Letter: " + flipped_block_letter + " " + "Color: " + flipped_block_color);
+					}
+				});
 			}
 
-			$("#block" + i).bind("contextmenu", function(e) {
-				if (!((taskID == 1 || taskID == 3) && am_i_player1)) {
-					var event = e || window.event;
-					flipBlock('block' + i, event);
-					if (am_i_player1) {
-		                players.push("Human");
-		            } else {
-		                players.push("Robot");
-		            }
-
-		            var flipped_block_color = document.getElementById('block' + i).style.backgroundColor;
-		            var flipped_block_letter = document.getElementById('block' + i).value;
-
-		            block_actions.push("Block id: " + i + " " + "Letter: " + flipped_block_letter + " " + "Color: " + flipped_block_color);
-				}
-				
-			});
+			
 
 			$( init );
 			for (var i = 0; i < NumBlocks; i++) {
@@ -469,9 +474,7 @@
 		});
 		function send_flip_to_server(block_id) {
 			try {
-				if (!((taskID == 1 || taskID == 3) && am_i_player1)) {
-					socket.emit('receive_flip_block', block_id);
-				}
+				socket.emit('receive_flip_block', block_id);
 			} catch (err) {
 				window.location.href = "server_down.html"; 
 			}
@@ -563,6 +566,7 @@
 		});
 
 		socket.on('end_game_for_user', function(time_data) {
+			time_data = time_data / 1000;
 			var minutes = Math.floor(time_data / 60);
 			var seconds = time_data - (minutes * 60);
 			alert('Time you took to finish the task? ' + minutes + "minutes, " + seconds + "seconds");
@@ -747,7 +751,7 @@
             
         	for (var i = 0; i < NumBlocks; i++) {
                 flip_on = true;
-                if (taskID != 3 && taskID != 1) {
+                if (taskID == 2) {
                 	$("#block" + i).draggable("enable");					
             	}
         	}
@@ -810,7 +814,6 @@
 			        		action.push(players[user]+" "+type[i]+" "+time_GF[z] + " " + GF_position[z]);
 			        	}
 			        	z++; user++;
-			        	
 			        }
 			    }
 			    alert('Time you took to finish the task? ' + minutes + "minutes, " + seconds + "seconds");
@@ -824,7 +827,7 @@
 				}
                 
                 try {
-                	socket.emit('send_data_to_server', {                                      
+                	socket.emit('send_data_to_server', {
 	                    time: recordTime,
 	                    task: task[taskID] + " " + specificIns,
 	                    W: NumWords,
@@ -841,13 +844,13 @@
 	                    other: words
 	                });
                 } catch (err) {
-                	window.location.href = "server_down.html"; 
+                	window.location.href = "server_down.html";
                 }
-                
+
                 try {
                 	socket.emit('end_button_pressed', recordTime);
                 } catch (err) {
-                	window.location.href = "server_down.html"; 
+                	window.location.href = "server_down.html";
                 }
 
 				document.body.innerHTML = '';
