@@ -170,7 +170,12 @@ function initTaskID() {
         if (NumBlocks % 2==1) {
             NumBlocks++;
         }
-        specificIns = " (Check if the cards match by color.)";
+        if (Math.random() < 0.5) {
+            specificIns = " (Check if the cards match by color.)";
+        } else {
+            specificIns = " (Check if the cards match by letter.)";
+        }
+        
         letters = [];
         for (var i = 0; i < NumBlocks; i++) {
             letters.push(String.fromCharCode("A".charCodeAt(0) + Math.floor(Math.random() * 8)));
@@ -227,7 +232,12 @@ function initTaskID() {
         specificIns = "";
     }
     if (taskID == 0) {
-        specificIns = " (Group the cards by color.)";
+        if (Math.random() < 0.5) {
+            specificIns = " (Group the cards by letter.)";
+        } else {
+            specificIns = " (Group the cards by color.)";
+        }
+        
         letters = [];
         for (var i = 0; i < NumBlocks; i++) {
             letters.push(String.fromCharCode("A".charCodeAt(0) + Math.floor(Math.random() * 8)));
