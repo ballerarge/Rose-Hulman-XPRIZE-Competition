@@ -30,7 +30,8 @@ var type = [];
 var instructiondate;
 var instructionstarttime;
 var instructions = [];
-var time;
+var time = 0;
+var recordTime = 0;
 var selectionflag = 0;
 var RainbowPath = "!";
 var searchingwords = "!";
@@ -138,7 +139,7 @@ function swapLetter(box) {
     flipLetterArray[box.substring(5)] = currentLetter;
 }
 
-function setGestureWithPosition(left, top) {
+function setGestureWithPosition(left, top, event) {
     var property = document.getElementById('gestureCount');
     property.innerText = gestureCount;
     var gestureElement = document.getElementById('gestureToggle');
@@ -146,9 +147,12 @@ function setGestureWithPosition(left, top) {
     gestureElement.style.top = top + 'px';
     gestureElement.style.visibility = "visible";
 
-    time_GF.push(getDateTime());
-    GF_position.push("(" + event.clientX + "," + event.clientY + ")");
-    type.push("Gesture");
+    if (event != null) {
+        time_GF.push(getDateTime());
+        GF_position.push("(" + event.clientX + "," + event.clientY + ")");
+        type.push("Gesture");
+    }
+    
 }
 
 function setMovement() {
