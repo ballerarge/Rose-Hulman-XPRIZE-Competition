@@ -791,13 +791,6 @@
 			    }
 
 				var action = [];
-			    var init = 0;
-			    
-
-			    while (initialInfo[init] != null) {
-			    	action.push(initialInfo[init]);
-			    	init++;
-			    }
 
 			    var x= 0, y= 0, z = 0, counter = 0, user = 0; block_count = 0;
 			    for (var i = 0; i < type.length;i++) {
@@ -842,6 +835,7 @@
 	                    ie: ie,
 	                    p: p,
 	                    Action: action,
+	                    initialInfo: initialInfo,
 	                    other: words
 	                });
                 } catch (err) {
