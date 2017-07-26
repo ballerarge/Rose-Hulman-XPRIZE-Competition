@@ -632,7 +632,7 @@
                 other: data.other
             });
 			    
-			alert('Time you took to finish the task? ' + data.minutes + "minutes, " + data.seconds + "seconds");
+			alert('Time you took to finish the task? ' + data.minutes + "minutes, " + Math.floor(data.seconds) + "seconds");
 
 			ending_survey = true;
 
@@ -853,7 +853,7 @@
 			        }
 			        console.log(action[i]);
 			    }
-			    alert('Time you took to finish the task? ' + minutes + "minutes, " + seconds + "seconds");
+			    alert('Time you took to finish the task? ' + minutes + "minutes, " + Math.floor(seconds) + "seconds");
 			    // stopRecog();
 
 				calculateBackEndData();
