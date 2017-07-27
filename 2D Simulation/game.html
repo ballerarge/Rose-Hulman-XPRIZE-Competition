@@ -425,8 +425,8 @@
         	timecounter();
         	console.log("!" + data.p_top);
         	for (var i = 0; i < NumBlocks; i++) {
-        		document.getElementById('block' + i).style.top = data.p_top[i];
-        		document.getElementById('block' + i).style.left = data.p_left[i];
+        		document.getElementById('block' + i).style.top = data.p_top[i] + "px";
+        		document.getElementById('block' + i).style.left = data.p_left[i] + "px";
         		document.getElementById('block' + i).style.visibility = "visible";
         		flip_on = true;
 

@@ -424,8 +424,6 @@ function instructiontime() {
 }
 
 function setUpInitialPosition() {
-    p_left = [];
-    p_top = [];
     for (var i = 0; i < NumBlocks; i++) {
         var tLeft = Math.floor(Math.random()*random_x) * 50 + init_x,
         tTop  = Math.floor(Math.random()*random_y) * 50 + init_y;
