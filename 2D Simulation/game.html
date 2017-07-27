@@ -239,16 +239,10 @@
 				} else {
 					colors = color[color_x];
 				}
-				console.log("hererray"+addedBlockColor);
-								console.log("hererray"+addedBlockLetter);
 
-				colors = checkUniqueBlock(colors, letters[l], cur)
 				$("#container").append("<div class = \"block\" id =\"block"+i+"\" style=\"left:"+tLeft+"px; top:"+tTop+"px; background-color: " + colors + "\">"+letters[l]+"</div>");
 
 				initialInfo.push(i + " " + "initial position: (" + tLeft + ", " + tTop + ") color: " + colors + " letters: " + letters[l]);
-
-				addedBlockColor.push(colors);
-				addedBlockLetter.push(letters[l]);
 
 				$("#block" + i).data("id", i);
 
@@ -272,22 +266,6 @@
 			}
 		}
 
-		function checkUniqueBlock(colors, letter, cur) {
-			console.log("here1"+colors+ " "+ letter);
-			var va = 0;
-			while (va < addedBlockColor.length) {
-				if (addedBlockColor[va] == colors && addedBlockLetter[va] == letter) {
-					colors = setupColor[cur];
-								console.log("here2"+colors);
-					colors = checkUniqueBlock(colors, letter, cur++);
-													console.log("here3"+colors);
-
-					break;
-				}
-				va++;
-			}
-			return colors;
-		}
 	</script>
 
 	<div id = "disablingDiv">
