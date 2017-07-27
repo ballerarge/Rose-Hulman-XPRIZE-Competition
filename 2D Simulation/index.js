@@ -15,7 +15,6 @@ var flipLetterArray = [];
 var x;
 var y;
 var letters = ["A", "B", "C", "D", "E", "F", "G"];
-var letters2 = ["I", "J", "K", "L", "M", "N", "O"];
 var color = ['red', 'blue','green','orange','yellow'];
 var taskID = 0;
 var task = [];
@@ -55,8 +54,9 @@ var block_actions = [];
 var ending_survey = false;
 var am_i_player1 = true;
 var initialInfo = [];
-var goalInfo = [];
+var goalInfo = [], goal_top = [], goal_left = [];
 var cur_letters = [];
+var letters2 = ["I", "J", "K", "L", "M", "N", "O"];
 var addedBlockColor = [];
 var addedBlockLetter = [];
 
@@ -233,9 +233,7 @@ function initTaskID() {
     if (taskID == 3) {
         NumBlocks = 5;
         n1 = 5; n2 = 5;
-
         setupColor = ['red', 'blue', 'yellow', 'green', 'blue'];
-      
         setupNum = [1, 1, 1, 1, 1];
 
         letters = [];
@@ -436,6 +434,8 @@ function setUpInitialPosition() {
             p_top.push(tTop);
             p_left.push(tLeft);
         }
+        initialInfo.push("block:" + i + " " + "initial position: (" + tLeft + ", " + tTop + ") color: " + color[i] + " letters: " + letters[i] + " flipletters: " + flipLetterArray[i]);
+        console.log("block:" + i + " " + "initial position: (" + tLeft + ", " + tTop + ") color: " + color[i] + " letters: " + letters[i] + " flipletters: " + flipLetterArray[i]);
         document.getElementById("block" + i).style.top = tTop+"px";
         document.getElementById("block" + i).style.left = tLeft+"px";
     }
