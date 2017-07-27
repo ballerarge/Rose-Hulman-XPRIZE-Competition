@@ -15,7 +15,6 @@ var flipLetterArray = [];
 var x;
 var y;
 var letters = ["A", "B", "C", "D", "E", "F", "G"];
-var letters2 = ["I", "J", "K", "L", "M", "N", "O"];
 var color = ['red', 'blue','green','orange','yellow'];
 var taskID = 0;
 var task = [];
@@ -55,8 +54,9 @@ var block_actions = [];
 var ending_survey = false;
 var am_i_player1 = true;
 var initialInfo = [];
-var goalInfo = [];
+var goalInfo = [], goal_top = [], goal_left = [];
 var cur_letters = [];
+var letters2 = ["I", "J", "K", "L", "M", "N", "O"];
 var addedBlockColor = [];
 var addedBlockLetter = [];
 var numBlocks = 5;
@@ -67,6 +67,8 @@ var end_left = [];
 var origin_end_left = [];
 var origin_end_top = [];
 var Emax;
+var isGameEnd = false;
+var p_top = [], p_left = [];
 
 var rainbow_select = 0;
 
@@ -248,9 +250,7 @@ function initTaskID() {
     if (taskID == 3) {
         NumBlocks = 5;
         n1 = 5; n2 = 5;
-
         setupColor = ['red', 'blue', 'yellow', 'green', 'blue'];
-      
         setupNum = [1, 1, 1, 1, 1];
 
         letters = [];
@@ -398,8 +398,8 @@ function showChosenStuff() {
         localStorage.setItem("Searching words", initialWords1[chosenWords] + " " + initialWords2[chosenWords]);
         document.getElementById("showChosen").innerHTML = "<a class = \"buttonLike\" href=\"img/showpage.html\" onclick=\"window.open(this.href, 'newwindow', 'width=300, height=250'); return false;\">Show the searching words</a>";
     } else if (taskID == 3) {
-        document.getElementById("showChosen").innerHTML = "<a class = \"buttonLike\" href=\"initial_board.html\" onclick=\"window.open(this.href, 'newwindow', 'width=500, height=450'); return false;\">Show the Construction</a>";
-    }
+        document.getElementById("showChosen").innerHTML = "<a class = \"buttonLike\" href=\"initial_board.html\" onclick=\"window.open(this.href, 'newwindow', 'width=1300, height=700'); return false;\">Show the Construction</a>";
+       }
 }
 
 function getDateTime() {
@@ -424,7 +424,6 @@ function instructiontime() {
 }
 
 function setUpInitialPosition() {
-    var p_top = [], p_left = [];
     for (var i = 0; i < NumBlocks; i++) {
         var tLeft = Math.floor(Math.random()*random_x) * 50 + init_x,
         tTop  = Math.floor(Math.random()*random_y) * 50 + init_y;
@@ -451,6 +450,8 @@ function setUpInitialPosition() {
             p_top.push(tTop);
             p_left.push(tLeft);
         }
+        initialInfo.push("block:" + i + " " + "initial position: (" + tLeft + ", " + tTop + ") color: " + color[i] + " letters: " + letters[i] + " flipletters: " + flipLetterArray[i]);
+        console.log("block:" + i + " " + "initial position: (" + tLeft + ", " + tTop + ") color: " + color[i] + " letters: " + letters[i] + " flipletters: " + flipLetterArray[i]);
         document.getElementById("block" + i).style.top = tTop+"px";
         document.getElementById("block" + i).style.left = tLeft+"px";
     }
