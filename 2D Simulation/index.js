@@ -424,6 +424,8 @@ function instructiontime() {
 }
 
 function setUpInitialPosition() {
+    p_left = [];
+    p_top = [];
     for (var i = 0; i < NumBlocks; i++) {
         var tLeft = Math.floor(Math.random()*random_x) * 50 + init_x,
         tTop  = Math.floor(Math.random()*random_y) * 50 + init_y;
@@ -451,7 +453,6 @@ function setUpInitialPosition() {
             p_left.push(tLeft);
         }
         initialInfo.push("block:" + i + " " + "initial position: (" + tLeft + ", " + tTop + ") color: " + color[i] + " letters: " + letters[i] + " flipletters: " + flipLetterArray[i]);
-        console.log("block:" + i + " " + "initial position: (" + tLeft + ", " + tTop + ") color: " + color[i] + " letters: " + letters[i] + " flipletters: " + flipLetterArray[i]);
         document.getElementById("block" + i).style.top = tTop+"px";
         document.getElementById("block" + i).style.left = tLeft+"px";
     }
