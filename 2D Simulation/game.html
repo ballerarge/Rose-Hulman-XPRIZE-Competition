@@ -796,9 +796,12 @@
 
 		function StartGame() {
 			start_button_pressed = true;
+
 		    if (taskID == 3) {
-		        // RainbowPath = localStorage.getItem("Rainbow Path");
-		        // console.log(RainbowPath);
+				for (var i = 0; i < NumBlocks; i++) {
+	            	localStorage.setItem($("#block" + i).data("id"), $("#block" + i).clone);
+	            }
+		    	
 		        document.getElementById("showChosen").style.visibility = "visible";
 		        showChosenStuff();
 		    }
@@ -822,11 +825,6 @@
                 setGestureWithPosition(event.clientX, event.clientY, event);
                 send_gesture_to_server();
             };
-
-            for (var i = 0; i < NumBlocks; i++) {
-            	localStorage.setItem($("#block" + i).data("id"), $("#block" + i).clone);
-            }
-
             
         	for (var i = 0; i < NumBlocks; i++) {
                 flip_on = true;
