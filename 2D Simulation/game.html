@@ -220,6 +220,7 @@
 			}
 			var container = document.createElement("div");
 			container.id = "container";
+			
 			container.ondblclick = function(e) {
 				gestureCount++;
 				var event = e || window.event;
@@ -413,7 +414,6 @@
 
         socket.on('disable_blocks_for_player_2', function() {
         	for (var i = 0; i < NumBlocks; i++) {
-        		document.getElementById('block' + i).style.visibility = "hidden";
                 flip_on = false;
 				$("#block" + i).draggable("disable");
             }
@@ -498,6 +498,8 @@
 				$("<div class = \"block ui-draggable\" id =\"block"+i+"\" style=\"left:"+data.lefts[i]+"px; top:"+data.tops[i]+"px; background-color: " + data.colors[i] + "\">"+data.letters[i]+"</div>").appendTo(container);
 
 				$("#block" + i).data("id", i);
+
+				document.getElementById('block' + i).style.visibility = "hidden";
 
 				$("#block" + i).bind("contextmenu", function(e) {
 					if (taskID != 1) {
@@ -815,9 +817,10 @@
 			timecounter();
       
 		    if (taskID == 3) {
-				    for (var i = 0; i < NumBlocks; i++) {
-	              localStorage.setItem($("#block" + i).data("id"), $("#block" + i).clone);
-	          }
+		    	localStorage.setItem("container", document.getElementById("container").innerHTML);
+				// for (var i = 0; i < NumBlocks; i++) {
+	   //          	localStorage.setItem($("#block" + i).data("id"), $("#block" + i).clone);
+	   //         	}
 		        document.getElementById("showChosen").style.visibility = "visible";
 		        showChosenStuff();
 		        setUpInitialPosition();
