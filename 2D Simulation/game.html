@@ -596,7 +596,7 @@
 							setMovement();
 							send_movement_to_server();
 							socket.emit('Update_score', {
-								id : i,
+								id : $(this).data("id"),
 								tleft: Stoppos.left,
 								tTop: Stoppos.top
 							});
@@ -623,7 +623,6 @@
 			goal_left[data.id] = data.tLeft;
 			goal_top[data.id] = data.tTop;
 			document.getElementById('scoreBox').innerText = Math.round(scoreCal());
-			console.log(scoreCal());
 		});
 
 		function send_movement_to_server() {
