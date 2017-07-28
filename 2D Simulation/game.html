@@ -810,68 +810,68 @@
 
       		document.body.innerHTML += "<h2 style=\"font-family:verdana\"> Thank you for participating the game. Please take a few seconds to complete this survey.</h2>	";
 
-			document.body.innerHTML += "<p id = \"question4\" style=\"font-family:verdana\">1. How helpful did you find your partner?</p>	<input type=\"radio\" name=\"1\" id = \"41\" value=\"1 (not helpful at all)\"> 1 (not helpful at all)	<input type=\"radio\" name=\"1\" id = \"42\" value=\"2\"> 2	<input type=\"radio\" name=\"1\" id = \"43\" value=\"3\"> 3	<input type=\"radio\" name=\"1\" id = \"44\" value=\"4\"> 4	<input type=\"radio\" name=\"1\" id = \"45\" value=\"5\"> 5	<input type=\"radio\" name=\"1\" id = \"46\" value=\"6\"> 6	<input type=\"radio\" name=\"1\" id = \"47\" value=\"7 (very helpful)\"> 7 (very helpful)";
-			document.body.innerHTML += "<p id = \"question5\" style=\"font-family:verdana\">2. How effectively did your partner communicate what the goal was and what you wanted to do? </p>	<input type=\"radio\" name=\"2\" id = \"51\" value=\"1 (very effective)\"> 1 (very effective)	<input type=\"radio\" name=\"2\" id = \"52\" value=\"22\"> 2	<input type=\"radio\" name=\"2\" id = \"53\" value=\"33\"> 3	<input type=\"radio\" name=\"2\" id = \"54\" value=\"44\"> 4	<input type=\"radio\" name=\"2\" id = \"55\" value=\"55\"> 5	<input type=\"radio\" name=\"2\" id = \"56\" value=\"66\"> 6	<input type=\"radio\" name=\"2\" id = \"57\" value=\"7 (not effective at all)\"> 7 (not effective at all)";
-			document.body.innerHTML += "<p id = \"question3\" style=\"font-family:verdana\">3. Please describe anything you found confusing about this game. </p>	<textarea id = \"q3\" rows=\"4\" cols=\"50\"></textarea><br>";
+			// document.body.innerHTML += "<p id = \"question4\" style=\"font-family:verdana\">1. How helpful did you find your partner?</p>	<input type=\"radio\" name=\"1\" id = \"41\" value=\"1 (not helpful at all)\"> 1 (not helpful at all)	<input type=\"radio\" name=\"1\" id = \"42\" value=\"2\"> 2	<input type=\"radio\" name=\"1\" id = \"43\" value=\"3\"> 3	<input type=\"radio\" name=\"1\" id = \"44\" value=\"4\"> 4	<input type=\"radio\" name=\"1\" id = \"45\" value=\"5\"> 5	<input type=\"radio\" name=\"1\" id = \"46\" value=\"6\"> 6	<input type=\"radio\" name=\"1\" id = \"47\" value=\"7 (very helpful)\"> 7 (very helpful)";
+			// document.body.innerHTML += "<p id = \"question5\" style=\"font-family:verdana\">2. How effectively did your partner communicate what the goal was and what you wanted to do? </p>	<input type=\"radio\" name=\"2\" id = \"51\" value=\"1 (very effective)\"> 1 (very effective)	<input type=\"radio\" name=\"2\" id = \"52\" value=\"22\"> 2	<input type=\"radio\" name=\"2\" id = \"53\" value=\"33\"> 3	<input type=\"radio\" name=\"2\" id = \"54\" value=\"44\"> 4	<input type=\"radio\" name=\"2\" id = \"55\" value=\"55\"> 5	<input type=\"radio\" name=\"2\" id = \"56\" value=\"66\"> 6	<input type=\"radio\" name=\"2\" id = \"57\" value=\"7 (not effective at all)\"> 7 (not effective at all)";
+			document.body.innerHTML += "<p id = \"question3\" style=\"font-family:verdana\">1. Please provide any feedback you have about the game, or type \"None\" if you don't have any. </p>	<textarea id = \"q3\" rows=\"4\" cols=\"50\"></textarea><br>";
 			document.body.innerHTML += "<button class = \"Finishbutton\" style = \"background-image: url(img/startbutton.png); width: 68px; height: 40px;\" onclick=\"submitRobot()\">Submit</button>";
 		});
 		
 		function submitRobot() {
 			var q3 = "", q4 = -1, q5 = -1;
-			if (document.getElementById("41").checked) {
-				q4 = 1;
-			} else if (document.getElementById("42").checked) {
-				q4 = 2;
-			} else if (document.getElementById("43").checked) {
-				q4 = 3;
-			} else if (document.getElementById("44").checked) {
-				q4 = 4;
-			} else if (document.getElementById("45").checked) {
-				q4 = 5;
-			} else if (document.getElementById("46").checked) {
-				q4 = 6;
-			} else if (document.getElementById("47").checked) {
-				q4 = 7;
-			}
-			if (document.getElementById("51").checked) {
-				q5 = 1;
-			} else if (document.getElementById("52").checked) {
-				q5 = 2;
-			} else if (document.getElementById("53").checked) {
-				q5 = 3;
-			} else if (document.getElementById("54").checked) {
-				q5 = 4;
-			} else if (document.getElementById("55").checked) {
-				q5 = 5;
-			} else if (document.getElementById("56").checked) {
-				q5 = 6;
-			} else if (document.getElementById("57").checked) {
-				q5 = 7;
-			}
+			// if (document.getElementById("41").checked) {
+			// 	q4 = 1;
+			// } else if (document.getElementById("42").checked) {
+			// 	q4 = 2;
+			// } else if (document.getElementById("43").checked) {
+			// 	q4 = 3;
+			// } else if (document.getElementById("44").checked) {
+			// 	q4 = 4;
+			// } else if (document.getElementById("45").checked) {
+			// 	q4 = 5;
+			// } else if (document.getElementById("46").checked) {
+			// 	q4 = 6;
+			// } else if (document.getElementById("47").checked) {
+			// 	q4 = 7;
+			// }
+			// if (document.getElementById("51").checked) {
+			// 	q5 = 1;
+			// } else if (document.getElementById("52").checked) {
+			// 	q5 = 2;
+			// } else if (document.getElementById("53").checked) {
+			// 	q5 = 3;
+			// } else if (document.getElementById("54").checked) {
+			// 	q5 = 4;
+			// } else if (document.getElementById("55").checked) {
+			// 	q5 = 5;
+			// } else if (document.getElementById("56").checked) {
+			// 	q5 = 6;
+			// } else if (document.getElementById("57").checked) {
+			// 	q5 = 7;
+			// }
 			q3 = document.getElementById("q3").value;
 			document.body.innerHTML += "<p id = \"require\" style = \"font-family:verdana; visibility: hidden;\">Please finish all the questions.</p>";
-			if (q3 == "" || q4 == -1 || q5 == -1) {
-				
-				if (q3 == "") {
-					document.getElementById("question3").style = "width: 1090px; color: red; background-color:rgb(255,204,204);font-family:verdana";
-				} else {
-					document.getElementById("question3").style = "width: 1090px; font-family:verdana";
-					document.getElementById("q3").innerText = q3;
-				}
-				if (q4 == -1) {
-					document.getElementById("question4").style = "width: 370px; color: red; background-color:rgb(255,204,204);font-family:verdana";
-				} else {
-					document.getElementById("question4").style = "width: 370px; font-family:verdana";
-					document.getElementById("4" + q4).checked = true;
-				}
-				if (q5 == -1) {
-					document.getElementById("question5").style = "width: 345px; color: red; background-color:rgb(255,204,204);font-family:verdana";
-				} else {
-					document.getElementById("question5").style = "width: 345px; font-family:verdana";
-					document.getElementById("5" + q5).checked = true;
-				}
-				document.getElementById("require").style.visibility = "visible";
-				document.getElementById("q3").innerText = q3;
+			if (q3 == "") {
+				document.getElementById("question3").style = "width: 1090px; color: red; background-color:rgb(255,204,204);font-family:verdana";				
+				// if (q3 == "") {
+				// 	document.getElementById("question3").style = "width: 1090px; color: red; background-color:rgb(255,204,204);font-family:verdana";
+				// } else {
+				// 	document.getElementById("question3").style = "width: 1090px; font-family:verdana";
+				// 	document.getElementById("q3").innerText = q3;
+				// }
+				// if (q4 == -1) {
+				// 	document.getElementById("question4").style = "width: 370px; color: red; background-color:rgb(255,204,204);font-family:verdana";
+				// } else {
+				// 	document.getElementById("question4").style = "width: 370px; font-family:verdana";
+				// 	document.getElementById("4" + q4).checked = true;
+				// }
+				// if (q5 == -1) {
+				// 	document.getElementById("question5").style = "width: 345px; color: red; background-color:rgb(255,204,204);font-family:verdana";
+				// } else {
+				// 	document.getElementById("question5").style = "width: 345px; font-family:verdana";
+				// 	document.getElementById("5" + q5).checked = true;
+				// }
+				// document.getElementById("require").style.visibility = "visible";
+				// document.getElementById("q3").innerText = q3;
 			} else {
 				try {
 					socket.emit('send_survey_data_to_server', {
