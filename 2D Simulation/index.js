@@ -69,6 +69,7 @@ var origin_end_top = [];
 var Emax;
 var isGameEnd = false;
 var p_top = [], p_left = [];
+var standard_info = [];
 
 var rainbow_select = 0;
 
@@ -453,6 +454,7 @@ function setUpInitialPosition() {
         end_left.push(tTop);
         end_top.push(tLeft);
         initialInfo.push("block:" + i + " " + "initial position: (" + tLeft + ", " + tTop + ") color: " + color[i] + " letters: " + letters[i] + " flipletters: " + flipLetterArray[i]);
+        console.log("block:" + i + " " + "initial position: (" + tLeft + ", " + tTop + ") color: " + color[i] + " letters: " + letters[i] + " flipletters: " + flipLetterArray[i]);
         document.getElementById("block" + i).style.top = tTop+"px";
         document.getElementById("block" + i).style.left = tLeft+"px";
     }
