@@ -327,7 +327,11 @@
 		// I think this code needs to be here to make the overall application work. However, if testing on localhost, comment this section out so it
 		// doesn't redirect you to the server down page.
 		if (!socket.connected) {
-			window.location.href = "server_down.html";
+			setTimeout(function() {
+				if (!socket.connected) {
+					window.location.href = "server_down.html";
+				}
+			}, 3000);
 		}
 
 		socket.on('connect_failed', function() {
