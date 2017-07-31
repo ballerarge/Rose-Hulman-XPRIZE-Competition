@@ -322,7 +322,7 @@
 			window.location.href = "server_down.html";
 		}
 
-		alert("If your partner does not connect within 30 to 60 seconds of you receiving this prompt, please refresh the page and try reconnecting to the server.");
+		// alert("If your partner does not connect within 30 to 60 seconds of you receiving this prompt, please refresh the page and try reconnecting to the server.");
 
 		// I think this code needs to be here to make the overall application work. However, if testing on localhost, comment this section out so it
 		// doesn't redirect you to the server down page.
@@ -376,11 +376,11 @@
 			window.location.href = "server_down.html"; 
 		}
 		
-		try {
-			socket.emit('am_I_second_to_join');
-		} catch (err) {
-			window.location.href = "server_down.html"; 
-		}
+		// try {
+		// 	socket.emit('am_I_second_to_join');
+		// } catch (err) {
+		// 	window.location.href = "server_down.html"; 
+		// }
 
 		socket.on('freeze_start', function() {
 			var startButton = document.getElementById('buttonStart');
