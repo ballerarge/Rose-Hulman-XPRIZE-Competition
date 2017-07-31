@@ -1,5 +1,6 @@
 var https = require('https');
 var fs = require('fs');
+var sem = require('semaphore')(1);
 
 var options = {
 	key: fs.readFileSync('/etc/ssl/private/ibm-mvpsim.key'),
@@ -54,18 +55,24 @@ var room_to_join;
 
 io.on('connection', function(socket) {
 
-	if (recentRoom >= 0) {
-		room_to_join = "Room" + recentRoom;
-		socket.join(room_to_join);
-		socket.room = room_to_join;
-		recentRoom = -1;
-	} else {
-		room_to_join = "Room" + nextRoom;
-		socket.join(room_to_join);
-		socket.room = room_to_join;
-		recentRoom = nextRoom;
-		nextRoom++;
-	}
+	sem.take(function() {
+		if (recentRoom >= 0) {
+			room_to_join = "Room" + recentRoom;
+			socket.join(room_to_join);
+			socket.room = room_to_join;
+			recentRoom = -1;
+		} else {
+			room_to_join = "Room" + nextRoom;
+			socket.join(room_to_join);
+			socket.room = room_to_join;
+			recentRoom = nextRoom;
+			nextRoom++;
+		}
+
+		sem.leave();
+	});
+
+	
 
 	socket.on('am_I_second_to_join', function() {
 		if (waiting_data.get(socket.room) == null) {
