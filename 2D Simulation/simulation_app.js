@@ -171,7 +171,7 @@ io.on('connection', function(socket) {
 
 	socket.on('send_data_to_server', function(data) {
 
-  		var query = client.query("INSERT INTO ibmdb(Time, Task, b, W, G, bm, br, pn, pp, te, ie, p, TimeAndLocation, InitialInfo, SearchWords) values($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)", [data.time, data.task, data.b, data.W, data.G, data.bm, data.br, data.pn, data.pp, data.te, data.ie, data.p, data.Action, data.initialInfo, data.other]);
+  		var query = client.query("INSERT INTO ibmdb(Time, Task, b, W, G, bm, br, pn, pp, te, ie, p, TimeAndLocation, InitialInfo, SearchWords, finalScore, standard_info) values($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17)", [data.time, data.task, data.b, data.W, data.G, data.bm, data.br, data.pn, data.pp, data.te, data.ie, data.p, data.Action, data.initialInfo, data.other, data.finalScore, data.standard_info]);
 
 		query.on("row", function (row, result) {
 		    result.addRow(row);
