@@ -753,7 +753,6 @@
 				dateDay.push(parseInt(action[i].substring(0, 2)));
 				dateMonth.push(parseInt(action[i].substring(3, 5)));
 				dateYear.push(parseInt(action[i].substring(6, 10)));
-				dateTime.push(action[i].substring(start_pos, end_pos));
 				start_pos = action[i].indexOf('/', end_pos) - 2;
 				end_pos = start_pos + 8;
 				dayTime.push(action[i].substring(start_pos, end_pos));
