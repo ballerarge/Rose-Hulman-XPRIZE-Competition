@@ -213,10 +213,9 @@
 		initBlocks();
 		initInstructions();
 		initFlipColors();
-		// initFlipLetters()s;
+		// initFlipLetters();
 		setTaskHeader();
 		setIntroduction(1);
-    	setRefLink();
     	popUpGameIntro();
 		var color = ['red', 'blue','green','orange','yellow'];
 		function initBlocks() {
@@ -237,49 +236,63 @@
 			};
 			container.style.fontSize = "40px";
 			document.body.appendChild(container);
-			var position_x = [];var position_y = [];
+			var position_x = [];
+			var position_y = [];
 			var cur = 0;
 			for (var i = 0; i < NumBlocks; i++) {
 				var color_x = Math.floor(Math.random() * 5);
 				var l = Math.floor(Math.random() * letters.length);
-				if (taskID == 3) {
-					random_x = Math.floor(page_width * 0.7/ 50) - 1;
-					init_x = 0;
-				}
-				var tLeft = Math.floor(Math.random()*random_x) * 50 + init_x,
-					tTop  = Math.floor(Math.random()*random_y) * 50 + init_y;
-				var x = -1;
-				for (var j = 0; j < position_x.length; j ++) {
-					if (position_x[j] == tLeft && position_y[j] == tTop) {
-						x = j;
-					}
-				}
-				while (x != -1) {
-					if (Math.abs(position_y[x] - tTop) >= 50) break;
-					tLeft = Math.floor(Math.random()*random_x) * 50 + init_x;
-					tTop  = Math.floor(Math.random()*random_y) * 50 + init_y;
-					var x = -1;
-					for (var j = 0; j < position_x.length; j ++) {
-						if (position_x[j] == tLeft && position_y[j] == tTop) {
-							x = j;
-						}
-					}
-				}
-				position_x.push(tLeft);
-				position_y.push(tTop);
-				blocks_y = tLeft;blocks_x = tTop;
+
+				var tLeft = 0;
+				var tTop = 0;
+
+				var horizontal_percent = (document.getElementById('container').getBoundingClientRect().right - 50 - 8 - 4 - 4) / document.getElementById('container').getBoundingClientRect().right * 100;
+				var vertical_percent = (document.getElementById('container').getBoundingClientRect().bottom - 50 - 8 - 4 - 4) / document.getElementById('container').getBoundingClientRect().bottom * 100;
+
+				tLeft = Math.random() * Math.ceil(horizontal_percent);
+				tTop = Math.random() * Math.ceil(vertical_percent);
+
+				console.log("Horizontal_percent: " + tLeft + " Vertical_percent: " + tTop);
+
+				// if (taskID == 3) {
+				// 	random_x = Math.floor(page_width * 0.7/ 50) - 1;
+				// 	init_x = 0;
+				// }
+				// var tLeft = Math.floor(Math.random()*random_x) * 50 + init_x,
+				// 	tTop  = Math.floor(Math.random()*random_y) * 50 + init_y;
+				// var x = -1;
+				// for (var j = 0; j < position_x.length; j ++) {
+				// 	if (position_x[j] == tLeft && position_y[j] == tTop) {
+				// 		x = j;
+				// 	}
+				// }
+				// while (x != -1) {
+				// 	if (Math.abs(position_y[x] - tTop) >= 50) break;
+				// 	tLeft = Math.floor(Math.random()*random_x) * 50 + init_x;
+				// 	tTop  = Math.floor(Math.random()*random_y) * 50 + init_y;
+				// 	var x = -1;
+				// 	for (var j = 0; j < position_x.length; j ++) {
+				// 		if (position_x[j] == tLeft && position_y[j] == tTop) {
+				// 			x = j;
+				// 		}
+				// 	}
+				// }
+				// position_x.push(tLeft);
+				// position_y.push(tTop);
+
 				if (i < letters.length) {
 					l = i;
 				}
-				var colors;
-				colors = color[color_x];
-				$("#container").append("<div class = \"block\" id =\"block"+i+"\" style=\"left:"+tLeft+"px; top:"+tTop+"px; background-color: " + colors + "\">"+letters[l]+"</div>");
 
-				standard_info.push("block:" + i + " " + "standard position: (" + tLeft + ", " + tTop + ") color: " + colors + " letters: " + letters[l] + " flipletters: " + flipLetterArray[l]);
+				$("#container").append("<div class = \"block\" id =\"block"+i+"\" style=\"left: " + tLeft + "%; top: " + tTop + "%; background-color: " + color[color_x] + "\">"+letters[l]+"</div>");
+
+				standard_info.push("block:" + i + " " + "standard position: (" + tLeft + "%, " + tTop + "%) color: " + color[color_x] + " letters: " + letters[l] + " flipletters: " + flipLetterArray[l]);
 				goal_top.push(tTop);
 				goal_left.push(tLeft);
 
 				$("#block" + i).data("id", i);
+				$("#block" + i).data("horizontal_percent", tLeft);
+				$("#block" + i).data("vertical_percent", tTop);
 
 				$("#block" + i).bind("contextmenu", function(e) {
 					if (!((taskID == 3 || taskID == 0) && am_i_player1)) {
@@ -344,11 +357,11 @@
 		var current_colors = [];
 		var current_letters = [];
 		for (var i = 0; i < NumBlocks; i++) {
-			var position = $("#block" + i).position();
+			// var position = $("#block" + i).position();
 			var current_color = document.getElementById("block" + i).style.backgroundColor;
 			var current_letter = cur_letters[i];
-			left_array.push(position.left);
-			top_array.push(position.top);
+			left_array.push($("#block" + i).data("horizontal_percent"));
+			top_array.push($("#block" + i).data("vertical_percent"));
 			current_colors.push(current_color);
 			current_letters.push(current_letter);
 		}
@@ -432,8 +445,8 @@
         socket.on('enable_blocks_for_player_2', function(data) {
         	timecounter();
         	for (var i = 0; i < NumBlocks; i++) {
-        		document.getElementById('block' + i).style.top = data.p_top[i]+"px";
-        		document.getElementById('block' + i).style.left = data.p_left[i]+"px";
+        		document.getElementById('block' + i).style.top = data.p_top[i]+"%";
+        		document.getElementById('block' + i).style.left = data.p_left[i]+"%";
         		document.getElementById('block' + i).style.visibility = "visible";
         		flip_on = true;
 
@@ -447,10 +460,12 @@
 			var top = data.top;
 			var block = data.block_id;
 			$("#" + block).css({
-				left: left + "px",
-				top: top + "px"
+				left: left + "%",
+				top: top + "%"
 			});
 			$("#" + block).css('z-index', ++z);
+			$("#" + block).data("horizontal_percent", left);
+			$("#" + block).data("vertical_percent", top);
 		});
 		socket.on('update_flip_block', function (block_id) {
 			flipBlock(block_id, null);
@@ -502,15 +517,17 @@
 
 			setTaskHeader();
 			setIntroduction();
-			setRefLink();
 
 			while(container.firstChild) {
 				container.removeChild(container.firstChild);
 			}
 			for (var i = 0; i < NumBlocks; i++) {
-				$("<div class = \"block ui-draggable\" id =\"block"+i+"\" style=\"left:"+data.lefts[i]+"px; top:"+data.tops[i]+"px; background-color: " + data.colors[i] + "\">"+data.letters[i]+"</div>").appendTo(container);
+				$("<div class = \"block ui-draggable\" id =\"block"+i+"\" style=\"left:"+data.lefts[i]+"%; top:"+data.tops[i]+"%; background-color: " + data.colors[i] + "\">"+data.letters[i]+"</div>").appendTo(container);
 
 				$("#block" + i).data("id", i);
+				$("#block" + i).data("horizontal_percent", data.lefts[i]);
+				$("#block" + i).data("vertical_percent", data.tops[i]);
+
 				document.getElementById('block' + i).style.visibility = "hidden";
 
 				$("#block" + i).bind("contextmenu", function(e) {
@@ -561,8 +578,8 @@
     		$(".draggable").draggable();
 			
 			$('.draggable').each(function(el){
-			    var tLeft = Math.floor(Math.random()*(page_width * 0.7)) + 1,
-			    tTop  = Math.floor(Math.random()*(page_height * 0.7)) + 1;
+			    // var tLeft = Math.floor(Math.random()*(page_width * 0.7)) + 1,
+			    // tTop  = Math.floor(Math.random()*(page_height * 0.7)) + 1;
 			    $(el).css({position:'relative', left: page_width, top: page_height});
 			});
 		});
@@ -572,20 +589,21 @@
 			for (var i = 0; i < NumBlocks; i++) {
 				$('#block' + i).draggable({containment: '#container', start: function(event, ui) {
 					$(this).css('z-index', ++z);
-					var Startpos = $(this).position();
-					previous_left[i] = Startpos.left;previous_top[i] = Startpos.top;
+					// var Startpos = $(this).position();
+					previous_left[i] = $(this).data("horizontal_percent");
+					previous_top[i] = $(this).data("vertical_percent");
         			movementstarttime = new Date().getTime();
         			movementdate = getDateTime();
 				}, stop: function(event, ui) {
-						var Stoppos = $(this).position();
-						if (Stoppos.left!=previous_left[i] || Stoppos.top!=previous_top[i]) {
+						// var Stoppos = $(this).position();
+						if ($(this).data("horizontal_percent") != previous_left[i] || $(this).data("vertical_percent") != previous_top[i]) {
 							start.push(movementdate);
 							end.push(getDateTime());
 							interval.push(new Date().getTime() - movementstarttime);
 							type.push("Movement");
 							actualMove++;
 							movement_startpos.push("(" + previous_left[i] + "," + previous_top[i] + ")");
-							movement_endpos.push("(" + Stoppos.left + "," + Stoppos.top + ")");
+							movement_endpos.push("(" + $(this).data("horizontal_percent") + "," + $(this).data("vertical_percent") + ")");
 							if (am_i_player1) {
 				                players.push("Human");
 				            } else {
@@ -595,28 +613,30 @@
 		            		var moved_block_letter = cur_letters[$(this).data("id")];
 
 		            		block_actions.push("Block id: " + $(this).data("id") + " " + "Letter: " + moved_block_letter + " " + "Color: " + moved_block_color);
-							end_left[$(this).data("id")] = Stoppos.left;
-							end_top[$(this).data("id")] = Stoppos.top;
+							end_left[$(this).data("id")] = $(this).data("horizontal_percent")
+							end_top[$(this).data("id")] = $(this).data("vertical_percent");
 
 							setMovement();
 							send_movement_to_server();
 
 							socket.emit('Update_score', {
 								id : $(this).data("id"),
-								tLeft: Stoppos.left,
-								tTop: Stoppos.top
+								tLeft: $(this).data("horizontal_percent"),
+								tTop: $(this).data("vertical_percent")
 							});
 
 							// document.getElementById("scoreBox").innerText = scoreCal();
 					}
 				}, drag: function(event, ui) {
-					var coord = $(this).position();
+					// var coord = $(this).position();
 					var block_id = $(this).attr('id');
+					$(this).data("horizontal_percent", $(this).position().left / $('#container').width() * 100);
+					$(this).data("vertical_percent", $(this).position().top / $('#container').height() * 100);
 					try {
 						socket.emit('receive_position', {
 							block_id: block_id,
-							left: coord.left,
-							top: coord.top
+							left: $(this).data("horizontal_percent"),
+							top: $(this).data("vertical_percent")
 						});
 					} catch (err) {
 						window.location.href = "server_down.html"; 
@@ -626,6 +646,9 @@
 				});
 			}
 		}
+
+
+		// Needs to be fixed to account for new percentage based way of calculating position.
 
 		socket.on('Update_score', function(data) {
 			var top = [], left = [];
@@ -1008,9 +1031,8 @@
 			    for (var i = 0; i < NumBlocks; i++) {
 			        var blockid = document.getElementById('block'+i);
      			    if(blockid) {
-     			    	var pos = $("#block" + i).position();
-     			    	end_top.push(pos.top);
-     			    	end_left.push(pos.left);
+     			    	end_top.push($("#block" + i).data("vertical_percent"));
+     			    	end_left.push($("#block" + i).data("horizontal_percent"));
 			            if(NumBlocks >= Object.keys(endPosMap).length){
 			                var pos = blockid.style;
 			                endPosMap['block'+i] = pos;
@@ -1040,7 +1062,6 @@
 			        }
 			        console.log(action[i]);
 			    }
-			    alert('Time you took to finish the task? ' + minutes + "minutes, " + Math.floor(seconds) + "seconds");
 			    // stopRecog();
 
 				calculateBackEndData();
@@ -1076,6 +1097,8 @@
                 	words = "Construction: Rainbow" + rainbow_select + ".png";
                 }
 
+                alert('Time you took to finish the task? ' + minutes + "minutes, " + Math.floor(seconds) + "seconds");
+
                 console.log(scoreCal());
                 try {
                 	socket.emit('end_button_pressed', {
@@ -1104,6 +1127,8 @@
                 }
 
                 ending_survey = true;
+
+                
 
 				document.body.innerHTML = '';
 				document.documentElement.innerHTML = "";

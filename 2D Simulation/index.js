@@ -40,7 +40,6 @@ var searchingwords = "!";
 var human_voice = true;
 var flip_on = true;
 var start_button_pressed = false;
-var blocks_x, blocks_y;
 var initialWords1 = ['ABDUCTIONS', 'AUTHORIZED', 'BOOKKEEPER'], initialWords2 = ['ABDUCTIONS', 'HANDIWORKS', 'BARRENNESS'];
 var chosenWords, specificIns;
 var random_x = 22.8, random_y = 10.8;
@@ -311,16 +310,6 @@ function setUpVisibility() {
     }
 }
 
-function setRefLink() {
-    if (taskID==3){
-        // document.getElementById("referenceLink").style.visibility = "visible";
-        // document.getElementById("referenceLink").innerHTML = "<a class = \"buttonLike\" href=\"selection_rainbow.html\" target=\"_blank\">Select Your Rainbow Path!</a>";
-    } else if (taskID==2) {
-        // document.getElementById("referenceLink").style.visibility = "visible";
-        // document.getElementById("referenceLink").innerHTML = "<a class = \"buttonLike\" href=\"selection_searching.html\" target=\"_blank\">Select Your Words Here!</a>";
-    }
-}
-
 function setTaskHeader() {
     document.getElementById("taskQ").innerHTML = "Your task is: " + task[taskID] + "." + specificIns;
 }
@@ -425,39 +414,50 @@ function instructiontime() {
 
 function setUpInitialPosition() {
     for (var i = 0; i < NumBlocks; i++) {
-        var tLeft = Math.floor(Math.random()*random_x) * 50 + init_x,
-        tTop  = Math.floor(Math.random()*random_y) * 50 + init_y;
-        var flag = -1;
-        for (var j = 0; j < p_left.length;j ++) {
-            if (p_top[j] == tTop && p_left[j] == tLeft) {
-                flag = j; break;
-            }
-        }
-        if (flag == -1) {
-            p_top.push(tTop);
-            p_left.push(tLeft);
-        } else {
-            while (flag != -1) {
-                flag = -1;
-                tLeft = Math.floor(Math.random()*random_x) * 50 + init_x,
-                tTop  = Math.floor(Math.random()*random_y) * 50 + init_y;
-                for (var j = 0; j < p_left.length;j ++) {
-                    if (p_top[j] == tTop && p_left[j] == tLeft) {
-                        flag = j; break;
-                    }
-                }
-            }
-            p_top.push(tTop);
-            p_left.push(tLeft);
-        }
-        end_left.push(tTop);
-        end_top.push(tLeft);
+        // var tLeft = Math.floor(Math.random()*random_x) * 50 + init_x,
+        // tTop  = Math.floor(Math.random()*random_y) * 50 + init_y;
+        // var flag = -1;
+        // for (var j = 0; j < p_left.length;j ++) {
+        //     if (p_top[j] == tTop && p_left[j] == tLeft) {
+        //         flag = j; break;
+        //     }
+        // }
+        // if (flag == -1) {
+        //     p_top.push(tTop);
+        //     p_left.push(tLeft);
+        // } else {
+        //     while (flag != -1) {
+        //         flag = -1;
+        //         tLeft = Math.floor(Math.random()*random_x) * 50 + init_x,
+        //         tTop  = Math.floor(Math.random()*random_y) * 50 + init_y;
+        //         for (var j = 0; j < p_left.length;j ++) {
+        //             if (p_top[j] == tTop && p_left[j] == tLeft) {
+        //                 flag = j; break;
+        //             }
+        //         }
+        //     }
+        //     p_top.push(tTop);
+        //     p_left.push(tLeft);
+        // }
 
-        var flip_or_not = Math.random();
+        var tLeft = 0;
+        var tTop = 0;
 
-        initialInfo.push("block:" + i + " " + "initial position: (" + tLeft + ", " + tTop + ") color: " + color[i] + " letters: " + letters[i] + " flipletters: " + flipLetterArray[i]);
-        document.getElementById("block" + i).style.top = tTop+"px";
-        document.getElementById("block" + i).style.left = tLeft+"px";
+        var horizontal_percent = (document.getElementById('container').getBoundingClientRect().right - 50 - 8 - 4 - 4) / document.getElementById('container').getBoundingClientRect().right * 100;
+        var vertical_percent = (document.getElementById('container').getBoundingClientRect().bottom - 50 - 8 - 4 - 4) / document.getElementById('container').getBoundingClientRect().bottom * 100;
+
+        tLeft = Math.random() * Math.ceil(horizontal_percent);
+        tTop = Math.random() * Math.ceil(vertical_percent);
+
+        p_left.push(tLeft);
+        p_top.push(tTop);
+
+        end_left.push(tLeft);
+        end_top.push(tTop);
+
+        initialInfo.push("block:" + i + " " + "initial position: (" + tLeft + "%, " + tTop + "%) color: " + color[i] + " letters: " + letters[i] + " flipletters: " + flipLetterArray[i]);
+        document.getElementById("block" + i).style.top = tTop+"%";
+        document.getElementById("block" + i).style.left = tLeft+"%";
     }
     document.getElementById('scoreBox').innerText = Math.round(scoreCal());
 }
