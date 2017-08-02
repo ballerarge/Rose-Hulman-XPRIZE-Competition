@@ -167,8 +167,8 @@
 			    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
 			    // Output the result in an element with id="demo"
-				if (minutes <= 0 && seconds == 0) {
-					$("#buttonEnd").click();
+				if (minutes < 0 && am_i_player1) {
+					endGame();
 				} else if (isGameEnd != true) {
 					document.getElementById("timer").innerHTML = "Time: " + minutes +" minutes " + seconds +" seconds";
 				}
@@ -430,8 +430,6 @@
 
         socket.on('enable_blocks_for_player_2', function(data) {
         	timecounter();
-        	console.log("!" + data.p_top);
-        	console.log("!" + data.p_left);
         	for (var i = 0; i < NumBlocks; i++) {
         		document.getElementById('block' + i).style.top = data.p_top[i]+"px";
         		document.getElementById('block' + i).style.left = data.p_left[i]+"px";
@@ -594,7 +592,6 @@
 				            }
 				            var moved_block_color = document.getElementById("block" + $(this).data("id")).style.backgroundColor;
 		            		var moved_block_letter = cur_letters[$(this).data("id")];
-		            		console.log(cur_letters[$(this).data("id")]);
 
 		            		block_actions.push("Block id: " + $(this).data("id") + " " + "Letter: " + moved_block_letter + " " + "Color: " + moved_block_color);
 							end_left[$(this).data("id")] = Stoppos.left;
@@ -603,14 +600,12 @@
 							setMovement();
 							send_movement_to_server();
 
-							console.log($(this).data("id")+ " " + Stoppos.left + " " + Stoppos.top);
 							socket.emit('Update_score', {
 								id : $(this).data("id"),
 								tLeft: Stoppos.left,
 								tTop: Stoppos.top
 							});
-							// goal_top[$(this).data("id")] = Stoppos.left;
-							// goal_left[$(this).data("id")] = Stoppos.top;
+
 							// document.getElementById("scoreBox").innerText = scoreCal();
 					}
 				}, drag: function(event, ui) {
@@ -632,7 +627,6 @@
 		}
 
 		socket.on('Update_score', function(data) {
-			console.log(data.id + " " + data.tLeft + " " + data.tTop);
 			var top = [], left = [];
 			goal_left[data.id] = data.tLeft;
 			goal_top[data.id] = data.tTop;
@@ -641,7 +635,6 @@
 			var totalX = 0;
 		    var totalY = 0;
 		    for (var index = 0; index < NumBlocks; index++) {
-		        console.log(goal_left[index] +" " +goal_top[index]);
 		        totalX = totalX + goal_left[index];
 		        totalY = totalY + goal_top[index];
 		    }
@@ -685,7 +678,6 @@
 		    var score = ((Emax - totalError) / Emax) * 100;
 
 			document.getElementById('scoreBox').innerText = Math.round(score);
-			console.log(score);
 		});
 
 		function send_movement_to_server() {
