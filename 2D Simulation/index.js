@@ -399,7 +399,7 @@ function showChosenStuff() {
         document.getElementById("showChosen").innerHTML = "<a class = \"buttonLike\" href=\"img/showpage.html\" onclick=\"window.open(this.href, 'newwindow', 'width=300, height=250'); return false;\">Show the searching words</a>";
     } else if (taskID == 3) {
         document.getElementById("showChosen").innerHTML = "<a class = \"buttonLike\" href=\"initial_board.html\" onclick=\"window.open(this.href, 'newwindow', 'width=800, height=350'); return false;\">Show the Construction</a>";
-       }
+    }
 }
 
 function getDateTime() {
@@ -465,45 +465,44 @@ function setUpInitialPosition() {
 function scoreCal() {
     var totalX = 0;
     var totalY = 0;
-    for (var index = 0; index < NumBlocks; index++) {
-        console.log(goal_left[index] +" " +goal_top[index]);
-        totalX = totalX + goal_left[index];
-        totalY = totalY + goal_top[index];
+    for (var i = 0; i < NumBlocks; i++) {
+        totalX = totalX + goal_left[i];
+        totalY = totalY + goal_top[i];
     }
     var avgX = totalX/NumBlocks;
     var avgY = totalY/NumBlocks;
 
-    for (var index2 = 0; index2 < NumBlocks; index2++) {
-        origin_goal_left.push(goal_left[index2]-avgX);
-        origin_goal_top.push(goal_top[index2]-avgY);
+    for (var j = 0; j < NumBlocks; j++) {
+        origin_goal_left.push(goal_left[j]-avgX);
+        origin_goal_top.push(goal_top[j]-avgY);
     }
 
     var totalX2 = 0;
     var totalY2 = 0;
-    for (var index1 = 0; index1 < NumBlocks; index1++) {
-        totalX2 = totalX2 + end_left[index1];
-        totalY2 = totalY2 + end_top[index1];
+    for (var k = 0; k < NumBlocks; k++) {
+        totalX2 += end_left[k];
+        totalY2 += end_top[k];
     }
     var avgX2 = totalX2/NumBlocks;
     var avgY2 = totalY2/NumBlocks;
 
-    for (var index22 = 0; index22 < NumBlocks; index22++) {
-        origin_end_left.push(end_left[index22]-avgX2);
-        origin_end_top.push(end_top[index22]-avgY2);
+    for (var m = 0; m < NumBlocks; m++) {
+        origin_end_left.push(end_left[m]-avgX2);
+        origin_end_top.push(end_top[m]-avgY2);
     }
 
     var errorX = 0;
     var errorY = 0;
-    for (var index3 = 0; index3 < NumBlocks; index3++) {
-        errorX = errorX + Math.abs(origin_goal_left[index3] - origin_end_left[index3]);
-        errorY = errorY + Math.abs(origin_goal_top[index3] - origin_end_top[index3]);
+    for (var n = 0; n < NumBlocks; n++) {
+        errorX = errorX + Math.abs(origin_goal_left[n] - origin_end_left[n]);
+        errorY = errorY + Math.abs(origin_goal_top[n] - origin_end_top[n]);
     }
 
     var totalError = errorY + errorX;
-    var fat = $("#container").width();
-    var tall = $("#container").height(); 
+    var width = $("#container").width();
+    var height = $("#container").height(); 
     
-    Emax = (tall + fat)*5;
+    Emax = (height + width)*5;
     var score = ((Emax - totalError) / Emax) * 100;
     return score;
 }
