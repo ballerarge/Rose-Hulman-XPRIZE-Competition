@@ -152,6 +152,12 @@
 
 	<script type="text/javascript" src="index.js"></script>
 
+	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
+
+	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
+
+	<script src="/node_modules/socket.io-client/dist/socket.io.js"></script>
+
 	<script type="text/javascript">
 		function timecounter() {
 			var countDownDate = new Date().getTime() + 1000 * 3 * 60 + 1000;
@@ -186,13 +192,7 @@
 		var line_height = Math.floor(page_height * 0.7) + 5;
   		document.getElementById("vertical-line").style.height = line_height + "px";
   		document.getElementById("vertical-line2").style.height = line_height + "px";
-	</script>
-
- 	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
-
-	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
-
-	<script src="/node_modules/socket.io-client/dist/socket.io.js"></script>
+	</script>	
     
   	<!-- <script src="//webrtc.github.io/adapter/adapter-latest.js"></script> -->
 
@@ -283,7 +283,9 @@
 					l = i;
 				}
 
-				$("#container").append("<div class = \"block\" id =\"block"+i+"\" style=\"left: " + tLeft + "%; top: " + tTop + "%; background-color: " + color[color_x] + "\">"+letters[l]+"</div>");
+				$("#container").append("<div class = \"block\" id =\"block"+i+"\" style=\"left: " + tLeft + "%; top: " + tTop + "%; background-color: " + color[color_x] + "\"></div>");
+
+				$("#block" + i).append("<span>" + letters[l] + "<span>");
 
 				standard_info.push("block:" + i + " " + "standard position: (" + tLeft + "%, " + tTop + "%) color: " + color[color_x] + " letters: " + letters[l] + " flipletters: " + flipLetterArray[l]);
 				goal_top.push(tTop);
@@ -521,7 +523,9 @@
 				container.removeChild(container.firstChild);
 			}
 			for (var i = 0; i < NumBlocks; i++) {
-				$("<div class = \"block ui-draggable\" id =\"block"+i+"\" style=\"left:"+data.lefts[i]+"%; top:"+data.tops[i]+"%; background-color: " + data.colors[i] + "\">"+data.letters[i]+"</div>").appendTo(container);
+				$("<div class = \"block\" id =\"block"+i+"\" style=\"left:"+data.lefts[i]+"%; top:"+data.tops[i]+"%; background-color: " + data.colors[i] + "\"></div>").appendTo(container);
+
+				$("#block" + i).append("<span>" + data.letters[i] + "<span>");
 
 				$("#block" + i).data("id", i);
 				$("#block" + i).data("horizontal_percent", data.lefts[i]);

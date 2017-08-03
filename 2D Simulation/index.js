@@ -84,7 +84,7 @@ function calculateEmax() {
 function writeBlocks() {
     for (var i = 0; i < NumBlocks ;i++) {
         var x= Math.floor(Math.random() * 5);
-        document.write("<style> #block"+i+" {width: 3.8%; height: 7.35%; background-color:"+color[x] +"; border:#000 solid 4px; cursor: move; position: absolute; z-index: 1; text-align: center; vertical-align: middle; line-height: 50px; font-family: 'Corben', Georgia, Times, serif;} </style>");
+        document.write("<style> #block"+i+" {width: 3.8%; height: 7.35%; background-color:"+color[x] +"; border:#000 solid 4px; cursor: move; position: absolute; z-index: 1; text-align: center; vertical-align: middle; line-height: 7.35%; font-family: 'Corben', Georgia, Times, serif;} </style>");
     }
 }
 
@@ -157,11 +157,17 @@ function swapColor(box) {
 }
 
 function swapLetter(box) {
-    var property = document.getElementById(box);
-    var currentLetter = property.textContent || property.innerText;
-    property.textContent = flipLetterArray[box.substring(5)];
+    var currentLetter = $('#' + box).find('span').html();
+    $('#' + box).find('span').html(flipLetterArray[box.substring(5)]);
     flipLetterArray[box.substring(5)] = currentLetter;
     cur_letters[box.substring(5)] = currentLetter;
+
+
+    // var property = document.getElementById(box);
+    // var currentLetter = property.textContent || property.innerText;
+    // property.textContent = flipLetterArray[box.substring(5)];
+    // flipLetterArray[box.substring(5)] = currentLetter;
+    // cur_letters[box.substring(5)] = currentLetter;
 }
 
 function setGestureWithPosition(left, top, event) {
