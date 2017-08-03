@@ -233,12 +233,6 @@
 				gestureCount++;
 				var event = e || window.event;
 
-				// var rect = document.getElementById('container').getBoundingClientRect();
-
-				// var horiz = event.clientX / (rect.right + rect.left - 16) * 100;
-
-				// var vert = event.clientY / (rect.bottom + rect.top - 16) * 100;
-
 				setGestureWithPosition(event.clientX, event.clientY, event);		
 				send_gesture_to_server();
 			};
@@ -1021,8 +1015,6 @@
 			document.getElementById('container').ondblclick = function(e) {
                 gestureCount++;
                 var event = e || window.event;
-
-                var rect = document.getElementById('container').getBoundingClientRect();
 
                 setGestureWithPosition(event.clientX, event.clientY, event);
                 send_gesture_to_server();

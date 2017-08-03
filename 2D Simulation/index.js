@@ -171,11 +171,14 @@ function setGestureWithPosition(left, top, event) {
     var rect = document.getElementById('container').getBoundingClientRect();
 
     if (event == null) {
-        gestureElement.style.left = rect.left + 8 + ((rect.right - rect.left - 16) * (left / 100)) + 'px';
-        gestureElement.style.top = rect.top + 8 + ((rect.bottom - rect.top - 16) * (top / 100)) + 'px';
+        var px_left = rect.left + ((rect.right - rect.left - 16) * (left / 100));
+        var px_top = rect.top + ((rect.bottom - rect.top - 16) * (top / 100));
+
+        gestureElement.style.left = (px_left / $(window).width() * 100) + "%";
+        gestureElement.style.top = (px_top / $(window).height() * 100) + "%";
     } else {
-        gestureElement.style.left = left + "px";
-        gestureElement.style.top = top + "px"; 
+        gestureElement.style.left = (left / $(window).width() * 100) + "%";
+        gestureElement.style.top = (top / $(window).height() * 100) + "%"; 
     }  
     gestureElement.style.visibility = "visible";
 
