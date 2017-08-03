@@ -84,7 +84,7 @@ function calculateEmax() {
 function writeBlocks() {
     for (var i = 0; i < NumBlocks ;i++) {
         var x= Math.floor(Math.random() * 5);
-        document.write("<style> #block"+i+" {width: 50px; height: 50px; background-color:"+color[x] +"; border:#000 solid 4px; cursor: move; position: absolute; z-index: 1; text-align: center; vertical-align: middle; line-height: 50px; font-family: 'Corben', Georgia, Times, serif;} </style>");
+        document.write("<style> #block"+i+" {width: 3.8%; height: 7.35%; background-color:"+color[x] +"; border:#000 solid 4px; cursor: move; position: absolute; z-index: 1; text-align: center; vertical-align: middle; line-height: 50px; font-family: 'Corben', Georgia, Times, serif;} </style>");
     }
 }
 
@@ -277,7 +277,6 @@ function initTaskID() {
     for (var i = 0; i < letters.length; i ++) {
         cur_letters.push(letters[i]);
     }
-    console.log(cur_letters);
     setUpVisibility();
 }
     
@@ -446,8 +445,8 @@ function setUpInitialPosition() {
         var horizontal_percent = (document.getElementById('container').getBoundingClientRect().right - 50 - 8 - 4 - 4) / document.getElementById('container').getBoundingClientRect().right * 100;
         var vertical_percent = (document.getElementById('container').getBoundingClientRect().bottom - 50 - 8 - 4 - 4) / document.getElementById('container').getBoundingClientRect().bottom * 100;
 
-        tLeft = Math.random() * Math.ceil(horizontal_percent);
-        tTop = Math.random() * Math.ceil(vertical_percent);
+        tLeft = Math.random() * Math.floor(horizontal_percent);
+        tTop = Math.random() * Math.floor(vertical_percent);
 
         p_left.push(tLeft);
         p_top.push(tTop);

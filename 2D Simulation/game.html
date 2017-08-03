@@ -167,9 +167,11 @@
 			    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
 			    // Output the result in an element with id="demo"
-				if (minutes < 0 && am_i_player1) {
+				if (minutes < 0) {
 					clearInterval(x);
-					endGame();
+					if (am_i_player1) {
+						endGame();
+					}
 				} else if (isGameEnd != true) {
 					document.getElementById("timer").innerHTML = "Time: " + minutes +" minutes " + seconds +" seconds";
 				}
@@ -183,7 +185,6 @@
 		page_height = window.innerHeight;
 		var line_height = Math.floor(page_height * 0.7) + 5;
   		document.getElementById("vertical-line").style.height = line_height + "px";
-  		console.log(line_height);
   		document.getElementById("vertical-line2").style.height = line_height + "px";
 	</script>
 
@@ -234,7 +235,7 @@
 				setGestureWithPosition(event.clientX, event.clientY, event);		
 				send_gesture_to_server();
 			};
-			container.style.fontSize = "40px";
+			container.style.fontSize = "4vmin";
 			document.body.appendChild(container);
 			var position_x = [];
 			var position_y = [];
@@ -249,10 +250,8 @@
 				var horizontal_percent = (document.getElementById('container').getBoundingClientRect().right - 50 - 8 - 4 - 4) / document.getElementById('container').getBoundingClientRect().right * 100;
 				var vertical_percent = (document.getElementById('container').getBoundingClientRect().bottom - 50 - 8 - 4 - 4) / document.getElementById('container').getBoundingClientRect().bottom * 100;
 
-				tLeft = Math.random() * Math.ceil(horizontal_percent);
-				tTop = Math.random() * Math.ceil(vertical_percent);
-
-				console.log("Horizontal_percent: " + tLeft + " Vertical_percent: " + tTop);
+				tLeft = Math.random() * Math.floor(horizontal_percent);
+				tTop = Math.random() * Math.floor(vertical_percent);
 
 				// if (taskID == 3) {
 				// 	random_x = Math.floor(page_width * 0.7/ 50) - 1;
@@ -580,7 +579,7 @@
 			$('.draggable').each(function(el){
 			    // var tLeft = Math.floor(Math.random()*(page_width * 0.7)) + 1,
 			    // tTop  = Math.floor(Math.random()*(page_height * 0.7)) + 1;
-			    $(el).css({position:'relative', left: page_width, top: page_height});
+			    $(el).css({position:'relative', left: $('container').width(), top: $('container').height()});
 			});
 		});
 		var z = 1;
@@ -596,6 +595,12 @@
         			movementdate = getDateTime();
 				}, stop: function(event, ui) {
 						// var Stoppos = $(this).position();
+
+						$("#" + $(this).attr('id')).css({
+							left: $(this).data("horizontal_percent") + "%",
+							top: $(this).data("vertical_percent") + "%"
+						});
+
 						if ($(this).data("horizontal_percent") != previous_left[i] || $(this).data("vertical_percent") != previous_top[i]) {
 							start.push(movementdate);
 							end.push(getDateTime());
@@ -630,13 +635,30 @@
 				}, drag: function(event, ui) {
 					// var coord = $(this).position();
 					var block_id = $(this).attr('id');
-					$(this).data("horizontal_percent", $(this).position().left / $('#container').width() * 100);
-					$(this).data("vertical_percent", $(this).position().top / $('#container').height() * 100);
+
+					var rect = document.getElementById('container').getBoundingClientRect();
+
+					var horiz = $(this).position().left / (rect.right - rect.left - 16) * 100;
+
+					var vert = $(this).position().top / (rect.bottom - rect.top - 16) * 100;
+
+					$(this).data("horizontal_percent", horiz);
+					$(this).data("vertical_percent", vert);
+
+					$("#" + block_id).css({
+						left: horiz + "%",
+						top: vert + "%"
+					});
+
+
+					// When blocks get moved, the position changes from 'percentage' to 'px'.
+
+					console.log(horiz + " " + vert);
 					try {
 						socket.emit('receive_position', {
 							block_id: block_id,
-							left: $(this).data("horizontal_percent"),
-							top: $(this).data("vertical_percent")
+							left: horiz,
+							top: vert
 						});
 					} catch (err) {
 						window.location.href = "server_down.html"; 
@@ -1039,7 +1061,6 @@
 			            }
 			        }
 			    }
-			    console.log(scoreCal());
 
 				var action = [];
 
@@ -1060,7 +1081,6 @@
 			        	}
 			        	z++; user++;
 			        }
-			        console.log(action[i]);
 			    }
 			    // stopRecog();
 
@@ -1099,7 +1119,6 @@
 
                 alert('Time you took to finish the task? ' + minutes + "minutes, " + Math.floor(seconds) + "seconds");
 
-                console.log(scoreCal());
                 try {
                 	socket.emit('end_button_pressed', {
 	                    time: time,
