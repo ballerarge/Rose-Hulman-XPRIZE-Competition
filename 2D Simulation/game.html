@@ -232,6 +232,13 @@
 			container.ondblclick = function(e) {
 				gestureCount++;
 				var event = e || window.event;
+
+				// var rect = document.getElementById('container').getBoundingClientRect();
+
+				// var horiz = event.clientX / (rect.right + rect.left - 16) * 100;
+
+				// var vert = event.clientY / (rect.bottom + rect.top - 16) * 100;
+
 				setGestureWithPosition(event.clientX, event.clientY, event);		
 				send_gesture_to_server();
 			};
@@ -657,7 +664,6 @@
 
 					// When blocks get moved, the position changes from 'percentage' to 'px'.
 
-					console.log(horiz + " " + vert);
 					try {
 						socket.emit('receive_position', {
 							block_id: block_id,
@@ -936,11 +942,17 @@
 
 
 		function send_gesture_to_server() {
+			var rect = document.getElementById('container').getBoundingClientRect();
+
+			var horiz = (($("#gestureToggle").position().left - rect.left) / (rect.right - rect.left - 16)) * 100;
+
+			var vert = (($("#gestureToggle").position().top - rect.top) / (rect.bottom - rect.top - 16)) * 100;
+
 			try {
 				socket.emit('receive_gesture_data', {
 					gestureCount: gestureCount,
-					left: $("#gestureToggle").position().left,
-					top: $("#gestureToggle").position().top
+					left: horiz,
+					top: vert
 				});
 			} catch (err) {
 				window.location.href = "server_down.html"; 
@@ -995,7 +1007,6 @@
 		    }
 		    if (taskID == 2) {
 		        // searchingwords = localStorage.getItem("Searching words");
-		        // console.log(searchingwords);
 		        document.getElementById("showChosen").style.visibility = "visible";
 		        showChosenStuff();
 		    }
@@ -1010,6 +1021,9 @@
 			document.getElementById('container').ondblclick = function(e) {
                 gestureCount++;
                 var event = e || window.event;
+
+                var rect = document.getElementById('container').getBoundingClientRect();
+
                 setGestureWithPosition(event.clientX, event.clientY, event);
                 send_gesture_to_server();
             };

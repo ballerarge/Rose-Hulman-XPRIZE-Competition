@@ -161,26 +161,27 @@ function swapLetter(box) {
     $('#' + box).find('span').html(flipLetterArray[box.substring(5)]);
     flipLetterArray[box.substring(5)] = currentLetter;
     cur_letters[box.substring(5)] = currentLetter;
-
-
-    // var property = document.getElementById(box);
-    // var currentLetter = property.textContent || property.innerText;
-    // property.textContent = flipLetterArray[box.substring(5)];
-    // flipLetterArray[box.substring(5)] = currentLetter;
-    // cur_letters[box.substring(5)] = currentLetter;
 }
 
 function setGestureWithPosition(left, top, event) {
     var property = document.getElementById('gestureCount');
     property.innerText = gestureCount;
     var gestureElement = document.getElementById('gestureToggle');
-    gestureElement.style.left = left + 'px';
-    gestureElement.style.top = top + 'px';
+
+    var rect = document.getElementById('container').getBoundingClientRect();
+
+    if (event == null) {
+        gestureElement.style.left = rect.left + 8 + ((rect.right - rect.left - 16) * (left / 100)) + 'px';
+        gestureElement.style.top = rect.top + 8 + ((rect.bottom - rect.top - 16) * (top / 100)) + 'px';
+    } else {
+        gestureElement.style.left = left + "px";
+        gestureElement.style.top = top + "px"; 
+    }  
     gestureElement.style.visibility = "visible";
 
     if (event != null) {
         time_GF.push(getDateTime());
-        GF_position.push("(" + event.clientX + "," + event.clientY + ")");
+        GF_position.push("(" + left + "%," + top + "%)");
         type.push("Gesture");
     }
     
