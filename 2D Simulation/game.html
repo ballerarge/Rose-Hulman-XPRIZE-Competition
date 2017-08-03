@@ -286,7 +286,7 @@
 
 				$("#container").append("<div class = \"block\" id =\"block"+i+"\" style=\"left: " + tLeft + "%; top: " + tTop + "%; background-color: " + color[color_x] + "\"></div>");
 
-				$("#block" + i).append("<span>" + letters[l] + "<span>");
+				$("#block" + i).append("<span style=\"color: black\">" + letters[l] + "<span>");
 
 				standard_info.push("block:" + i + " " + "standard position: (" + tLeft + "%, " + tTop + "%) color: " + color[color_x] + " letters: " + letters[l] + " flipletters: " + flipLetterArray[l]);
 				goal_top.push(tTop);
@@ -526,7 +526,7 @@
 			for (var i = 0; i < NumBlocks; i++) {
 				$("<div class = \"block\" id =\"block"+i+"\" style=\"left:"+data.lefts[i]+"%; top:"+data.tops[i]+"%; background-color: " + data.colors[i] + "\"></div>").appendTo(container);
 
-				$("#block" + i).append("<span>" + data.letters[i] + "<span>");
+				$("#block" + i).append("<span style=\"color: black\">" + data.letters[i] + "<span>");
 
 				$("#block" + i).data("id", i);
 				$("#block" + i).data("horizontal_percent", data.lefts[i]);
