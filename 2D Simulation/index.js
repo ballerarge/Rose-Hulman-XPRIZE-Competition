@@ -68,6 +68,7 @@ var Emax;
 var isGameEnd = false;
 var p_top = [], p_left = [];
 var standard_info = [];
+var initialScore = -1;
 
 var rainbow_select = 0;
 
@@ -423,32 +424,6 @@ function instructiontime() {
 
 function setUpInitialPosition() {
     for (var i = 0; i < NumBlocks; i++) {
-        // var tLeft = Math.floor(Math.random()*random_x) * 50 + init_x,
-        // tTop  = Math.floor(Math.random()*random_y) * 50 + init_y;
-        // var flag = -1;
-        // for (var j = 0; j < p_left.length;j ++) {
-        //     if (p_top[j] == tTop && p_left[j] == tLeft) {
-        //         flag = j; break;
-        //     }
-        // }
-        // if (flag == -1) {
-        //     p_top.push(tTop);
-        //     p_left.push(tLeft);
-        // } else {
-        //     while (flag != -1) {
-        //         flag = -1;
-        //         tLeft = Math.floor(Math.random()*random_x) * 50 + init_x,
-        //         tTop  = Math.floor(Math.random()*random_y) * 50 + init_y;
-        //         for (var j = 0; j < p_left.length;j ++) {
-        //             if (p_top[j] == tTop && p_left[j] == tLeft) {
-        //                 flag = j; break;
-        //             }
-        //         }
-        //     }
-        //     p_top.push(tTop);
-        //     p_left.push(tLeft);
-        // }
-
         var tLeft = 0;
         var tTop = 0;
 
@@ -471,47 +446,45 @@ function setUpInitialPosition() {
     document.getElementById('scoreBox').innerText = Math.round(scoreCal());
 }
 
+function centroid(x, y) {
+    var centerX = 0, centerY = 0;
+    for (var i = 0; i < x.length; i++) {
+        centerX += x[i];
+        centerY += y[i];
+    }
+    centerX /= x.length;
+    centerY /= y.length;
+    var center = [];
+    center.push(centerX);
+    center.push(centerY);
+    return center;
+}
+
 function scoreCal() {
-    var totalX = 0;
-    var totalY = 0;
-    for (var i = 0; i < NumBlocks; i++) {
-        totalX = totalX + goal_left[i];
-        totalY = totalY + goal_top[i];
-    }
-    var avgX = totalX/NumBlocks;
-    var avgY = totalY/NumBlocks;
-
-    for (var j = 0; j < NumBlocks; j++) {
-        origin_goal_left.push(goal_left[j]-avgX);
-        origin_goal_top.push(goal_top[j]-avgY);
-    }
-
-    var totalX2 = 0;
-    var totalY2 = 0;
-    for (var k = 0; k < NumBlocks; k++) {
-        totalX2 += end_left[k];
-        totalY2 += end_top[k];
-    }
-    var avgX2 = totalX2/NumBlocks;
-    var avgY2 = totalY2/NumBlocks;
-
-    for (var m = 0; m < NumBlocks; m++) {
-        origin_end_left.push(end_left[m]-avgX2);
-        origin_end_top.push(end_top[m]-avgY2);
-    }
-
+    var centerC = centroid(goal_left, goal_top);
+    var centerA = centroid(end_left, end_top);
     var errorX = 0;
     var errorY = 0;
-    for (var n = 0; n < NumBlocks; n++) {
-        errorX = errorX + Math.abs(origin_goal_left[n] - origin_end_left[n]);
-        errorY = errorY + Math.abs(origin_goal_top[n] - origin_end_top[n]);
+    for (var index = 0; index < NumBlocks; index++) {
+        errorX = errorX + Math.abs((end_left[index] - centerA[0]) - (goal_left[index] - centerC[0]));
+        errorY = errorY + Math.abs((end_top[index] - centerA[1]) - (goal_top[index] - centerC[1]));
     }
 
     var totalError = errorY + errorX;
     var width = $("#container").width();
     var height = $("#container").height(); 
     
-    Emax = (height + width)*5;
+    var Emax = (height + width - 50) * 5;
     var score = ((Emax - totalError) / Emax) * 100;
-    return score;
+
+    if (initialScore != -1) {
+        score = 100 / (100 - initialScore) * (score - initialScore);
+        if (score < 0) {
+            score = 0;
+        }
+        return score;
+    } else {
+        initialScore = score;
+        return 0;
+    }
 }
